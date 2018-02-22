@@ -1,0 +1,37 @@
+/* .dafabit {
+    background-image: url(/assets/PerotYeveshim/1.jpg);
+    height: 100vh;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    background-color:initial;
+
+} */
+.carousel{
+    height: 100%;
+}
+.slide-wrap{
+    margin: auto;
+    float: none;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+}
+.carousel-inner img {
+    height: 100%;
+    width: 100%
+    /* background-size: cover; */
+    /* position: fixed; */
+    /* -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover; */
+}
+.carousel-item {
+    height: 100%;
+
+}
+.carousel-inner{
+    height: 100%;
+}

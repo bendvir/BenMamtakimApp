@@ -1,0 +1,104 @@
+<div class="back-ground">
+    <div [ngClass]="{'photo-mamtak' : cat[0], 'photo-yeveshim' : cat[1], 'photo-gift' : cat[2]}" class="grid-container">
+      <div class="grid-title">{{title}}</div>
+    </div>
+  </div>
+  <!-- <div class="col-sm-12 product-text">
+  
+    </div> -->
+  <div class="container">
+    <div class="row contnet-page">
+      <div class="col-sm-12 col-xs-12">
+        <div *ngIf="cat[0]===true">
+          <h1 class="about-title">המוצרים המתוקים!</h1>
+         
+          <p>
+            אחת החוויות הכיפיות בשוק היא להיכנס לחנות הממתקים המופלאה שלנו שם תוכלו להפוך את החוויה שלכם למתוקה וכיפית!
+          </p>
+          <p>
+            אצלנו בחנות תוכלו למצוא מגוון רב של שוקולדים ממתקים עוגות עוגיות ועוד... במחירים מוזלים וחסרי תקדים
+          </p>
+          <p>
+            נשמח לראותכם :)
+          </p>
+        </div>
+        <div *ngIf="cat[1]===true">
+          <h1 class="about-title">פירות יבשים!</h1>
+          <p class="bold-text">
+              קצת עלינו:
+          </p>
+          <p>
+            אחד מהדברים האהובים עלינו בממתקי התקוה הוא העיסוק בפירות היבשים, אצלנו דואגים תמיד על איכות המוצר וכמובן על המחיר
+          </p>
+          <p>
+          לפניכם מבחר רב של מוצרים איכותיים אשר מחירהם הם לפי <b>קילו</b>
+          </p>
+        </div>
+        <div *ngIf="cat[2]===true">
+          <h1 class="about-title">מי לא אוהב מתנות?</h1>         
+          <p>
+          בפינת המתנות שלנו תוכלו למצוא מגוון רחב של בונבונירות, שקיות הפתעה לימי הולדת, סלסלאות לחג ועוד מבחר ענק של מוצרים.
+          </p>
+          <p>
+              כך תוכלו לפנק את אהובכם במתנה כיפית במחירים משתלמים!
+              </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+          <div class="row">
+            <div *ngFor="let product of productList; let i = index" class="product-item col-xs-12 col-md-4">
+              <div class="wrap">
+                <div class="fixedImg" (click)="openBigPicture(product.link, i)">
+                  <img src="/assets/{{product.subCategoryPic}}/{{product.link}}" />
+                  <div class="description">
+                    <span>{{product.title}}</span>
+                    <span *ngIf="product.price!=''"class="price">{{product.price}} &#8362;</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+        <div class="col-md-4 position-rel">
+          <div class="sticky" >
+              <h3>לכל מידע נוסף תוכלו להשאיר פרטים ונחזור אליכם בהקדם</h3>
+              <h4>שעות פתיחה:</h4>
+              <p>
+                ימים א-ה בין השעות 07:00 עד 18:30
+              </p>
+              <p>
+                  ובימי שישי בין השעות 06:30 ועד כניסת שבת 
+              </p>        
+              <p>להשארת מידע לחץ כאן:</p>
+              <button class="btn btn-success" routerLink="/contact">צור קשר</button>
+              <div>
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.648267907407!2d34.7923569849479!3d32.051710681197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4b69647145ff%3A0xdb3c0db612c1d292!2z15fXoNeV15ogMzEsINeq15wg15DXkdeZ15Eg15nXpNeV!5e0!3m2!1siw!2sil!4v1519046579075" 
+                      frameborder="0" allowfullscreen>
+                  </iframe>
+              </div>
+          </div>
+          
+        </div>
+    </div>
+  </div>
+  
+  
+  <div class="currentPic" *ngIf="showBigPic">
+    <div>
+        <img *ngFor="let product of productList" id="myImg" src="/assets/{{product.subCategoryPic}}/{{productList[currentIndex].link}}" alt="Trolltunga, Norway" width="1000" height="600">
+        <div class="carousel-caption carousel">
+            <h2>{{productList[currentIndex].title}}</h2>
+            <h3 *ngIf="productList[currentIndex].price!=''">{{productList[currentIndex].price}} &#8362;</h3>
+          </div>
+    </div>      
+      <div class="close" (click)="closeBigPicture()">&times;</div>
+      <!-- Left and right controls -->
+      <div class="carousel-control-prev" (click)="previewsPicture()" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+      </div>
+        <div class="carousel-control-next" (click)="nextPicture()" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </div>
+  </div>

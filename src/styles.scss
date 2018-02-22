@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+
+$mobile: "(min-width: 320px) and (max-width: 992px)";
+
+@media #{$mobile}{
+    .logo{
+        display: none;
+    }
+    .navbar{
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+// Variable Overrides 
+$theme-colors: (
+  "primary": #d94500
+); 
+
+// Bootstrap Sass Imports
+@import "node_modules/bootstrap/scss/bootstrap";
+
+body{
+    text-align: right;
+    direction: rtl;
+}
+.form-control.ng-touched.ng-invalid{
+    border: 2px solid red;
+}
+
+body{
+    font-family: 'Heebo', sans-serif;
+}

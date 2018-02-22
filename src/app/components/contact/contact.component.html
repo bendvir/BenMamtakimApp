@@ -1,0 +1,96 @@
+<div class="container" *ngIf="!success">
+
+  <h2> אנחנו פה בשבילכם!</h2>
+  <div>"ממתקי התקוה" רואה חשיבות עליונה במתן שירות אדיב ואיכפתי, הלקוחות שלנו חשובים לנו ואנחנו עושים את כל המאמץ כדי לשמח אותם
+  </div>
+  <h4>נשמח לשמוע מכם</h4>
+  <div>
+      <div class="alert alert-danger" *ngIf="errorMsg">
+         עליכם למלא את כל השדות חובה
+      </div>
+  <form>
+    <div class="form-group">
+      <!-- input for full name + validation -->
+      <input
+      required 
+      name="fullName"
+      [(ngModel)] ="fullName"
+      #fullNameValid="ngModel" 
+      minlength="3" 
+      maxlength="30" 
+      id="fullName" 
+      type="text" 
+      placeholder="שם מלא"
+      class="form-control"
+      pattern="(^[A-Za-z])|(\s)([A-Za-z])|([א-ת])|(\s)">
+      <div class="alert alert-danger" *ngIf="fullNameValid.touched && !fullNameValid.valid">חובה להזין שם מלא
+        <div *ngIf="fullNameValid.errors.minlength">נא להזין לפחות {{fullNameValid.errors.minlength.requiredLength}} תווים</div>
+        <div *ngIf="fullNameValid.errors.pattern">אין להזין מספרים</div>
+      </div>
+    </div>
+        <!-- input for phone Number + validation -->
+    <div class="form-group">
+    <input 
+    required 
+    name="phoneNumber" 
+    [(ngModel)]="phoneNumber"
+    #phoneNumberValid="ngModel" 
+    type="text" 
+    maxlength="10" 
+    placeholder="טלפון"
+    minlength="9"
+    maxlength="10"
+    pattern="[0-9]*"
+    class="form-control"> 
+    <div class="alert alert-danger" *ngIf ="phoneNumberValid.touched && !phoneNumberValid.valid">נא להזין מספר טלפון תקין
+      <div *ngIf= "phoneNumberValid.errors.minlength">יש להזין לפחות {{phoneNumberValid.errors.minlength.requiredLength}} ספרות</div>
+    </div>
+  </div>
+   <!-- input for email + validation -->
+    <div class="form-group">
+      <input 
+      type="text"
+      class="form-control"
+      required 
+      [(ngModel)]="emailUser"
+      #emailUserValid = "ngModel"      
+      name="email"
+      placeholder="אימייל (לא חובה)"
+      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+      class="form-control"> 
+         <div class="alert alert-danger" *ngIf ="emailUserValid.touched && !emailUserValid.valid">אימל חייב להיות בפורמט הנכון         
+           <div *ngIf ="emailUserValid.errors?.required">נא להזין אימל </div>
+        </div>    
+     </div>
+     <!-- message text box + validation -->
+    <div class="form-group">
+      <textarea  
+      rows="5" 
+      minlength="1" 
+      maxlength="300" 
+      [(ngModel)]="message"
+      name="message"
+      placeholder="כתוב לנו..."  
+      class="form-control">
+     </textarea>
+    </div>
+    <!-- Send button + active sendMail function -->
+    <button 
+      type="button" 
+      class="btn btn-primary" 
+      (click)="sendMail()">
+      שלח
+    </button>
+  </form>
+    </div>
+</div>
+
+<div *ngIf="success">
+  <div class="grid-container">
+    <span class="grid-title">תודה לך!</span>
+  </div>
+<p>
+    תודה לך, בקשתך ל"ממתקי התקוה" התקבלה ואנחנו נשמח להעניק לך שירות איכותי ואמין !
+    נחזור אליך בהקדם האפשרי 🙂
+</p>
+</div>

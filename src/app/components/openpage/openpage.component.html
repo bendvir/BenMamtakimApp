@@ -1,0 +1,33 @@
+<div class="col-md-12 col-sm-12 col-xs-12 slide-wrap">
+    <div id="demo" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+            <li *ngFor="let webphoto of webSiteListPhoto" data-target="#demo" data-slide-to="0" class="active"></li>
+        </ul>
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+            <div class="carousel-item" [ngClass]="{'active': i==0}" *ngFor="let webphoto of webSiteListPhoto    ; let i = index">
+                <img src="/assets/dafAbait/{{webphoto.link}}" alt="Los Angeles">
+                <div class="carousel-caption">
+                    <h3>{{this.webphoto.title}}</h3>
+                </div>
+            </div>
+        </div>
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+</div>
+
+<!-- </div> -->
+<!-- <div class="container">
+    asdasdasd
+    <br>
+    <br>
+    <br> asdasdasd asdasdasd
+
+</div> -->
