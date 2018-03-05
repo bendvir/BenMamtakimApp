@@ -1,3 +1,4 @@
+<app-menu></app-menu>
 <div class="back-ground">
     <div [ngClass]="{'photo-mamtak' : cat[0], 'photo-yeveshim' : cat[1], 'photo-gift' : cat[2]}" class="grid-container">
       <div class="grid-title">{{title}}</div>
@@ -87,11 +88,11 @@
   
   <div class="currentPic" *ngIf="showBigPic">
     <div>
-        <img *ngFor="let product of productList" id="myImg" src="/assets/{{product.subCategoryPic}}/{{productList[currentIndex].link}}" alt="Trolltunga, Norway" width="1000" height="600">
+        <img *ngFor="let product of productList" class="cover-photo" id="myImg" src="/assets/{{product.subCategoryPic}}/{{productList[currentIndex].link}}" alt="Trolltunga, Norway" width="80%" >
         <div class="carousel-caption carousel">
             <h2>{{productList[currentIndex].title}}</h2>
             <h3 *ngIf="productList[currentIndex].price!=''">{{productList[currentIndex].price}} &#8362;</h3>
-          </div>
+        </div>
     </div>      
       <div class="close" (click)="closeBigPicture()">&times;</div>
       <!-- Left and right controls -->

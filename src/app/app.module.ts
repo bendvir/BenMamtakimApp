@@ -1,3 +1,4 @@
+import { RecaptchaModule } from 'ng-recaptcha';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
@@ -19,7 +20,8 @@ const appRoutes: Routes = [
   {path: 'producs_cat1', component:ProducsComponent},
   {path: 'producs_cat2', component:ProducsComponent},
   {path: 'producs_cat3', component:ProducsComponent},
-
+  {path: 'producs_cat4', component:ProducsComponent},
+  {path: 'producs_cat5', component:ProducsComponent},
   {path: 'contact', component:ContactComponent}
 ];
 
@@ -39,7 +41,8 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule, HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    RecaptchaModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

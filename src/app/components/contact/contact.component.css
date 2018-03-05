@@ -15,10 +15,17 @@
     background-size: cover;
     background-position: center;
   }
+  .container{
+    padding: 30px;
+    /* border: 3px solid #d94500; */
+  }
   .grid-title{
       background-color: rgba(0,0,0,0.5);
       color: aliceblue;    
       padding: 1px;
       text-shadow: 2px 2px rgb(255, 0, 0);
+  }
+  .title{
+      margin-top: 20px;
   }
   

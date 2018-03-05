@@ -87,7 +87,7 @@ export class ProducsComponent implements OnInit {
       {link: "8.jpg", title: "פיררו רושה מיקס", price: "40", subCategoryPic: "Gifts"}, 
       {link: "9.jpg", title: "פיררו רושה קטן", price: "24", subCategoryPic: "Gifts"},
       {link: "10.jpg", title: "פיררו רושה גדול", price: "40", subCategoryPic: "Gifts"}, 
-      {link: "11.jpg",title: "פיררו רושה ענק", price: "50", subCategoryPic: "Gifts"}, 
+      {link: "11.jpg",title: "פיררו רושה ענק", price: "38", subCategoryPic: "Gifts"}, 
       {link: "12.jpg", title: "בונבונירה לב עלית", price: "12", subCategoryPic: "Gifts"}, 
       {link: "13.jpg", title: "ספלנדיט", price: "30", subCategoryPic: "Gifts"}, 
       {link: "14.jpg", title: "בונבונירה עלית", price: "30", subCategoryPic: "Gifts"},
@@ -97,6 +97,10 @@ export class ProducsComponent implements OnInit {
       // {link: "19.jpg", title: "פיררו רושה מיקס", price: "40", subCategoryPic: "Gifts"}
        
     ];
+    }
+    if(link.indexOf("cat4")>-1){
+      this.cat[3] = true;
+      this.title="asdasd";
     }
   }
   

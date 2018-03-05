@@ -1,32 +1,78 @@
-/* .dafabit {
-    background-image: url(/assets/PerotYeveshim/1.jpg);
-    height: 100vh;
-    width: 100vw;
-    background-repeat: no-repeat;
+.grid-container {
+    display: grid;
+    grid-gap: 10px;
+    text-align: center;
+    padding:80px 0;
+    font-size: 50px;
+    height: 250px;
+    /* background-image: url(/assets/dafAbait/benaB.jpg); */
     background-size: cover;
-    position: absolute;
-    background-color:initial;
-
+    background-position: center;
+    width:100vw;
+  }
+  .grid-title{
+      position: absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom: 0;
+      margin: auto;
+      color: #d4263b;    
+      padding: 1px;
+      width:fit-content;
+      height: fit-content;
+  }
+/* 
+.grid-title {
+    display: grid;
+    grid-gap: 10px;
+    text-align: center;  
+    font-size: -webkit-xxx-large;
+    height: 100px;
+    color: rgb(255, 246, 240);    
+    padding: 1px;
+    text-shadow: 2px 2px rgb(231, 15, 15);
 } */
+.background{
+    background-color:rgb(255, 255, 255);
+    background-image: url(/assets/dafAbait/c.jpg);
+    background-size: cover;
+    height: 100vh;
+    /* background-color: #d94500; */
+}
+@media (max-height: 766px){
+    .main-cube-wrapper{
+        height: 100%;
+        
+        /* height: fit-content; */
+        
+    }  
+}
 .carousel{
-    height: 100%;
+    height: 80%;
+    /* position: fixed; */
+}
+.grid-title-main-page{
+    display: block;
+    background-color: #3a3a3a;
+    text-align: center;
+    font-size: 50px;
+    height: 80px;
+    position: relative;
+    width:100vw;
 }
 .slide-wrap{
     margin: auto;
     float: none;
     width: 100vw;
     height: 100vh;
-    padding: 0;
+    padding: 30px;
+    position: relative;
+    
 }
 .carousel-inner img {
     height: 100%;
     width: 100%
-    /* background-size: cover; */
-    /* position: fixed; */
-    /* -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover; */
 }
 .carousel-item {
     height: 100%;
@@ -35,3 +81,102 @@
 .carousel-inner{
     height: 100%;
 }
+.menu-class{
+    box-shadow: 10px 10px 30px 0 #725151;
+    display: inline-block;
+    padding: 3px;
+    z-index: 1;
+    cursor: pointer;
+    /* margin: 3px; */
+    position: relative;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    transition:1s;
+    margin: auto;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    background-color: rgba(255, 255, 255, 0.9);
+    /* border-radius: 50px; */
+}
+/* .menu-class .section2{
+    height: 200px;
+} */
+.middle-cube{
+ height: 200px;
+}
+.menu-class:hover {
+    /* transform: rotate(360deg); */
+    
+    background-color:#3a3a3a; 
+    transform: scale(1.1);
+
+}
+.menu-class:hover a{
+    color:  #d4263b;
+}
+.text{
+    height: fit-content;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-size: x-large;
+    
+    color: black;
+}
+
+.product-class{
+    box-shadow: 10px 10px 30px 0 #725151;
+}
+
+.contact-class{ 
+    padding: 8px;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 10px 10px 30px 0 #a3a3a3;
+    box-shadow: 10px 10px 30px 0 #725151;
+    height: 20%;
+    text-align: -webkit-center;
+    font-size: -webkit-xxx-large;
+}
+.top-container{
+    margin-top: 20px;
+}
+.main-cube-wrapper{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left:0;
+    right:0;
+    margin: auto;
+    height: fit-content;
+}
+.logo {
+    left: -7px;
+    z-index: 5;
+    float: left;
+    top: -20px;
+    position: absolute;
+    width: 170px;
+}
+.logo img {
+    width: 100%;
+    height: 100%;
+}
+@media (max-width: 766px){
+    .main-cube-wrapper{
+        position: relative;
+        overflow-y:visible;
+        
+        /* height: fit-content; */
+        
+    }  
+}
+/* @media (min-width: 766px){
+    .main-cube-wrapper{
+        position: relative;
+        
+    }  
+} */

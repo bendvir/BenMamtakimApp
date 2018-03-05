@@ -23,6 +23,8 @@ $theme-colors: (
 body{
     text-align: right;
     direction: rtl;
+    width: 100vw;
+    overflow-x: hidden;
 }
 .form-control.ng-touched.ng-invalid{
     border: 2px solid red;

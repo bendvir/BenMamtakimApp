@@ -23,4 +23,9 @@
   .navbar{
     max-width: 600px;
   }
-
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.5);
+}
+   

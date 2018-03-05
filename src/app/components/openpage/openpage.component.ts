@@ -15,7 +15,7 @@ export class OpenpageComponent implements OnInit {
     this.webSiteListPhoto = [
       { link: "1.jpg", title: "ממתקי התקוה" },
       // { link: "2.jpg", title: "ממתקי התקוה" },
-      { link: "3.jpg", title: "ממתקי התקוה" },
+      { link: " .jpg", title: "ממתקי התקוה" },
       { link: "4.jpg", title: "ממתקי התקוה" },
       { link: "5.jpg", title: "ממתקי התקוה" }];
 

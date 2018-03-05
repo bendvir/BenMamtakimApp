@@ -6,14 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
-  display = true;
-  ngOnInit() {
-    let pathname = window.location.pathname;
-    if (pathname=="/"){
-      this.display=false;
-    }  
-  }
+ 
 }
 
 

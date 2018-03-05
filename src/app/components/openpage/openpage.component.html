@@ -1,33 +1,41 @@
-<div class="col-md-12 col-sm-12 col-xs-12 slide-wrap">
-    <div id="demo" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ul class="carousel-indicators">
-            <li *ngFor="let webphoto of webSiteListPhoto" data-target="#demo" data-slide-to="0" class="active"></li>
-        </ul>
-        <!-- The slideshow -->
-        <div class="carousel-inner">
-            <div class="carousel-item" [ngClass]="{'active': i==0}" *ngFor="let webphoto of webSiteListPhoto    ; let i = index">
-                <img src="/assets/dafAbait/{{webphoto.link}}" alt="Los Angeles">
-                <div class="carousel-caption">
-                    <h3>{{this.webphoto.title}}</h3>
+<app-menu></app-menu>
+<a class="logo" href="#">
+    <img alt="" src="/assets/dafAbait/logo.png">
+</a>
+<div class="background">
+    <div class="grid-title-main-page">
+        <span class="grid-title">ממתקי התקוה</span>
+    </div>
+
+    <div class="container main-cube-wrapper">
+        <div class="row col-md-12 top-container">
+            <div class="col-md-12">
+                <div class="menu-class">
+                    <a class="text" routerLink="/about">אודות</a>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="menu-class middle-cube">
+                    <a class="text" routerLink="/producs_cat1">קטלוג מוצרים מתוקים</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="menu-class middle-cube">
+                    <a class="text" routerLink="/producs_cat2">קטלוג פירות יבשים</a>
+                </div>
+            </div>
+            <div class=" col-md-4">
+                <div class="menu-class middle-cube">
+                    <a class="text" routerLink="/producs_cat3">אירועים ומתנות</a>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <div class="menu-class">
+                    <a class="text" routerLink="/contact">צור קשר</a>
+                </div>
+
+            </div>
         </div>
-        <!-- Left and right controls -->
-        <a class="carousel-control-prev" href="#demo" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a class="carousel-control-next" href="#demo" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </a>
     </div>
 </div>
-
-<!-- </div> -->
-<!-- <div class="container">
-    asdasdasd
-    <br>
-    <br>
-    <br> asdasdasd asdasdasd
-
-</div> -->

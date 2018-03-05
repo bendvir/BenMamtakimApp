@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
-
+  title = 'app';
+  display = true;
   ngOnInit() {
+    let pathname = window.location.pathname;
+    if (pathname=="/"){
+      this.display=false;
+    }  
   }
-
 }

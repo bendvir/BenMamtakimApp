@@ -1,9 +1,14 @@
+<app-menu></app-menu>
+<div *ngIf="errorPage">
+    <div class="grid-container">
+      <span class="grid-title">איראה שגיאה בעת שליחת הנתונים נא נסה שנית</span>
+    </div>
+</div>
 <div class="container" *ngIf="!success">
-
   <h2> אנחנו פה בשבילכם!</h2>
   <div>"ממתקי התקוה" רואה חשיבות עליונה במתן שירות אדיב ואיכפתי, הלקוחות שלנו חשובים לנו ואנחנו עושים את כל המאמץ כדי לשמח אותם
   </div>
-  <h4>נשמח לשמוע מכם</h4>
+  <h4 class="title">נשמח לשמוע מכם</h4>
   <div>
       <div class="alert alert-danger" *ngIf="errorMsg">
          עליכם למלא את כל השדות חובה
@@ -73,6 +78,9 @@
       placeholder="כתוב לנו..."  
       class="form-control">
      </textarea>
+    </div>
+    <div>
+      <re-captcha (resolved)="resolved($event)" siteKey="6LdudEgUAAAAAP4FSYlE8Dx5CmT1Wh9OXrWz-chK"></re-captcha>
     </div>
     <!-- Send button + active sendMail function -->
     <button 
