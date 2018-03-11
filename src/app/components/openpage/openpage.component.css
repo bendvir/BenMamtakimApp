@@ -22,31 +22,17 @@
       width:fit-content;
       height: fit-content;
   }
-/* 
-.grid-title {
-    display: grid;
-    grid-gap: 10px;
-    text-align: center;  
-    font-size: -webkit-xxx-large;
-    height: 100px;
-    color: rgb(255, 246, 240);    
-    padding: 1px;
-    text-shadow: 2px 2px rgb(231, 15, 15);
-} */
+
 .background{
     background-color:rgb(255, 255, 255);
     background-image: url(/assets/dafAbait/c.jpg);
     background-size: cover;
     height: 100vh;
-    /* background-color: #d94500; */
 }
-@media (max-height: 766px){
-    .main-cube-wrapper{
+@media(max-width:766px){
+    .background{
         height: 100%;
-        
-        /* height: fit-content; */
-        
-    }  
+    }
 }
 .carousel{
     height: 80%;
@@ -87,27 +73,21 @@
     padding: 3px;
     z-index: 1;
     cursor: pointer;
-    /* margin: 3px; */
     position: relative;
     width: 100%;
     height: 100px;
     text-align: center;
-    transition:1s;
     margin: auto;
     margin-bottom: 10px;
     transition: 0.3s;
     background-color: rgba(255, 255, 255, 0.9);
-    /* border-radius: 50px; */
+
 }
-/* .menu-class .section2{
-    height: 200px;
-} */
+
 .middle-cube{
  height: 200px;
 }
-.menu-class:hover {
-    /* transform: rotate(360deg); */
-    
+.menu-class:hover {  
     background-color:#3a3a3a; 
     transform: scale(1.1);
 
@@ -155,7 +135,7 @@
 }
 .logo {
     left: -7px;
-    z-index: 5;
+    z-index: 6;
     float: left;
     top: -20px;
     position: absolute;
@@ -169,11 +149,24 @@
     .main-cube-wrapper{
         position: relative;
         overflow-y:visible;
-        
+        height: 100%
         /* height: fit-content; */
         
     }  
 }
+@media (max-width: 992px) and (min-width: 320px){
+    .logo {
+        display: block;
+        overflow: visible;
+        width: 35%;
+        height: 20%;
+        
+    }
+    .grid-title{
+        font-size:30px;
+    }
+}
+
 /* @media (min-width: 766px){
     .main-cube-wrapper{
         position: relative;

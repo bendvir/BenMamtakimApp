@@ -9,7 +9,7 @@
 }
 .header .logo {
     left: -7px;
-    z-index: 5;
+    z-index: 6;
     float: left;
     top: -20px;
     position: absolute;
@@ -23,9 +23,26 @@
   .navbar{
     max-width: 600px;
   }
+  .nav-item:hover{ 
+        background-color:#3a3a3a; 
+        transform: scale(1.1);
+  }
+  .nav-item:hover a{
+    color:  #d4263b;
+  }
   .dropdown:hover .dropdown-menu {
     display: block;
     text-align: right;
     color: rgba(255, 255, 255, 0.5);
 }
-   
+.bg-primary{
+    z-index: 1;
+}
+@media (max-width: 992px) and (min-width: 320px){
+.logo {
+    display: flex;
+    float: left;
+    height: 22%;
+    /* position: absolute; */
+}
+}
