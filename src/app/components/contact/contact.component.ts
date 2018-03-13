@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { error } from 'util';
 import { Router } from '@angular/router';
+import { Route } from '@angular/compiler/src/core';
 // import { User } from '../user';
 
 @Component({
@@ -22,7 +23,7 @@ export class ContactComponent implements OnInit {
 
   // userList: User[]=[];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public router:Router) { }
   errorMsg = false;
   visible = true;
   success = false;
@@ -54,7 +55,8 @@ export class ContactComponent implements OnInit {
           this.success = true;
         }
         else {
-          this.errorPage = true;
+          this.router.navigate(["/error"])
+          // this.errorPage = true;
         }
       },
         err => {

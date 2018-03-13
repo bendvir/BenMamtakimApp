@@ -166,3 +166,8 @@ font-size: 13px;
 .cover-photo{
       max-height: 90vh;
 }
+@media (max-width: 766px){
+      .product-item{
+          margin:auto;
+      }
+}

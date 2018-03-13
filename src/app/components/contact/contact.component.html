@@ -1,10 +1,8 @@
 <app-menu></app-menu>
 <div *ngIf="errorPage">
-    <div class="grid-container">
-      <span class="grid-title">איראה שגיאה בעת שליחת הנתונים נא נסה שנית</span>
-    </div>
+  <app-error-page></app-error-page>
 </div>
-<div class="container" *ngIf="!success">
+<div class="container" *ngIf="!success && !errorPage">
   <h2> אנחנו פה בשבילכם!</h2>
   <div>"ממתקי התקוה" רואה חשיבות עליונה במתן שירות אדיב ואיכפתי, הלקוחות שלנו חשובים לנו ואנחנו עושים את כל המאמץ כדי לשמח אותם
   </div>
@@ -48,23 +46,22 @@
     pattern="[0-9]*"
     class="form-control"> 
     <div class="alert alert-danger" *ngIf ="phoneNumberValid.touched && !phoneNumberValid.valid">נא להזין מספר טלפון תקין
-      <div *ngIf= "phoneNumberValid.errors.minlength">יש להזין לפחות {{phoneNumberValid.errors.minlength.requiredLength}} ספרות</div>
+      <div *ngIf= "phoneNumberValid.errors.minlength">יש להזין לפחות {{phoneNumberValid.errors.minlength.requiredLength}} ספרות ללא תווים</div>
     </div>
   </div>
    <!-- input for email + validation -->
     <div class="form-group">
       <input 
       type="text"
-      class="form-control"
       required 
       [(ngModel)]="emailUser"
       #emailUserValid = "ngModel"      
       name="email"
-      placeholder="אימייל (לא חובה)"
+      placeholder="name@example.com (לא חובה)"
       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
       class="form-control"> 
          <div class="alert alert-danger" *ngIf ="emailUserValid.touched && !emailUserValid.valid">אימל חייב להיות בפורמט הנכון         
-           <div *ngIf ="emailUserValid.errors?.required">נא להזין אימל </div>
+           <!-- <div *ngIf ="emailUserValid.errors?.required">נא להזין אימל </div> -->
         </div>    
      </div>
      <!-- message text box + validation -->
