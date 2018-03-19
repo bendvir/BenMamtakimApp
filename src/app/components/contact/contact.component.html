@@ -4,12 +4,12 @@
 </div>
 <div class="container" *ngIf="!success && !errorPage">
   <h2> אנחנו פה בשבילכם!</h2>
-  <div>"ממתקי התקוה" רואה חשיבות עליונה במתן שירות אדיב ואיכפתי, הלקוחות שלנו חשובים לנו ואנחנו עושים את כל המאמץ כדי לשמח אותם
+  <div>"ממתקי התקוה" רואה חשיבות עליונה במתן שירות אדיב ואכפתי, הלקוחות שלנו חשובים לנו ואנחנו עושים את כל המאמץ כדי לשרת אתכם בצורה הטובה והמהירה ביותר!
   </div>
   <h4 class="title">נשמח לשמוע מכם</h4>
   <div>
       <div class="alert alert-danger" *ngIf="errorMsg">
-         עליכם למלא את כל השדות חובה
+         עליכם למלא לפחות שם מלא וטלפון
       </div>
   <form>
     <div class="form-group">
@@ -52,8 +52,7 @@
    <!-- input for email + validation -->
     <div class="form-group">
       <input 
-      type="text"
-      required 
+      type="text"       
       [(ngModel)]="emailUser"
       #emailUserValid = "ngModel"      
       name="email"
@@ -80,12 +79,18 @@
       <re-captcha (resolved)="resolved($event)" siteKey="6LdudEgUAAAAAP4FSYlE8Dx5CmT1Wh9OXrWz-chK"></re-captcha>
     </div>
     <!-- Send button + active sendMail function -->
-    <button 
+    <div>
+      <button 
       type="button" 
       class="btn btn-primary" 
       (click)="sendMail()">
       שלח
-    </button>
+      </button>
+      <div *ngIf="gifWaiting">
+        <img class="gif-icon" alt="" src="/assets/dafAbait/Wating.gif">
+      </div>
+    </div>
+    
   </form>
     </div>
 </div>

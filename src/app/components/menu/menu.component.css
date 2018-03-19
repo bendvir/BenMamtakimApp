@@ -36,7 +36,13 @@
     color: rgba(255, 255, 255, 0.5);
 }
 .bg-primary{
-    z-index: 1;
+    z-index: 1;    
+}
+@media (max-width :992px){
+    .bg-primary{     
+    position: fixed;
+    
+}
 }
 @media (max-width: 992px) and (min-width: 320px){
 .logo {

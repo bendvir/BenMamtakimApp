@@ -91,13 +91,13 @@ export class ProducsComponent implements OnInit {
       {link: "8.jpg", title: "פיררו רושה מיקס", price: "40", subCategoryPic: "Gifts"}, 
       {link: "9.jpg", title: "פיררו רושה קטן", price: "24", subCategoryPic: "Gifts"},
       {link: "10.jpg", title: "פיררו רושה גדול", price: "40", subCategoryPic: "Gifts"}, 
-      {link: "11.jpg",title: "פיררו רושה ענק", price: "38", subCategoryPic: "Gifts"}, 
+      {link: "11.jpg",title: "פיררו רושה ענק", price: "35", subCategoryPic: "Gifts"}, 
       {link: "12.jpg", title: "בונבונירה לב עלית", price: "12", subCategoryPic: "Gifts"}, 
-      {link: "13.jpg", title: "ספלנדיט", price: "30", subCategoryPic: "Gifts"}, 
-      {link: "14.jpg", title: "בונבונירה עלית", price: "30", subCategoryPic: "Gifts"},
+      {link: "13.jpg", title: "ספלנדיט", price: "28", subCategoryPic: "Gifts"}, 
+      {link: "14.jpg", title: "בונבונירה עלית", price: "28", subCategoryPic: "Gifts"},
       {link: "15.jpg", title: "רפאלו", price: "17", subCategoryPic: "Gifts"},
-      {link: "16.jpg", title: "סלסלה עלית קטנה", price: "60", subCategoryPic: "Gifts"},
-      {link: "17.jpg", title: "סלסלה עלית גדולה", price: "120", subCategoryPic: "Gifts"}
+      {link: "16.jpg", title: "שוקולד אמיצ'לי", price: "25", subCategoryPic: "Gifts"},
+      // {link: "17.jpg", title: "סלסלה עלית גדולה", price: "120", subCategoryPic: "Gifts"}
       // {link: "19.jpg", title: "פיררו רושה מיקס", price: "40", subCategoryPic: "Gifts"}
        
     ];

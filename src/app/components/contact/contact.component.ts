@@ -18,6 +18,7 @@ export class ContactComponent implements OnInit {
   fullName: string;
   phoneNumber: string;
   message: string;
+  
 
 
 
@@ -29,11 +30,14 @@ export class ContactComponent implements OnInit {
   success = false;
   captchaResult="";
   errorPage = false;
+  gifWaiting = false;
+  
   ngOnInit() {
     
   }
-  sendMail() {
 
+  sendMail() {
+    // boddy of the email that send to owner
     let from = "<b>אימיל:" + " </b>" + this.emailUser + "<br>";
     let body = "<b>שם מלא: " + "</b>" + this.fullName + "<br>";
     body += "<b> טלפון:" + " </b>" + this.phoneNumber + "<br>";
@@ -41,21 +45,28 @@ export class ContactComponent implements OnInit {
 
     let headers = new HttpHeaders({ 'Contant-Type': 'application/json' });
     let params = new HttpParams().set("from", from).
+    // send parameter to the server function 
       append("body", body).
       append("subject", message).
-      append("captchaResult",this.captchaResult);
-    if ((this.fullName || this.phoneNumber || this.emailUser) === undefined) {
+      append("captchaResult",this.captchaResult).
+      append("fullName", this.fullName).
+      append("phoneNumber", this.phoneNumber).
+      append("email", this.emailUser);
+    if ((this.fullName && this.phoneNumber || this.emailUser) === undefined) {
       this.errorMsg = true;
     } else {
-      this.errorMsg = false;
+      this.errorMsg = false;   
+      this.gifWaiting = true;   
       this.http.post("http://localhost:50352/api/SendMail", { headers: headers }, { params: params }).subscribe((res) => {
         console.log(res);
         if (res == true) {
           // this.router.navigate(['about']);
           this.success = true;
+          this.gifWaiting = false;
         }
         else {
           this.router.navigate(["/error"])
+          this.gifWaiting = false;
           // this.errorPage = true;
         }
       },
