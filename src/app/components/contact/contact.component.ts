@@ -57,7 +57,8 @@ export class ContactComponent implements OnInit {
     } else {
       this.errorMsg = false;   
       this.gifWaiting = true;   
-      this.http.post("http://localhost:50352/api/SendMail", { headers: headers }, { params: params }).subscribe((res) => {
+      // local host URL : http://localhost:50352/api/SendMail
+      this.http.post("http://mamtaki-hatikva.co.il/api/SendMail", { headers: headers }, { params: params }).subscribe((res) => {
         console.log(res);
         if (res == true) {
           // this.router.navigate(['about']);
