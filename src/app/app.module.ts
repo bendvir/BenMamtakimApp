@@ -13,6 +13,8 @@ import { OpenpageComponent } from './components/openpage/openpage.component';
 import { AboutComponent } from './components/about/about.component';
 import { Route } from '@angular/compiler/src/core';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { HolidayComponent } from './components/holiday/holiday.component';
+import { TodaysaleComponent } from './components/todaysale/todaysale.component';
 // import { SuccessComponent } from './components/success/success.component';
 
 const appRoutes: Routes = [
@@ -21,9 +23,11 @@ const appRoutes: Routes = [
   {path: 'producs_cat1', component:ProducsComponent},
   {path: 'producs_cat2', component:ProducsComponent},
   {path: 'producs_cat3', component:ProducsComponent},
-  {path: 'producs_cat4', component:ProducsComponent},
-  {path: 'producs_cat5', component:ProducsComponent},
+  {path: 'producs_purim', component:ProducsComponent},
+  {path: 'producs_passover', component:ProducsComponent},
   {path: 'contact', component:ContactComponent},
+  {path: 'holiday', component:HolidayComponent},
+  {path: 'today_sale', component:TodaysaleComponent},
   {path: 'error', component:ErrorPageComponent}
 ];
 
@@ -38,7 +42,9 @@ const appRoutes: Routes = [
     AboutComponent,
     ProducsComponent,
     ContactComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    HolidayComponent,
+    TodaysaleComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

@@ -9,10 +9,11 @@ export class ProducsComponent implements OnInit {
   productList = [];
   title = "";
   description ="";
-  cat = [false, false, false];
+  cat = [false, false, false, false, false];
   showBigPic = false;
   currentBigPicPath = "";
   currentIndex =0;
+  subCategoryPic="";
   
   constructor() {}
 
@@ -102,9 +103,42 @@ export class ProducsComponent implements OnInit {
        
     ];
     }
-    if(link.indexOf("cat4")>-1){
+    if(link.indexOf("passover")>-1){
       this.cat[3] = true;
-      this.title="asdasd";
+      this.title="חג פסח";  
+      this.subCategoryPic = "/Holiday/Passover"    
+      this.productList = [
+        {link: "1.jpg", title: "סלסלה עלית קטנה ליחיד ובסיטונאות", price: "", subCategoryPic:  this.subCategoryPic}, 
+        {link: "2.jpg", title: "סלסלה עלית בינונית ליחיד ובסיטונאות", price: "", subCategoryPic: this.subCategoryPic}, 
+        {link: "3.jpg", title: "סלסלה עלית גדולה ליחיד ובסיטונאות", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "4.jpg", title: "סלסלה עלית ענקית ליחיד ובסיטונאות", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "5.jpg", title: "עוגיות בוטנים בסיטונאות", price: "", subCategoryPic:  this.subCategoryPic}, 
+        {link: "6.jpg", title: "עוגיות קוקוס בסיטונאות", price: "", subCategoryPic: this.subCategoryPic}, 
+        {link: "7.jpg", title: "עוגיות בוטנים במשקל", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "8.jpg", title: "עוגיות קוקוס במשקל", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "9.jpg", title: "עוגיות קוקוס מצופות שוקולד במשקל", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "10.jpg", title: "עוגיות בוטנים מצופות שוקולד במשקל", price: "", subCategoryPic:  this.subCategoryPic}, 
+        {link: "11.jpg", title: "עוגיות מיוחדות במיוחד לפסח במשקל", price: "", subCategoryPic: this.subCategoryPic}, 
+        {link: "12.jpg", title: "עוגיות מיוחדות במיוחד לפסח במשקל", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "13.jpg", title: "עוגיות מיוחדות במיוחד לפסח במשקל", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "14.jpg", title: "עוגיות יין חצי מצופות שוקולד במשקל", price: "", subCategoryPic:  this.subCategoryPic}, 
+        {link: "15.jpg", title: "עוגיות יין במשקל", price: "", subCategoryPic: this.subCategoryPic}, 
+        {link: "16.jpg", title: "עוגיות יין גלגל גדול פפושדו", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "17.jpg", title: "עוגיות יין משושה פפושדו", price: "", subCategoryPic:  this.subCategoryPic}, 
+        {link: "18.jpg", title: "עוגיות יין מרובעות פפושדו", price: "", subCategoryPic: this.subCategoryPic}, 
+        {link: "19.jpg", title: "עוגיות יין עגולות פפושדו", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "20.jpg", title: "פרחי אביב פפושדו", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "21.jpg", title: "עוגיות בוטנים בסיטונאות", price: "", subCategoryPic:  this.subCategoryPic}, 
+        {link: "22.jpg", title: "עוגיות יין חצי מצופות פפושדו", price: "", subCategoryPic: this.subCategoryPic}, 
+        {link: "23.jpg", title: "עוגיות יין מצופות שוקולד פפושדו", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "24.jpg", title: "עוגיות יין פפושדו", price: "", subCategoryPic:  this.subCategoryPic}, 
+        {link: "25.jpg", title: "בונבונירת סוריני ענקית", price: "", subCategoryPic: this.subCategoryPic}, 
+        {link: "26.jpg", title: "בונבונירת סוריני גדולה", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "27.jpg", title: "ספלנדיד שוקולד מריר", price: "", subCategoryPic: this.subCategoryPic},
+        {link: "28.jpg", title: "ספלנדיד שוקולד מיקס", price: "", subCategoryPic:  this.subCategoryPic}, 
+        {link: "29.jpg", title: "שוקולד מרסי", price: "", subCategoryPic: this.subCategoryPic}, 
+        {link: "30.jpg", title: "שוקולד מוצרט", price: "", subCategoryPic: this.subCategoryPic}
+      ];    
     }
   }
   

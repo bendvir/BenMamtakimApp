@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 <div class="back-ground">
-    <div [ngClass]="{'photo-mamtak' : cat[0], 'photo-yeveshim' : cat[1], 'photo-gift' : cat[2]}" class="grid-container">
+    <div [ngClass]="{'photo-mamtak' : cat[0], 'photo-yeveshim' : cat[1], 'photo-gift' : cat[2], 'phtot-passover': cat[3]}" class="grid-container">
       <div class="grid-title">{{title}}</div>
     </div>
   </div>
@@ -44,6 +44,21 @@
               כך תוכלו לפנק את אהובכם במתנה כיפית במחירים משתלמים!
               </p>
         </div>
+        <div *ngIf="cat[3]===true">
+            <h1 class="about-title">שמחה רבה שמחה רבה אביב הגיע פסח בא!</h1>         
+            <p>
+              פסח כבר בפתח ואצלנו ב-"ממתקי התקווה" תוכלו למצוא מגוון רב של עוגיות לפסח , כל העוגיות שלנו הינן כשרות לפסח ובהשגחת הבד''ץ.
+            </p>
+            <p>
+               אצלנו אפשר לרכוש עוגיות במגוון טעמים ליחידים ובסיטונאות במחירים חסרי תקדים! 
+            </p>
+            <p>
+              כמו כן אין חג בלי מגוון הסלסלות של "ממתקי התקווה", אצלנו תוכלו להנות ממגון סלסלות לחג במחירים נוחים במכירה ליחידים וסיטונאים.
+            </p>
+            <p>
+              לקבלת הצעת מחיר נא מלא פרטיך בלשונית "צור קשר" או ניתן להתקשר לטלפון מספר: 053-7227501
+            </p>
+          </div>
       </div>
     </div>
     <div class="row">
@@ -51,7 +66,7 @@
           <div class="row">
             <div *ngFor="let product of productList; let i = index" class="product-item col-xs-12 col-md-4">
               <div class="wrap">
-                <div class="fixedImg" (click)="openBigPicture(product.link, i)">
+                <div [ngClass]="{'upgrade-class' : cat[3]}" class="fixedImg" (click)="openBigPicture(product.link, i)">
                   <img src="/assets/{{product.subCategoryPic}}/{{product.link}}" />
                   <div class="description">
                     <span>{{product.title}}</span>
@@ -73,7 +88,9 @@
                   ובימי שישי בין השעות 06:30 ועד כניסת שבת 
               </p>        
               <p>להשארת מידע לחץ כאן:</p>
-              <button class="btn btn-success" routerLink="/contact">צור קשר</button>
+              <button class="btn btn-success" id="contact"routerLink="/contact">צור קשר</button>
+              <!-- <button class="btn btn-success" id="create" routerLink="/contact">צור הזמנה</button> -->
+              
               <div>
                   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.648267907407!2d34.7923569849479!3d32.051710681197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4b69647145ff%3A0xdb3c0db612c1d292!2z15fXoNeV15ogMzEsINeq15wg15DXkdeZ15Eg15nXpNeV!5e0!3m2!1siw!2sil!4v1519046579075" 
                       frameborder="0" allowfullscreen>
@@ -88,7 +105,7 @@
   
   <div class="currentPic" *ngIf="showBigPic">
     <div>
-        <img *ngFor="let product of productList" class="cover-photo" id="myImg" src="/assets/{{product.subCategoryPic}}/{{productList[currentIndex].link}}" alt="Trolltunga, Norway" width="80%" >
+        <img *ngFor="let product of productList" class="cover-photo" id="myImg" src="/assets/{{product.subCategoryPic}}/{{productList[currentIndex].link}}" alt="Trolltunga, Norway">
         <div class="carousel-caption carousel">
             <h2>{{productList[currentIndex].title}}</h2>
             <h3 *ngIf="productList[currentIndex].price!=''">{{productList[currentIndex].price}} &#8362;</h3>

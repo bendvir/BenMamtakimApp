@@ -48,6 +48,9 @@ font-size: 13px;
 .photo-gift{    
       background-image: url(/assets/Gifts/GiftTitle.jpg);
 }
+.phtot-passover{
+      background-image: url(/assets/Holiday/Passover/passoverTitle.jpg); 
+}
 .grid-title{
       background-color: rgba(0,0,0,0.5);
       color: aliceblue;    
@@ -164,10 +167,19 @@ font-size: 13px;
             background-size: cover;
 }
 .cover-photo{
-      max-height: 90vh;
+      max-height: 90vh;      
 }
+
 @media (max-width: 766px){
       .product-item{
           margin:auto;
       }
+      .cover-photo{
+            width: 80%
+      }
+}
+.upgrade-class{
+      height: 80% !important;
+      font-weight: bold;
+      color: #d94500;      
 }

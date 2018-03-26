@@ -1,0 +1,80 @@
+.Sale{
+    position: fixed;   
+    width: 350px;
+    height: 200px;
+    left: -1000px;
+    top: 0;
+    bottom: 0;
+    /* background-image: url(/assets/dafAbait/13.png);       */
+    box-shadow: 10px 10px 30px 0 #725151;
+    display: inline-block;
+    padding: 3px;
+    z-index: 1;
+    cursor: pointer;
+    text-align: center;
+    margin: auto;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    background-color: rgba(255, 255, 255, 0.94); 
+    animation: 1s displaySale forwards;
+    font-weight: bold;
+    /* opacity: 0.8; */
+    /* animation: 1s cancelDisplaySale forwards; */
+}
+.grid-title{
+    background-color: rgba(0,0,0,0.5);
+    color: aliceblue;
+    padding: 1px;
+    text-shadow: 2px 2px rgb(255, 0, 0);
+
+}
+.FixedImg{
+    width: 325px;
+    height: 45px;
+    margin-bottom: 15px;
+}
+.icon{
+    height: 30px;
+}
+.asd{
+    text-align: right;
+}
+/* .subject{
+    margin-bottom: unset;
+}    */
+.Slae-in{
+    animation: 1s displaySale forwards;
+}
+.Sale-out{
+    animation: 1s cacelDisplaySale forwards;
+}
+
+@keyframes displaySale{
+    form{
+        left: -1000px;
+    }
+    to{
+        left: 0px;
+    }
+}
+@keyframes cacelDisplaySale {
+    from{
+        left: 0px;
+    }
+    to{
+        left: -1000px;  
+    }
+}
+
+.close {
+    position: absolute;
+    right: -20px;
+    top: -20px;
+}
+
+/* @keyframes cancelDisplaySale {
+    from {
+        left: -1000px;
+    }
+    
+} */
