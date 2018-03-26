@@ -31,6 +31,7 @@
     color:  #d4263b;
   }
   .dropdown:hover .dropdown-menu {
+      top: 95%;
     display: block;
     text-align: right;
     color: rgba(255, 255, 255, 0.5);
