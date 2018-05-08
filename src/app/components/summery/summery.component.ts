@@ -163,8 +163,8 @@ export class SummeryComponent implements OnInit {
       this.noPickUpSelect = false;
       this.errorMsg = false;   
       this.gifWaiting = true;   
-      // local host URL : http://localhost:50352/api/SendMail
-      // realServer URL : http://mamtaki-hatikva.co.il/api/SendMail
+      // local host URL : http://localhost:50352/api/SendEmailWithProdList
+      // realServer URL : http://mamtaki-hatikva.co.il/api/SendEmailWithProdList
       let emailData = new EmailData();
       emailData.productList = this.producBasketList;
       emailData.captchaResult = this.captchaResult;
@@ -179,7 +179,7 @@ export class SummeryComponent implements OnInit {
       emailData.finalPrice = this.finalPrice;
 
     
-      this.http.post("http://localhost:50352/api/SendEmailWithProdList",emailData, { headers: headers }).subscribe((res) => {
+      this.http.post("http://mamtaki-hatikva.co.il/api/SendEmailWithProdList",emailData, { headers: headers }).subscribe((res) => {
         console.log(res);
         if (res == true) {
          
