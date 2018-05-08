@@ -32,7 +32,7 @@
             אחד מהדברים האהובים עלינו בממתקי התקוה הוא העיסוק בפירות היבשים, אצלנו דואגים תמיד על איכות המוצר וכמובן על המחיר
           </p>
           <p>
-          לפניכם מבחר רב של מוצרים איכותיים אשר מחירהם הם לפי <b>קילו</b>
+          לפניכם מבחר רב של מוצרים איכותיים אשר מחירהם הם לפי <b class="paint">קילו</b>
           </p>
         </div>
         <div *ngIf="cat[2]===true">
@@ -67,36 +67,28 @@
             <div *ngFor="let product of productList; let i = index" class="product-item col-xs-12 col-md-4">
               <div class="wrap">
                 <div [ngClass]="{'upgrade-class' : cat[3]}" class="fixedImg" (click)="openBigPicture(product.link, i)">
-                  <img src="/assets/{{product.subCategoryPic}}/{{product.link}}" />
-                  <div class="description">
-                    <span>{{product.title}}</span>
-                    <span *ngIf="product.price!=''"class="price">{{product.price}} &#8362;</span>
-                  </div>
+                  <img src="/assets/{{product.subCategoryPic}}/{{product.link}}" />                  
                 </div>
+                <div class="description">
+                  <span>{{product.title}}</span>                    
+                  <span *ngIf="product.price!=0" class="price">{{product.price}} &#8362;</span>
+                  <select (change)="changeAmount(i, $event)" *ngIf="product.priceType == 0">
+                      <option *ngFor="let kilo of Kiograms" value="{{kilo}}">{{kilo}} גרם</option>                    
+                  </select>
+                  <select (change)="changeAmount(i, $event)" *ngIf="product.priceType == 1">
+                    <option *ngFor="let unit of Units" value="{{unit}}">{{unit}} יח'</option>                    
+                </select>
+                  <button class="btn btn-success" (click)="AddProductToBasket(product)" >הוסף לסל</button>
+                </div>  
               </div>
             </div>
           </div>
       </div>
         <div class="col-md-4 position-rel">
-          <div class="sticky" >
-              <h3>לכל מידע נוסף תוכלו להשאיר פרטים ונחזור אליכם בהקדם</h3>
-              <h4>שעות פתיחה:</h4>
-              <p>
-                ימים א-ה בין השעות 07:00 עד 18:30
-              </p>
-              <p>
-                  ובימי שישי בין השעות 06:30 ועד כניסת שבת 
-              </p>        
-              <p>להשארת מידע לחץ כאן:</p>
-              <button class="btn btn-success" id="contact"routerLink="/contact">צור קשר</button>
-              <!-- <button class="btn btn-success" id="create" routerLink="/contact">צור הזמנה</button> -->
-              
-              <div>
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.648267907407!2d34.7923569849479!3d32.051710681197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4b69647145ff%3A0xdb3c0db612c1d292!2z15fXoNeV15ogMzEsINeq15wg15DXkdeZ15Eg15nXpNeV!5e0!3m2!1siw!2sil!4v1519046579075" 
-                      frameborder="0" allowfullscreen>
-                  </iframe>
-              </div>
+          <div class="sticky">
+              <app-info></app-info>
           </div>
+         
           
         </div>
     </div>

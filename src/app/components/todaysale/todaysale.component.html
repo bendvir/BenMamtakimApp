@@ -1,25 +1,25 @@
-<div class="Sale" [ngClass]="{'Sale-in': cancelbig==true,'Sale-out': cancelbig==false }">    
+<div *ngIf="display!='1'" class="Sale" [ngClass]="{'Sale-in': cancelbig==true,'Sale-out': cancelbig==false }">    
     <div class="close" (click)="closeBigSale()">&times;</div>   
 <span>
     <img class="FixedImg" src="/assets/dafAbait/15.jpg" >
 </span>
-  <div class="asd">
+  <div class="content-move">
       <div>
           <img class="icon" src="/assets/dafAbait/v-icon.png" >          
-          סלסלות לחג הפסח במחירי מבצע!         
+          3 יח קינדר בואנו ב- 10 ש''ח'        
       </div>
          <div>
             <img class="icon" src="/assets/dafAbait/v-icon.png" >  
-            מבחר סוגי עוגיות לחג הפסח!          
+            עוגיות פילאס כחול לבן 7.5 ש''ח'        
          </div>
          <div>
             <img class="icon" src="/assets/dafAbait/v-icon.png" >  
-            מבחר ענק של בונבוניירות לחג הפסח!
+            עוגות שמרים ב-10 ש''ח!'
          </div>
              
             
             <!-- <img class="FixedImg" src="/assets/dafAbait/13.png" > -->
   </div>
 
-  <button class="btn btn-danger" routerLink="/producs_passover">לעוד מבצעים</button>  
+  <button class="btn btn-danger" routerLink="/producs_cat1" (click)="turnOffPopUp()">לעוד מבצעים</button>  
 </div>

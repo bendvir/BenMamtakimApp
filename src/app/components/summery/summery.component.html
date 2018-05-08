@@ -1,0 +1,326 @@
+<app-menu></app-menu>
+<div *ngIf="!success">
+<div class="col-md-12 grid-container">
+    <span class="grid-title col-md-12">סל הקניות שלי</span>
+  </div>
+  <div class="top-cart">
+    <div class="add-cart">
+        <p>
+              ברוכים הבאים לסל הקניות המהיר של ממתקי התקווה.
+          </p>   
+          <p>
+          כאן תוכלו לראות את המוצרים שבחרתם, להסיר,לשנות ועוד...         
+          לעוד מידע איך לרכוש אצלנו לחצו על הכפתור שמתחתי.
+      </p>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+          דרכי הזמנה בממתקי התקווה
+      </button>
+  </div>
+  </div>
+  
+        
+<div class="container">
+    <div class="row contnet-page">
+        <div class="col-sm-8 col-12">
+            <div class="row label-title">
+                <div class="col-sm-2 col-2 mobile-coloumn">
+                    <div class="item-th">
+
+                    </div>
+                </div>
+                <div class="col-sm-3 col-3 mobile-coloumn">
+                    <div class="item-th">
+                        <div>
+                            שם מוצר
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-2 mobile-coloumn">
+                    <div class="item-th">
+                        <div>
+                            כמות
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-2 mobile-coloumn">
+                        <div class="item-th">
+                            <div>
+                                מחיר ליח'\גרם
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-sm-2 col-2 mobile-coloumn">
+                    <div class="item-th">
+                        <div>
+                             סה"כ
+                        </div>
+                    </div>
+                </div>               
+                <div class="col-sm-1 col-1 mobile-coloumn">
+                    <div class="item-th">
+                        <div>
+                            מחק
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="product-item row" *ngFor="let prod of producBasketList; let i = index">
+                    <div class="col-sm-2 col-2 mobile-coloumn">
+                        <img class="fixedImg" align="middle" src="/assets/{{prod.subCategoryPic}}/{{prod.link}}" />
+                        <img class="ChatImg" align="left" src="/assets/dafAbait/premarks.ico" />
+                    </div>
+                    <div class="col-sm-3 col-3 ">
+                        <div class="item-colum">                            
+                            <div class="item-row item-row-pad">{{prod.title}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-2" *ngIf="prod.priceType==1">
+                        <div class="item-colum">
+                            <div>
+                                <!-- {{prod.amount}} יח'    -->
+                                <select (change)="changeAmount(i, $event)" [(ngModel)]="prod.amount">
+                                    <option *ngFor="let unit of Units" value="{{unit}}">{{unit}} יח'</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-2" *ngIf="prod.priceType==0">
+                        <div class="item-colum">
+                            <div>
+                                <!-- {{prod.amount}} גרם -->
+                                <select class="item-colum-unit" (change)="changeAmount(i, $event)" [(ngModel)]="prod.amount">
+                                    <option *ngFor="let kilo of Kiograms" value="{{kilo}}">{{kilo}} גרם</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-2">
+                            <div class="item-colum">
+                                <div>
+                                 {{prod.price}} ש"ח
+                                </div>
+                            </div>
+                        </div>
+                    <div class="col-sm-2 col-2">
+                        <div class="item-colum">
+                            <div>
+                                {{calculatefinalPrice(prod)}} ש"ח
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-1">
+                        <div class="item-colum">
+                            <div>
+                                <div>
+                                    <div>
+                                        <button class="close" (click)="removeProductFromBasket(i, prod)">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+          
+        </div>
+        <div class="col-sm-4 col-12 position-rel">
+            <div class="sticky">
+                <!-- Button to Open the Modal -->
+            <div class="border-summery">
+                <div class="summery-items">
+                    סה"כ כל המוצרים שנבחרו: {{finalPrice}} ש"ח
+                </div>
+                <div *ngIf="!noPick" class="change-city">
+                    <select [(ngModel)]="CityDefault" (change)="changeCity($event)">
+                        <option *ngFor="let city of Cities; let i = index" value="{{i}}">{{city}}</option>
+                    </select>
+                </div>
+                <div *ngIf="!noPick" class="summery-items">
+                    <span *ngIf="isCityPriceAdded">
+                        <div>
+                            משלוח: {{TaxDeleviry}} ש"ח
+                        </div>
+                        סה"כ לאחר משלוח: {{finalPrice+TaxDeleviry}} ש"ח
+                    </span>
+                    <span *ngIf="!isCityPriceAdded">
+                        סה"כ לאחר משלוח: {{finalPrice}} ש"ח
+                    </span>
+
+                </div> 
+                <div class="coming-take">
+                    <input #noDelivery [(ngModel)]="noPick" class="bold-item" (click)="deliveryItem()" type="checkbox" data-toggle="toggle">איסוף עצמי                
+                    <div *ngIf="noPick">
+                          סה"כ לאחר איסוף עצמי: {{finalPrice}} ש"ח                         
+                  </div>
+                </div>                              
+            </div>                                                     
+                <!-- <div>
+                    <h3>איך קונים אצלנו?</h3>
+                </div> -->
+                <div class="alert alert-danger" *ngIf="errorMsg">
+                        עליכם למלא לפחות שם מלא וטלפון
+                     </div>
+                     <div class="alert alert-danger" *ngIf="noPickUpSelect">
+                            עליכם לבחור איסוף עצמי או משלוח
+                         </div>
+                <form>
+                        <div class="form-group">
+                          <!-- input for full name + validation -->
+                          <input
+                          required 
+                          name="fullName"
+                          [(ngModel)] ="fullName"
+                          #fullNameValid="ngModel" 
+                          minlength="3" 
+                          maxlength="30" 
+                          id="fullName" 
+                          type="text" 
+                          placeholder="שם מלא"
+                          class="form-control"
+                          pattern="(^[A-Za-z])|(\s)([A-Za-z])|([א-ת])|(\s)">
+                          <div class="alert alert-danger" *ngIf="fullNameValid.touched && !fullNameValid.valid">חובה להזין שם מלא
+                            <div *ngIf="fullNameValid.errors.minlength">נא להזין לפחות {{fullNameValid.errors.minlength.requiredLength}} תווים</div>
+                            <div *ngIf="fullNameValid.errors.pattern">אין להזין מספרים</div>
+                          </div>
+                        </div>
+                            <!-- input for phone Number + validation -->
+                        <div class="form-group">
+                        <input 
+                        required 
+                        name="phoneNumber" 
+                        [(ngModel)]="phoneNumber"
+                        #phoneNumberValid="ngModel" 
+                        type="text" 
+                        maxlength="10" 
+                        placeholder="טלפון"
+                        minlength="9"
+                        maxlength="10"
+                        pattern="[0-9]*"
+                        class="form-control"> 
+                        <div class="alert alert-danger" *ngIf ="phoneNumberValid.touched && !phoneNumberValid.valid">נא להזין מספר טלפון תקין
+                          <div *ngIf= "phoneNumberValid.errors.minlength">יש להזין לפחות {{phoneNumberValid.errors.minlength.requiredLength}} ספרות ללא תווים</div>
+                        </div>
+                      </div>
+                          <!-- input for address + validation -->
+                          <div class="form-group">
+                            <input
+                            required 
+                            name="address"
+                            [(ngModel)] ="address"
+                            #addressValid="ngModel" 
+                            minlength="3" 
+                            maxlength="30" 
+                            id="address" 
+                            type="text" 
+                            placeholder="כתובת מלאה"
+                            class="form-control"
+                            pattern="(^[A-Za-z])|(\s)([A-Za-z])|([א-ת])|(\s)">
+                            <div class="alert alert-danger" *ngIf="addressValid.touched && !addressValid.valid">חובה להזין כתובת חוקית                               
+                              </div>
+                          </div>
+                       <!-- input for email + validation -->
+                        <div class="form-group">
+                          <input 
+                          type="text"       
+                          [(ngModel)]="emailUser"
+                          #emailUserValid = "ngModel"      
+                          name="email"
+                          placeholder="name@example.com (לא חובה)"
+                          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                          class="form-control"> 
+                             <div class="alert alert-danger" *ngIf ="emailUserValid.touched && !emailUserValid.valid">אימל חייב להיות בפורמט הנכון         
+                               <!-- <div *ngIf ="emailUserValid.errors?.required">נא להזין אימל </div> -->
+                            </div>    
+                         </div>
+                         <!-- message text box + validation -->
+                        <div class="form-group">
+                          <textarea  
+                          rows="5" 
+                          minlength="1" 
+                          maxlength="300" 
+                          [(ngModel)]="message"
+                          name="message"
+                          placeholder="הערה"  
+                          class="form-control">
+                         </textarea>
+                        </div>
+                        <div>
+                          <re-captcha (resolved)="resolved($event)" siteKey="6LdudEgUAAAAAP4FSYlE8Dx5CmT1Wh9OXrWz-chK"></re-captcha>
+                        </div>
+                        <!-- Send button + active sendMail function -->
+                        <div>
+                          <button 
+                          type="button" 
+                          class="btn btn-success" 
+                          (click)="sendMail()">
+                          שלח הזמנה
+                          </button>                         
+                          <div *ngIf="gifWaiting">
+                            <img class="gif-icon" alt="" src="/assets/dafAbait/Wating.gif">
+                          </div>
+                        </div>
+                        
+                      </form>
+                      
+                <!-- <img class="fixedImg" align="middle" src="/assets/dafAbait/add.ico" /> -->
+                <!-- <app-info></app-info> -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+ <!-- The Modal -->
+ <div class="modal fade" id="myModal">
+        <div class="asd modal-dialog">
+            <div class="modal-content">
+    
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4>דרכי הזמנה בממתקי התקווה</h4>
+    
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+    
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p>
+                        אצלנו בממתקי התקווה ההזמנה היא נוחה וקלה.
+                    </p>
+                    <p>
+                        בכדי להזמין אצלנו יש לבחור את דרך קבלת ההזמנה (משלוח הכולל דמי משלוח או איסוף עצמי)
+                    </p>
+                    <p>
+                        בעת בחירת איסוף עצמי יש לסמן את שדה "איסוף עצמי", למלא את שאר שדות החובה ולחיצה על שלח הזמנה. לאחר קבלת ההזמנה אצלנו במערכת אנו ניצור קשר עימכם לגבי איסוף החבילה.
+                    </p>
+                    <p>
+                        בעת משלוח, יש לבחור את שדה "בחר עיר למשלוח" למלא את שאר שדות החובה ולחיצה על שלח הזמנה. לאחר קבלת ההזמנה אצלנו במערכת אנו ניצור עמכם קשר לקבלת מספר
+                        כרטיס אשראי ונבצע את העיסקה.
+                    </p>
+                    <p>
+                        לכל שאלה ופניה יש באפשרותכם ליצור עמנו קשר דרך לשונית "צור קשר"
+                        או להתקשר למספר 053-722-7501.
+                    </p>
+                </div>
+    
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="success">
+        <div class="grid-container">
+          <span class="grid-title">הזמנתך נקלטה!</span>
+        </div>
+        <div class="sucsess">
+            <p>
+                תודה לך, הזמנתך ב"ממתקי התקווה" נקלטה !
+                נחזור אליך בהקדם האפשרי 🙂
+            </p>
+        </div>
+      
+      </div>

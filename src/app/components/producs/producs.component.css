@@ -4,6 +4,10 @@
       color: #00d948;
       margin-bottom:40px;
 }
+.paint{
+      color: #d94500;
+      font-size: 20px;
+}
 /* .slide-wrap{
       margin: auto;
       float: none;
@@ -90,13 +94,14 @@ font-size: 13px;
       font-size: 25px;
       font-weight: bold;
       color: #d94500;
+      margin-top: 0px;
   }
  
   .product-item .description{
         text-align: center;
   }
   .product-item .btn-success{
-        margin: 10px 0;
+        margin: 5px 0;
   }
   .google-maps{
         margin-top: 10px;
@@ -182,4 +187,7 @@ font-size: 13px;
       height: 80% !important;
       font-weight: bold;
       color: #d94500;      
+}
+.addto-Bucket{
+      margin-bottom: -3px;
 }

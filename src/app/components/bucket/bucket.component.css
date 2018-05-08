@@ -1,0 +1,60 @@
+.bucket-sumerry{
+    /* background-image: url(/assets/dafAbait/13.png);  */
+    position: fixed;
+    width: 180px;
+    height: 180px;
+    top: 0;
+    bottom: 0;
+    right: -1325px;
+    /* background-image: url(/assets/dafAbait/add.ico);         */
+    box-shadow: 10px 10px 30px 0 #725151;
+    display: inline-block;
+    padding: 3px;
+    z-index: 1;
+    cursor: pointer;
+    text-align: center;
+    margin: auto;
+    transition: 0.3s;
+    background-color: rgba(255, 255, 255, 1); 
+    animation: 1s displaySale forwards;
+    font-weight: bold;
+    
+}
+.btn-success{
+    margin-top: 35px;
+    position: sticky;
+}
+.content-move{
+    text-align: right;
+}
+.count-items{
+margin-bottom: 10px;
+}
+.title-phone{   
+    color: green;
+    font-weight: bold;
+    text-decoration: underline;
+}
+/* .asd{
+    font-size: 1.5rem;
+} */
+@media (max-width: 992px) and (min-width: 320px){
+    .bucket-sumerry {
+        top: -574px;
+        right: -50px;
+        bottom: 0;
+        left: 0;
+        height: 117px;
+        width: 150px; 
+        display: none;  
+    }
+    .count-items{
+        margin-bottom: 1px;;
+    }
+    .btn-success{
+        margin-top: 1px;        
+    }
+    .title-phone{
+        margin-bottom: -4px;        
+    }
+}

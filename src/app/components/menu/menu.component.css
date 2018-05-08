@@ -39,6 +39,15 @@
 .bg-primary{
     z-index: 1;    
 }
+.basket{
+    position: fixed;
+    top: 13px;
+    right: 115px;
+    z-index: 2;
+    color: white;
+    display: none;
+}
+
 @media (max-width :992px){
     .bg-primary{     
     position: fixed;
@@ -46,10 +55,44 @@
 }
 }
 @media (max-width: 992px) and (min-width: 320px){
-.logo {
+    .header .logo {
     display: flex;
     float: left;
-    height: 22%;
-    /* position: absolute; */
+    height: 22%;    
+    position: fixed;
+}
+.basket{
+    position: fixed;
+    top: 13px;
+    right: 115px;
+    z-index: 2;
+    color: white;
+    display: block;
+}
+.basket-icon{
+    background-image: url(/assets/dafAbait/shopping-cart.svg);
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    top:0;
+    left: 0;    
+
+}
+.basket-item-big{
+    z-index: 3;
+    position: absolute;
+    left: 14px;
+    font-size: 0.8em;
+    top: 3px;
+}
+.basket-item-small{
+    z-index: 3;
+    position: absolute;
+    left: 11px;
+    font-size: 0.8em;
+    top: 3px;
 }
 }

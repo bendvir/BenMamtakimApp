@@ -1,0 +1,14 @@
+<div class="bucket-sumerry col-12" *ngIf="display==true">
+  <h4 class="title-phone">סל הקניות</h4>
+  <div class="content-move">
+    <div class="count-items">
+      מספר מוצרים: {{amount}}
+    </div>
+    <div class="summery-items">
+      סה''כ:{{sum}}
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-success" routerLink="/summery">לניהול סל הקניות</button>
+  </div>
+</div>

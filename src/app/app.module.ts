@@ -13,8 +13,11 @@ import { OpenpageComponent } from './components/openpage/openpage.component';
 import { AboutComponent } from './components/about/about.component';
 import { Route } from '@angular/compiler/src/core';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
-import { HolidayComponent } from './components/holiday/holiday.component';
 import { TodaysaleComponent } from './components/todaysale/todaysale.component';
+import { SummeryComponent } from './components/summery/summery.component';
+import { BucketComponent } from './components/bucket/bucket.component';
+import { BasketService } from './services/basket.service';
+import { InfoComponent } from './components/info/info.component';
 // import { SuccessComponent } from './components/success/success.component';
 
 const appRoutes: Routes = [
@@ -26,8 +29,8 @@ const appRoutes: Routes = [
   {path: 'producs_purim', component:ProducsComponent},
   {path: 'producs_passover', component:ProducsComponent},
   {path: 'contact', component:ContactComponent},
-  {path: 'holiday', component:HolidayComponent},
   {path: 'today_sale', component:TodaysaleComponent},
+  {path: 'summery', component:SummeryComponent},
   {path: 'error', component:ErrorPageComponent}
 ];
 
@@ -43,8 +46,10 @@ const appRoutes: Routes = [
     ProducsComponent,
     ContactComponent,
     ErrorPageComponent,
-    HolidayComponent,
-    TodaysaleComponent
+    TodaysaleComponent,
+    SummeryComponent,
+    BucketComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
@@ -52,7 +57,7 @@ const appRoutes: Routes = [
     FormsModule,
     RecaptchaModule.forRoot(),
   ],
-  providers: [],
+  providers: [BasketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

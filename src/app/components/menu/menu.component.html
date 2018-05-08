@@ -1,4 +1,8 @@
 <div class="header" *ngIf="display==true">
+    <div class="basket" routerLink="/summery">
+        <div [ngClass]="{'basket-item-big' : amount<=9, 'basket-item-small' : amount>9}">{{amount}}</div>
+        <div class="basket-icon"></div>
+    </div>
     <a class="logo" href="#">
         <img src="/assets/dafAbait/logo.png" alt="">
     </a>
@@ -24,20 +28,25 @@
                 <!-- <li class="nav-item">
                     <a class="nav-link" routerLink="/holiday">הזמנות לחגים</a>
                 </li> -->
-                <li class="nav-item dropdown">
+                <!-- this is only when Holiday!! -->
+                <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"  id="navbarDropdown" data-toggle="dropdown">קטלוג לחגים
                     </a>
                     <div class="dropdown-menu">
-                        <!-- <a class="dropdown-item" routerLink="/producs_purim">פורים</a> -->
+                        <a class="dropdown-item" routerLink="/producs_purim">פורים</a>
                         <a class="dropdown-item" routerLink="/producs_passover">פסח</a>                            
                     </div>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/contact">צור קשר</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/summery">סל קניות</a>
                 </li>
             </ul>
         </div>
     </nav>
     <!-- call to the todaySale component -->
     <app-todaysale></app-todaysale>
+    <app-bucket></app-bucket>
 </div>
