@@ -29,7 +29,7 @@
 
 }
 .FixedImg{
-    width: 325px;
+    width: 100%;
     height: 45px;
     margin-bottom: 15px;
 }
@@ -71,7 +71,12 @@
     right: -20px;
     top: -20px;
 }
-
+@media (max-width: 992px) and (min-width: 320px){
+    .Sale {
+       width: 90vw
+        /* position: absolute; */
+    }
+}
 /* @keyframes cancelDisplaySale {
     from {
         left: -1000px;

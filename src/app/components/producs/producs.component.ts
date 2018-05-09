@@ -34,12 +34,12 @@ export class ProducsComponent implements OnInit {
       this.description = "רשת חנויות 'ממתקי התקווה' מזמינה אתכם להגשים את כל החלומות המתוקים שלכם במקום אחד , אצלנו תמצאו מגוון רחב של שוקולדים וסוכריות מן העולם"
       this.title = "קטלוג מוצרים מתוקים";
       this.productList = [
-        {id: 1, link: "1.jpg", title: "נחשי גומי", price: 22, priceType:0, amount:250, subCategoryPic: "mamtakim", priceperunit:0}, 
+        {id: 1, link: "1.jpg", title: "נחשי גומי מחיר ל-1 ק''ג", price: 22, priceType:0, amount:250, subCategoryPic: "mamtakim", priceperunit:0}, 
         {id: 2, link: "2.jpg", title: "עוגיות פילאס", price: 7.5, priceType:1, amount:1, subCategoryPic: "mamtakim", priceperunit:0}, 
         {id: 3, link: "3.jpg", title: "מבחר עוגות שמרים" , price: 10, priceType:1, amount:1, subCategoryPic: "mamtakim", priceperunit:0},
         {id: 4, link: "4.jpg", title: "רוגעלכים בטעמים", price: 10, priceType:1, amount:1, subCategoryPic: "mamtakim", priceperunit:0}, 
         {id: 5, link: "5.jpg", title: "עוגות הבית", price: 6, priceType:1, amount:1, subCategoryPic: "mamtakim", priceperunit:0}, 
-        {id: 6, link: "6.jpg", title: "חטיפים מרוקאים", price: 20, priceType: 0, amount:250, subCategoryPic: "mamtakim", priceperunit:0},
+        {id: 6, link: "6.jpg", title: "חטיפים מרוקאים מחיר ל-1 ק''ג", price: 20, priceType: 0, amount:250, subCategoryPic: "mamtakim", priceperunit:0},
         {id: 7, link: "7.jpg", title: "קינדר אצבעות", price: 3.5, priceType:1, amount:1, subCategoryPic: "mamtakim", priceperunit:0},
         {id: 8, link: "31.jpg", title: "קינדר אצבעות מארז", price: 20, priceType:1, amount:1, subCategoryPic: "mamtakim", priceperunit:0},
         {id: 9, link: "32.jpg", title: "קינדר בואנו", price: 3.5, priceType:1, amount:1, subCategoryPic: "mamtakim", priceperunit:0},
