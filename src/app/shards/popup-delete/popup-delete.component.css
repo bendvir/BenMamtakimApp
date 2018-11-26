@@ -1,0 +1,13 @@
+.pos-yes{
+    position: fixed;
+    right: 15px;
+}
+.fixedImg{
+    width: 25%;
+}
+.body-main{
+    text-align: center;
+}
+.body-title{
+    font-weight: bold;
+}

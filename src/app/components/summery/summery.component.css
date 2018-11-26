@@ -15,15 +15,7 @@
       padding: 1px;
       text-shadow: 2px 2px rgb(255, 0, 0);
   }
-  .add-cart{
-      text-align: center;
-      margin-top: 10px;
-    font-weight: bold;
-    color: #d94500;
-  }
-  .top-cart{
-      margin-bottom: 10px;
-  }
+   
 .main-title{
     background-color: rgba(0,0,0,0.2);
     color: #f91308;
@@ -139,11 +131,9 @@ border:0;
 .close {
     position: absolute;
     right: -20px;
-    top: -20px;
+    top: -13px;
 }
-.asd{
-    z-index: 1500;
-}
+
 .summery-items{
     margin-bottom: 8px;
     font-weight: bold;
@@ -193,15 +183,15 @@ margin-bottom: 10px;
     .mobile-coloumn{
         padding: 0;
     }
-    .close{
-        right: 0px;
-        left: -20px;
-        top: -12px;
-    }
+
     .item-row-pad{
         padding: 5px;
     }
     .item-colum-unit{
         margin-right: -17px;
+    }
+    .close{
+        right: 3px;
+        top: -13px;
     }
 }

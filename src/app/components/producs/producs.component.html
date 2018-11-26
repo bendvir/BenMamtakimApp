@@ -1,114 +1,133 @@
 <app-menu></app-menu>
+<app-talk-with-us></app-talk-with-us>
 <div class="back-ground">
-    <div [ngClass]="{'photo-mamtak' : cat[0], 'photo-yeveshim' : cat[1], 'photo-gift' : cat[2], 'phtot-passover': cat[3]}" class="grid-container">
-      <div class="grid-title">{{title}}</div>
-    </div>
+  <div [ngClass]="{'photo-mamtak' : cat[0], 'photo-yeveshim' : cat[1], 'photo-gift' : cat[2], 'phtot-passover': cat[3], 'photo-mamtak' : cat[4]}" class="grid-container">
+    <div class="grid-title">{{title}}</div>
   </div>
-  <!-- <div class="col-sm-12 product-text">
+</div>
+<!-- <div class="col-sm-12 product-text">
   
     </div> -->
-  <div class="container">
-    <div class="row contnet-page">
-      <div class="col-sm-12 col-xs-12">
-        <div *ngIf="cat[0]===true">
-          <h1 class="about-title">המוצרים המתוקים!</h1>
-         
-          <p>
-            אחת החוויות הכיפיות בשוק היא להיכנס לחנות הממתקים המופלאה שלנו, שם תוכלו להפוך את החוויה שלכם למתוקה וכיפית!
-          </p>
-          <p>
-            אצלנו בחנות תוכלו למצוא מגוון רב של שוקולדים ממתקים עוגות עוגיות ועוד... במחירים מוזלים וחסרי תקדים
-          </p>
-          <p>
-            נשמח לראותכם :)
-          </p>
-        </div>
-        <div *ngIf="cat[1]===true">
-          <h1 class="about-title">פירות יבשים!</h1>
-          <p class="bold-text">
-              קצת עלינו:
-          </p>
-          <p>
-            אחד מהדברים האהובים עלינו בממתקי התקוה הוא העיסוק בפירות היבשים, אצלנו דואגים תמיד על איכות המוצר וכמובן על המחיר
-          </p>
-          <p>
-          לפניכם מבחר רב של מוצרים איכותיים אשר מחירהם הם לפי <b class="paint">קילו</b>
-          </p>
-        </div>
-        <div *ngIf="cat[2]===true">
-          <h1 class="about-title">מי לא אוהב מתנות?</h1>         
-          <p>
-          בפינת המתנות שלנו תוכלו למצוא מגוון רחב של בונבונירות, שקיות הפתעה לימי הולדת, סלסלאות לחג, משלוחי מנות ועוד מבחר ענק של מוצרים.
-          </p>
-          <p>
-              כך תוכלו לפנק את אהובכם במתנה כיפית במחירים משתלמים!
-              </p>
-        </div>
-        <div *ngIf="cat[3]===true">
-            <h1 class="about-title">שמחה רבה שמחה רבה אביב הגיע פסח בא!</h1>         
-            <p>
-              פסח כבר בפתח ואצלנו ב-"ממתקי התקווה" תוכלו למצוא מגוון רב של עוגיות לפסח , כל העוגיות שלנו הינן כשרות לפסח ובהשגחת הבד''ץ.
-            </p>
-            <p>
-               אצלנו אפשר לרכוש עוגיות במגוון טעמים ליחידים ובסיטונאות במחירים חסרי תקדים! 
-            </p>
-            <p>
-              כמו כן אין חג בלי מגוון הסלסלות של "ממתקי התקווה", אצלנו תוכלו להנות ממגון סלסלות לחג במחירים נוחים במכירה ליחידים וסיטונאים.
-            </p>
-            <p>
-              לקבלת הצעת מחיר נא מלא פרטיך בלשונית "צור קשר" או ניתן להתקשר לטלפון מספר: 053-7227501
-            </p>
-          </div>
+<div class="container">
+  <div class="row contnet-page">
+    <div class="col-sm-12 col-xs-12">
+      <div *ngIf="cat[0]===true">
+        <h1 class="about-title">המוצרים המתוקים!</h1>
+
+        <p>
+          אחת החוויות הכיפיות בשוק היא להיכנס לחנות הממתקים המופלאה שלנו, שם תוכלו להפוך את החוויה שלכם למתוקה וכיפית!
+        </p>
+        <p>
+          אצלנו בחנות תוכלו למצוא מגוון רב של שוקולדים ממתקים עוגות עוגיות ועוד... במחירים מוזלים וחסרי תקדים
+        </p>
+        <p>
+          נשמח לראותכם :)
+        </p>
+      </div>
+      <div *ngIf="cat[1]===true">
+        <h1 class="about-title">פירות יבשים!</h1>
+        <p class="bold-text">
+          קצת עלינו:
+        </p>
+        <p>
+          אחד מהדברים האהובים עלינו בממתקי התקוה הוא העיסוק בפירות היבשים, אצלנו דואגים תמיד על איכות המוצר וכמובן על המחיר
+        </p>
+        <p>
+          לפניכם מבחר רב של מוצרים איכותיים אשר מחירהם הם לפי
+          <b class="paint">קילו</b>
+        </p>
+      </div>
+      <div *ngIf="cat[2]===true">
+        <h1 class="about-title">מי לא אוהב מתנות?</h1>
+        <p>
+          בפינת המתנות שלנו תוכלו למצוא מגוון רחב של בונבונירות, שקיות הפתעה לימי הולדת, סלסלאות לחג, משלוחי מנות ועוד מבחר ענק של
+          מוצרים.
+        </p>
+        <p>
+          כך תוכלו לפנק את אהובכם במתנה כיפית במחירים משתלמים!
+        </p>
+      </div>
+      <div *ngIf="cat[3]===true">
+        <h1 class="about-title">שמחה רבה שמחה רבה אביב הגיע פסח בא!</h1>
+        <p>
+          פסח כבר בפתח ואצלנו ב-"ממתקי התקווה" תוכלו למצוא מגוון רב של עוגיות לפסח , כל העוגיות שלנו הינן כשרות לפסח ובהשגחת הבד''ץ.
+        </p>
+        <p>
+          אצלנו אפשר לרכוש עוגיות במגוון טעמים ליחידים ובסיטונאות במחירים חסרי תקדים!
+        </p>
+        <p>
+          כמו כן אין חג בלי מגוון הסלסלות של "ממתקי התקווה", אצלנו תוכלו להנות ממגון סלסלות לחג במחירים נוחים במכירה ליחידים וסיטונאים.
+        </p>
+        <p>
+          לקבלת הצעת מחיר נא מלא פרטיך בלשונית "צור קשר" או ניתן להתקשר לטלפון מספר: 053-7227501
+        </p>
+      </div>
+      <div *ngIf="cat[4]===true">
+        <h1 class="about-title">בראש השנה בראש השנה פרחה שושנה אצלי בגינה</h1>
+        <p>
+          ראש השנה כבר בפתח ואצלנו ב-"ממתקי התקווה" תוכלו למצוא מגוון רב של מתנות לקראת השנה החדשה!
+        </p>
+        <p>
+          אצלנו אפשר לרכוש מגוון רחב של בונבונירות שוקולדים דברים מתוקים ועוד..!
+        </p>
+        <p>
+          כמו כן אין חג בלי מגוון הסלסלות של "ממתקי התקווה", אצלנו תוכלו להנות ממגון סלסלות לחג במחירים נוחים במכירה ליחידים וסיטונאים.
+        </p>
+        <!-- <p>
+          לקבלת הצעת מחיר נא מלא פרטיך בלשונית "צור קשר" או ניתן להתקשר לטלפון מספר: 053-7227501
+        </p> -->
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-8">
-          <div class="row">
-            <div *ngFor="let product of productList; let i = index" class="product-item col-xs-12 col-md-4">
-              <div class="wrap">
-                <div [ngClass]="{'upgrade-class' : cat[3]}" class="fixedImg" (click)="openBigPicture(product.link, i)">
-                  <img src="/assets/{{product.subCategoryPic}}/{{product.link}}" />                  
-                </div>
-                <div class="description">
-                  <span>{{product.title}}</span>                    
-                  <span *ngIf="product.price!=0" class="price">{{product.price}} &#8362;</span>
-                  <select (change)="changeAmount(i, $event)" *ngIf="product.priceType == 0">
-                      <option *ngFor="let kilo of Kiograms" value="{{kilo}}">{{kilo}} גרם</option>                    
-                  </select>
-                  <select (change)="changeAmount(i, $event)" *ngIf="product.priceType == 1">
-                    <option *ngFor="let unit of Units" value="{{unit}}">{{unit}} יח'</option>                    
-                </select>
-                  <button class="btn btn-success" (click)="AddProductToBasket(product)" >הוסף לסל</button>
-                </div>  
-              </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row">
+        <div *ngFor="let product of productList; let i = index" class="product-item col-xs-12 col-md-4">
+          <div class="wrap">
+            <div [ngClass]="{'upgrade-class' : cat[3]}" class="fixedImg" (click)="openBigPicture(product.link, i)">
+              <img src="/assets/{{product.subCategoryPic}}/{{product.link}}" />
+            </div>
+            <div class="description">
+              <span>{{product.title}}</span>
+              <span *ngIf="product.price!=0" class="price">{{product.price}} &#8362;</span>
+              <select (change)="changeAmount(i, $event)" *ngIf="product.priceType == 0">
+                <option *ngFor="let kilo of Kiograms" value="{{kilo}}">{{kilo}} גרם</option>
+              </select>
+              <select (change)="changeAmount(i, $event)" *ngIf="product.priceType == 1">
+                <option *ngFor="let unit of Units" value="{{unit}}">{{unit}} יח'</option>
+              </select>
+              <button class="btn btn-success new-item" (click)="AddProductToBasket(product)">הוסף לסל</button>
             </div>
           </div>
-      </div>
-        <div class="col-md-4 position-rel">
-          <div class="sticky">
-              <app-info></app-info>
-          </div>
-         
-          
         </div>
+      </div>
+    </div>
+    <div class="col-md-4 position-rel">
+      <div class="sticky">
+        <app-bucket></app-bucket>
+      </div>
     </div>
   </div>
-  
-  
-  <div class="currentPic" *ngIf="showBigPic">
-    <div>
-        <img *ngFor="let product of productList" class="cover-photo" id="myImg" src="/assets/{{product.subCategoryPic}}/{{productList[currentIndex].link}}" alt="Trolltunga, Norway">
-        <div class="carousel-caption carousel">
-            <h2>{{productList[currentIndex].title}}</h2>
-            <h3 *ngIf="productList[currentIndex].price!=''">{{productList[currentIndex].price}} &#8362;</h3>
-        </div>
-    </div>      
-      <div class="close" (click)="closeBigPicture()">&times;</div>
-      <!-- Left and right controls -->
-      <div class="carousel-control-prev" (click)="previewsPicture()" data-slide="prev">
-          <span class="carousel-control-prev-icon"></span>
-      </div>
-        <div class="carousel-control-next" (click)="nextPicture()" data-slide="next">
-          <span class="carousel-control-next-icon"></span>
-        </div>
+</div>
+
+<app-footer></app-footer>
+<!-- *************************** This DIV is the carusel Photos************************************ -->
+
+<!-- <div class="currentPic" *ngIf="showBigPic">
+  <div>
+    <img *ngFor="let product of productList" class="cover-photo" id="myImg" src="/assets/{{product.subCategoryPic}}/{{productList[currentIndex].link}}"
+      alt="Trolltunga, Norway">
+    <div class="carousel-caption carousel">
+      <h2>{{productList[currentIndex].title}}</h2>
+      <h3 *ngIf="productList[currentIndex].price!=''">{{productList[currentIndex].price}} &#8362;</h3>
+    </div>
   </div>
+  <div class="close" (click)="closeBigPicture()">&times;</div> -->
+  <!-- Left and right controls -->
+  <!-- <div class="carousel-control-prev" (click)="previewsPicture()" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </div>
+  <div class="carousel-control-next" (click)="nextPicture()" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </div>
+</div> -->

@@ -1,14 +1,46 @@
 <div class="bucket-sumerry col-12" *ngIf="display==true">
-  <h4 class="title-phone">סל הקניות</h4>
-  <div class="content-move">
+  <h4 class="title-full">סל הקניות</h4>
+  <div class="content-move">      
+    <div class="new-item row" *ngFor="let prod of producBasketList; let i = index">
+      <div class="col-sm-4 ">
+        <div class="tooltip-main">
+          {{shortTitle(prod.title)}}
+          <span class="tooltiptext"> {{prod.title}}</span>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <span *ngIf="prod.priceType==1">
+          <!-- {{prod.amount}} יח'    -->
+          <select (change)="changeAmount(i, $event)" [(ngModel)]="prod.amount">
+            <option *ngFor="let unit of Units" value="{{unit}}">{{unit}} יח'</option>
+          </select>
+        </span>
+        <span *ngIf="prod.priceType==0">
+          <!-- {{prod.amount}} גרם -->
+          <select (change)="changeAmount(i, $event)" [(ngModel)]="prod.amount">
+            <option *ngFor="let kilo of Kiograms" value="{{kilo}}">{{kilo}} גרם</option>
+          </select>
+        </span>
+      </div>
+      <div class="col-sm-3">
+        <span> {{calculateSinglefinalPrice(prod)}} ש"ח</span>
+      </div>
+      <div class="col-sm-1">
+          <button class="close" (click)="removeProductFromBasket(i, prod)">&times;</button>
+        <!-- <span data-toggle="modal" data-target="#DeleteModal" (click)="removeProductFromBasket(i, prod)">&times;</span> -->
+      </div>
+    </div>
     <div class="count-items">
       מספר מוצרים: {{amount}}
     </div>
     <div class="summery-items">
-      סה''כ:{{sum}}
+      סה''כ מחיר: {{sum}} ש"ח
     </div>
   </div>
   <div>
     <button class="btn btn-success" routerLink="/summery">לניהול סל הקניות</button>
   </div>
 </div>
+<!-- <app-popup-delete-bucket></app-popup-delete-bucket> -->
+<!-- <app-popup-delete [index]="currentIndex" [product]="currentProd" (amountCalculate)="amountCalculate()"></app-popup-delete> -->
+<!-- <app-popup-delete-bucket [index]="currentIndex" [product]="currentProd" (amountCalculate)="amountCalculate()"></app-popup-delete-bucket> -->

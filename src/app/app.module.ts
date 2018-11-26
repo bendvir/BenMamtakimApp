@@ -18,6 +18,11 @@ import { SummeryComponent } from './components/summery/summery.component';
 import { BucketComponent } from './components/bucket/bucket.component';
 import { BasketService } from './services/basket.service';
 import { InfoComponent } from './components/info/info.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { PopupDeleteComponent } from './shards/popup-delete/popup-delete.component';
+import { PopupInfoComponent } from './shards/popup-info/popup-info.component';
+import { TalkWithUsComponent } from './components/talk-with-us/talk-with-us.component';
+import { PopupListComponent } from './shards/popup-list/popup-list.component';
 // import { SuccessComponent } from './components/success/success.component';
 
 const appRoutes: Routes = [
@@ -28,7 +33,8 @@ const appRoutes: Routes = [
   {path: 'producs_cat3', component:ProducsComponent},
   {path: 'producs_purim', component:ProducsComponent},
   {path: 'producs_passover', component:ProducsComponent},
-  {path: 'contact', component:ContactComponent},
+  {path: 'producs_roshAshana', component:ProducsComponent},
+  {path: 'contact', component:ContactComponent,},
   {path: 'today_sale', component:TodaysaleComponent},
   {path: 'summery', component:SummeryComponent},
   {path: 'error', component:ErrorPageComponent}
@@ -49,7 +55,13 @@ const appRoutes: Routes = [
     TodaysaleComponent,
     SummeryComponent,
     BucketComponent,
-    InfoComponent
+    InfoComponent,
+    FooterComponent,
+    PopupDeleteComponent,
+    PopupInfoComponent,
+    TalkWithUsComponent,
+    PopupListComponent,
+  
   ],
   imports: [
     BrowserModule, HttpClientModule,

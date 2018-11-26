@@ -1,0 +1,27 @@
+<div class="modal fade" id="DeleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h2>האם להסיר פריט זה מהרשימה?</h2>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" *ngIf="producBasketList.length!=0">
+                <div class="body-main">
+                    <div class="body-title">
+                        {{producBasketList[index].title}}
+                    </div>
+                    <div>
+                        <img class="fixedImg" align="middle" src="/assets/{{producBasketList[index].subCategoryPic}}/{{producBasketList[index].link}}"
+                        />
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pos-yes" data-dismiss="modal" (click)="removeProductFromBasket(i, prod)">כן</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">לא</button>
+            </div>
+        </div>
+    </div>
+</div>

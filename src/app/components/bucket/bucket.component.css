@@ -1,15 +1,14 @@
 .bucket-sumerry{
-    /* background-image: url(/assets/dafAbait/13.png);  */
-    position: fixed;
+    /* position: fixed;
     width: 180px;
     height: 180px;
     top: 0;
+    
+    right: -1325px; */
     bottom: 0;
-    right: -1325px;
-    /* background-image: url(/assets/dafAbait/add.ico);         */
     box-shadow: 10px 10px 30px 0 #725151;
     display: inline-block;
-    padding: 3px;
+    padding: 10px;
     z-index: 1;
     cursor: pointer;
     text-align: center;
@@ -28,16 +27,14 @@
     text-align: right;
 }
 .count-items{
-margin-bottom: 10px;
+margin-top: 20px;
 }
-.title-phone{   
+.title-full{   
     color: green;
     font-weight: bold;
     text-decoration: underline;
+    margin-bottom: 20px
 }
-/* .asd{
-    font-size: 1.5rem;
-} */
 @media (max-width: 992px) and (min-width: 320px){
     .bucket-sumerry {
         top: -574px;
@@ -54,7 +51,48 @@ margin-bottom: 10px;
     .btn-success{
         margin-top: 1px;        
     }
-    .title-phone{
-        margin-bottom: -4px;        
+}
+.new-item{
+    margin-top: 5px;
+    white-space: nowrap;
+    border-bottom: 1px dotted black;
+    animation: new-item-animation .3s linear forwards;
+}
+@keyframes new-item-animation {
+    from {
+        opacity: 0;
+        transform: translateY(-400px);
+}
+ 
+    to {
+        opacity: 1;
+        transform : translateY(0);
     }
+}
+select{
+    width: 100%;
+}
+.tooltip-main{
+    position: relative;    
+}
+
+.tooltip-main .tooltiptext {
+    visibility: hidden;
+    width: 150px;
+    background-color: #d94500;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+
+}
+.tooltip-main:hover .tooltiptext {
+    visibility: visible;
+}
+.summery-items{
+    margin-top: 10px;
 }

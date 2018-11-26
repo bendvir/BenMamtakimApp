@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService, Product } from '../../services/basket.service';
-import { fail } from 'assert';
-import { HttpHeaders, HttpParams, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Route } from '@angular/compiler/src/core';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -68,34 +66,24 @@ export class SummeryComponent implements OnInit {
     gifWaiting = false;
     noPickUpSelect = false;
     fullAddress = false;
+    currentIndex = 0;
+    currentProd: Product;
 
   ngOnInit() {    
     //trigger the ProductList and get the all array every select
     this.basketService.basketProductList.subscribe((res:Array<Product>)=>{
       this.producBasketList = res;
-
     })
     //trigger the SummeryPrices and get the updated res every select
     this.basketService.finalPriceSum.subscribe(res=>{
       this.finalPrice = res;
-
     })
   } 
   //remove the line by index and ID and then calculate the new final price 
-  removeProductFromBasket(index, product: Product){
-    let prodIndex = -1;
-    for(let i = 0; i<this.producBasketList.length ; i++){
-      if(this.producBasketList[i].id ==product.id && i==index){        
-        if(this.producBasketList[i].priceType==0){
-          this.finalPrice -= this.producBasketList[i].price * this.producBasketList[i].amount/1000;
-        }
-        else{
-          this.finalPrice -= this.producBasketList[i].price * this.producBasketList[i].amount;
-        }    
-        this.producBasketList.splice(i, 1);    
-      }
-      this.basketService.changeFinalPrice(this.finalPrice);
-    }
+  removeProductFromBasket(index, product: Product){   
+    this.currentIndex = index;
+    this.currentProd = product; 
+    //this.basketService.removeProductFromBasket(index, product)   
   }
 // function for calculate the Price of Product (1 unit / 250gr ) and so on
   calculatefinalPrice(product: Product){
@@ -111,17 +99,7 @@ export class SummeryComponent implements OnInit {
   }
   // function for ChangeAmount selected in the page (if the user change the amount selected so the Res is change aswell)
   changeAmount(i, $event){
-    this.producBasketList[i].amount =parseInt($event.target.value);   
-    this.finalPrice = 0;
-      for(let i = 0; i<this.producBasketList.length ; i++){   
-      if(this.producBasketList[i].priceType==0){
-        this.finalPrice += this.producBasketList[i].price * this.producBasketList[i].amount/1000;
-      }
-      else{
-        this.finalPrice += this.producBasketList[i].price * this.producBasketList[i].amount;
-      }
-    }
-    this.basketService.changeFinalPrice(this.finalPrice);
+   this.basketService.changeAmount(i, $event)
   }
   //function for selected Cities and add 25 shekel to the delivery
   changeCity($event){

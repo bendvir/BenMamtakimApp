@@ -102,7 +102,7 @@ font-size: 13px;
   }
   .product-item .btn-success{
         margin: 5px 0;
-  }
+  }  
   .google-maps{
         margin-top: 10px;
   }
@@ -182,6 +182,9 @@ font-size: 13px;
       .cover-photo{
             width: 80%
       }
+}
+.btn-color{
+      background-color: #D41E41
 }
 .upgrade-class{
       height: 80% !important;
