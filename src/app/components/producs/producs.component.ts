@@ -81,7 +81,7 @@ export class ProducsComponent implements OnInit {
         {id: 35, link: "16.jpg", title: "חמוציות ללא סוכר", price:40, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 36, link: "17.jpg", title: "תמר מגהול", price:24, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 37, link: "18.jpg", title: " שקד ישראלי טבעי", price:44, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        {id: 38, link: "19.jpg", title: "פיסטוק טבעי", price:50, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 38, link: "19.jpg", title: "פיסטוק טבעי", price:54, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 39, link: "20.jpg", title: "אגוזי לוז טבעי", price:40, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 40, link: "21.jpg", title: "אננס ופפיה", price:32, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 41, link: "22.jpg", title: "בוטנים טבעי", price:20, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},

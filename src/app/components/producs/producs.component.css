@@ -82,7 +82,7 @@ font-size: 13px;
   .product-item .fixedImg img{
       height: 100%;
       width: 100%;
-      cursor: zoom-in;
+      /* cursor: zoom-in; */
       
       
   }

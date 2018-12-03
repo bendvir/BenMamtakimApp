@@ -11,3 +11,6 @@
 .body-title{
     font-weight: bold;
 }
+.modal-dialog{
+    z-index: 12;
+}
