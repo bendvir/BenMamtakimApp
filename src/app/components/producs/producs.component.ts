@@ -61,7 +61,7 @@ export class ProducsComponent implements OnInit {
     }
     if(link.indexOf("cat2")>-1){
       this.cat[1] = true;
-      this.title = "קטלוג פירות יבשים";
+      this.title = "קטלוג פירות יבשים";   
       this.productList = [
         {id: 22, link: "1.jpg", title: "תמר אמרי", price: 20, priceType: 0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 23, link: "2.jpg", title: "שזיף שחור עם גרעין", price:26, priceType: 0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
@@ -69,37 +69,37 @@ export class ProducsComponent implements OnInit {
         {id: 25, link: "4.jpg", title: "צימוק צהוב גדול", price:30, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         // {id: 1, link: "5.jpg", title: "בננות מיובשות", price:"25", subCategoryPic: "PerotYeveshim"},
         {id: 26, link: "6.jpg", title: "צימוק פרסי", price:44, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        // {id: 27, link: "7.jpg", title: "אגוזי מלך עם קליפה", price:20, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 27, link: "7.jpg", title: "אגוזי מלך עם קליפה", price:20, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 28, link: "8.jpg", title: "תמר דקל נור", price:20, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         // {id: 1, link: "9.jpg", title: "ערמונים", price:"16", subCategoryPic: "PerotYeveshim"},
         {id: 29, link: "10.jpg", title: "תאנים מיובשות", price:38, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 30, link: "11.jpg", title: "חמוציות", price:24, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        {id: 31, link: "12.jpg", title: "שזיף ללא גרעין", price:30, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        {id: 32, link: "13.jpg", title: "תמר חדראווי", price:18, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 31, link: "12.jpg", title: "שזיף ללא גרעין", price:32, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 32, link: "13.jpg", title: "תמר חדראווי", price:20, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 33, link: "14.jpg", title: "צימוק צהוב קטן", price:24, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 34, link: "15.jpg", title: "צימוק חום", price:20, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 35, link: "16.jpg", title: "חמוציות ללא סוכר", price:40, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 36, link: "17.jpg", title: "תמר מגהול", price:24, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 37, link: "18.jpg", title: " שקד ישראלי טבעי", price:44, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        {id: 38, link: "19.jpg", title: "פיסטוק טבעי", price:54, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        {id: 39, link: "20.jpg", title: "אגוזי לוז טבעי", price:40, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        {id: 40, link: "21.jpg", title: "אננס ופפיה", price:32, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 38, link: "19.jpg", title: "פיסטוק טבעי", price:55, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 39, link: "20.jpg", title: "אגוזי לוז טבעי", price:44, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 40, link: "21.jpg", title: "אננס ופפיה", price:36, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 41, link: "22.jpg", title: "בוטנים טבעי", price:20, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        {id: 42, link: "23.jpg", title: "שקד ישראלי ענק טבעי", price:50, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 42, link: "23.jpg", title: "שקד ישראלי ענק טבעי", price:54, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 43, link: "24.jpg", title: "פקאן טבעי", price:76, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 44, link: "25.jpg", title: "שקד אמריקאי טבעי", price:50, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 45, link: "26.jpg", title: "קשיו טבעי", price:50, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 46, link: "27.jpg", title: "אגוזי ברזיל טבעי", price:60, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 47, link: "28.jpg", title: "אגוזי מלך (קליפורניה)", price:38, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        {id: 48, link: "29.jpg", title: "משמש אוזבקי", price:30, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
-        {id: 48, link: "33.jpg", title: "צנוברים", price:99, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 48, link: "29.jpg", title: "משמש אוזבקי", price:32, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
+        {id: 48, link: "33.jpg", title: "צנוברים", price:180, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 48, link: "34.jpg", title: "גרעיני חמניה", price:20, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0},
         {id: 48, link: "35.jpg", title: "גרעיני דלעת", price:34, priceType:0, amount:250, subCategoryPic: "PerotYeveshim", priceperunit:0}];
-    }
+    }    
     if(link.indexOf("cat3")>-1){
       this.cat[2] = true;
-      this.title = "אירועים ומתנות";
-      this.productList = [
+      this.title = "אירועים ומתנות";   
+      this.productList = [ 
       {id: 49, link: "7.jpg", title: "מארז בונבון", price: 15, priceType:1, amount:1, subCategoryPic: "Gifts", priceperunit:0}, 
       {id: 50, link: "8.jpg", title: "פיררו רושה מיקס", price: 40, priceType:1, amount:1, subCategoryPic: "Gifts", priceperunit:0}, 
       {id: 51, link: "9.jpg", title: "פיררו רושה קטן", price: 24, priceType:1, amount:1, subCategoryPic: "Gifts", priceperunit:0},

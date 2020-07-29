@@ -21,7 +21,6 @@ export class PopupDeleteComponent implements OnInit {
   ngOnInit() {
     this.basketService.basketProductList.subscribe((res:Array<Product>)=>{
       this.producBasketList = res;
-    
   });
 }
 
