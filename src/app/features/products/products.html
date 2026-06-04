@@ -1,0 +1,58 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="section-title">{{ categoryTitle() }}</h1>
+    <p class="product-count">{{ products().length }} מוצרים</p>
+  </div>
+
+  <div class="products-grid">
+    @for (product of products(); track product.id) {
+      <div class="product-card">
+        <div class="product-img-wrapper">
+          <span class="img-placeholder">
+            @if (product.category === 'cat1') { 🍫 }
+            @else if (product.category === 'cat2') { 🥜 }
+            @else if (product.category === 'cat3') { 🎁 }
+            @else if (product.category === 'passover') { 🍷 }
+            @else { 🍬 }
+          </span>
+        </div>
+
+        <div class="product-body">
+          <h3 class="product-title">{{ product.title }}</h3>
+
+          @if (product.priceType === 0) {
+            <p class="product-price-label">₪{{ product.price }} לק"ג</p>
+          } @else {
+            <p class="product-price-label">₪{{ product.price }} ליחידה</p>
+          }
+
+          <mat-form-field appearance="outline" class="amount-field">
+            <mat-label>כמות</mat-label>
+            <mat-select [(ngModel)]="selectedAmounts[product.id]">
+              @if (product.priceType === 0) {
+                @for (w of weightOptions; track w) {
+                  <mat-option [value]="w">
+                    @if (w < 1000) { {{ w }} גרם }
+                    @else { {{ w / 1000 }} ק"ג }
+                  </mat-option>
+                }
+              } @else {
+                @for (u of unitOptions; track u) {
+                  <mat-option [value]="u">{{ u }} יח'</mat-option>
+                }
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <div class="product-actions">
+            <span class="calc-price">סה"כ: ₪{{ calcPrice(product) }}</span>
+            <button mat-raised-button color="primary" (click)="addToCart(product)" class="add-btn">
+              <mat-icon>add_shopping_cart</mat-icon>
+              הוסף לסל
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

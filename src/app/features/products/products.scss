@@ -1,0 +1,43 @@
+.page-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+
+  .product-count {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+}
+
+.amount-field {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.product-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  .calc-price {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.05rem;
+  }
+
+  .add-btn {
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    gap: 0.25rem;
+  }
+}
+
+.product-price-label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}

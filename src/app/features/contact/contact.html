@@ -1,0 +1,63 @@
+<div class="page-container contact-page">
+  <h1 class="section-title">צור קשר</h1>
+
+  <div class="contact-layout">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="contact-form">
+      <mat-form-field appearance="outline">
+        <mat-label>שם מלא</mat-label>
+        <input matInput formControlName="name">
+        @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+          <mat-error>שדה חובה</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>טלפון</mat-label>
+        <input matInput formControlName="phone" dir="ltr">
+        @if (form.get('phone')?.hasError('pattern') && form.get('phone')?.touched) {
+          <mat-error>מספר טלפון לא תקין</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>אימייל</mat-label>
+        <input matInput formControlName="email" dir="ltr">
+        @if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+          <mat-error>אימייל לא תקין</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>הודעה</mat-label>
+        <textarea matInput formControlName="message" rows="5" placeholder="כתוב לנו..."></textarea>
+        @if (form.get('message')?.hasError('required') && form.get('message')?.touched) {
+          <mat-error>שדה חובה</mat-error>
+        }
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" class="send-btn">
+        <mat-icon>send</mat-icon> שלח הודעה
+      </button>
+    </form>
+
+    <div class="contact-info">
+      <h3>פרטי התקשרות</h3>
+      <div class="info-item">
+        <mat-icon>phone</mat-icon>
+        <span>050-0000000</span>
+      </div>
+      <div class="info-item">
+        <mat-icon>email</mat-icon>
+        <span>info&#64;mamtaki-hatikva.co.il</span>
+      </div>
+      <div class="info-item">
+        <mat-icon>location_on</mat-icon>
+        <span>רחוב התקווה 1, תל אביב</span>
+      </div>
+      <div class="info-item">
+        <mat-icon>schedule</mat-icon>
+        <span>ראשון–חמישי: 9:00–18:00<br>שישי: 9:00–13:00</span>
+      </div>
+    </div>
+  </div>
+</div>

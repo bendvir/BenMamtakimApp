@@ -1,0 +1,103 @@
+<div class="page-container">
+  <h1 class="section-title">סיום הזמנה</h1>
+
+  @if (basket.items().length === 0) {
+    <div class="empty-state">
+      <p>הסל שלך ריק. <a routerLink="/products/cat1">חזור לקנייה</a></p>
+    </div>
+  } @else {
+    <div class="checkout-layout">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="checkout-form">
+        <h3>פרטי התקשרות</h3>
+
+        <mat-form-field appearance="outline">
+          <mat-label>שם מלא</mat-label>
+          <input matInput formControlName="fullName" placeholder="ישראל ישראלי">
+          @if (form.get('fullName')?.hasError('required') && form.get('fullName')?.touched) {
+            <mat-error>שדה חובה</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>טלפון</mat-label>
+          <input matInput formControlName="phone" placeholder="050-0000000" dir="ltr">
+          @if (form.get('phone')?.hasError('pattern') && form.get('phone')?.touched) {
+            <mat-error>מספר טלפון לא תקין</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>אימייל</mat-label>
+          <input matInput formControlName="email" placeholder="you@example.com" dir="ltr">
+          @if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+            <mat-error>כתובת אימייל לא תקינה</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-divider></mat-divider>
+        <h3 style="margin-top:1.5rem">אופן קבלת ההזמנה</h3>
+
+        <mat-radio-group formControlName="deliveryType" class="delivery-options" (change)="onDeliveryChange()">
+          <mat-radio-button value="delivery" class="delivery-opt">
+            <span>🚚 משלוח לבית (₪{{ deliveryFee }})</span>
+          </mat-radio-button>
+          <mat-radio-button value="pickup" class="delivery-opt">
+            <span>🏪 איסוף עצמי (חינם)</span>
+          </mat-radio-button>
+        </mat-radio-group>
+
+        @if (isDelivery) {
+          <mat-form-field appearance="outline">
+            <mat-label>עיר</mat-label>
+            <mat-select formControlName="city">
+              @for (city of cities; track city) {
+                <mat-option [value]="city">{{ city }}</mat-option>
+              }
+            </mat-select>
+            @if (form.get('city')?.hasError('required') && form.get('city')?.touched) {
+              <mat-error>בחר עיר</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>כתובת מלאה</mat-label>
+            <input matInput formControlName="address" placeholder="רחוב, מספר, דירה">
+            @if (form.get('address')?.hasError('required') && form.get('address')?.touched) {
+              <mat-error>שדה חובה</mat-error>
+            }
+          </mat-form-field>
+        }
+
+        <button mat-raised-button color="primary" type="submit" class="submit-btn" [disabled]="submitting()">
+          <mat-icon>check_circle</mat-icon>
+          {{ submitting() ? 'שולח...' : 'אישור הזמנה — ₪' + (finalTotal | number:'1.0-2') }}
+        </button>
+      </form>
+
+      <div class="order-summary">
+        <h3>סיכום הזמנה</h3>
+        @for (item of basket.items(); track item.id) {
+          <div class="summary-item">
+            <span class="s-title">{{ item.title }}</span>
+            <span class="s-price">₪{{ item.pricePerUnit | number:'1.0-2' }}</span>
+          </div>
+        }
+        <mat-divider></mat-divider>
+        <div class="summary-row">
+          <span>מוצרים</span>
+          <span>₪{{ basket.totalPrice() | number:'1.0-2' }}</span>
+        </div>
+        @if (isDelivery) {
+          <div class="summary-row">
+            <span>משלוח</span>
+            <span>₪{{ deliveryFee }}</span>
+          </div>
+        }
+        <div class="summary-total">
+          <span>סה"כ לתשלום</span>
+          <span>₪{{ finalTotal | number:'1.0-2' }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>

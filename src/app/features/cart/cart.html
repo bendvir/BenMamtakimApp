@@ -1,0 +1,84 @@
+<div class="page-container">
+  <h1 class="section-title">סל הקניות</h1>
+
+  @if (basket.items().length === 0) {
+    <div class="empty-cart">
+      <span class="empty-icon">🛒</span>
+      <h3>הסל שלך ריק</h3>
+      <p>הוסף מוצרים מהקטלוג שלנו</p>
+      <a routerLink="/products/cat1" mat-raised-button color="primary">
+        לקטלוג המוצרים
+      </a>
+    </div>
+  } @else {
+    <div class="cart-layout">
+      <div class="cart-items">
+        @for (item of basket.items(); track item.id) {
+          <div class="cart-item">
+            <div class="item-icon">
+              @if (item.category === 'cat1') { 🍫 }
+              @else if (item.category === 'cat2') { 🥜 }
+              @else if (item.category === 'cat3') { 🎁 }
+              @else { 🍬 }
+            </div>
+
+            <div class="item-details">
+              <h4 class="item-title">{{ item.title }}</h4>
+              <p class="item-base-price">
+                @if (item.priceType === 0) { ₪{{ item.price }} לק"ג }
+                @else { ₪{{ item.price }} ליחידה }
+              </p>
+            </div>
+
+            <mat-form-field appearance="outline" class="amount-select">
+              <mat-select [ngModel]="item.amount" (ngModelChange)="updateAmount(item.id, $event)">
+                @if (item.priceType === 0) {
+                  @for (w of weightOptions; track w) {
+                    <mat-option [value]="w">
+                      @if (w < 1000) { {{ w }}ג' } @else { {{ w/1000 }}ק"ג }
+                    </mat-option>
+                  }
+                } @else {
+                  @for (u of unitOptions; track u) {
+                    <mat-option [value]="u">{{ u }} יח'</mat-option>
+                  }
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <div class="item-price">₪{{ item.pricePerUnit }}</div>
+
+            <button mat-icon-button color="warn" (click)="remove(item.id)" class="remove-btn">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+
+      <div class="cart-summary">
+        <h3>סיכום הזמנה</h3>
+
+        <div class="summary-row">
+          <span>פריטים ({{ basket.totalItems() }})</span>
+          <span>₪{{ basket.totalPrice() | number:'1.0-2' }}</span>
+        </div>
+        <div class="summary-row delivery">
+          <span>משלוח</span>
+          <span>יחושב בהמשך</span>
+        </div>
+        <div class="summary-total">
+          <span>סה"כ</span>
+          <span>₪{{ basket.totalPrice() | number:'1.0-2' }}</span>
+        </div>
+
+        <a routerLink="/checkout" mat-raised-button color="primary" class="checkout-btn">
+          <mat-icon>payment</mat-icon>
+          המשך לתשלום
+        </a>
+        <a routerLink="/products/cat1" mat-stroked-button class="continue-btn">
+          המשך בקנייה
+        </a>
+      </div>
+    </div>
+  }
+</div>

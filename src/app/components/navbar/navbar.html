@@ -1,0 +1,41 @@
+<nav class="navbar-main">
+  <div class="navbar-inner">
+    <a routerLink="/" class="brand">
+      <span class="brand-icon">🍬</span>
+      <span class="brand-text">ממתקי התקווה</span>
+    </a>
+
+    <button class="hamburger" (click)="menuOpen = !menuOpen" [class.open]="menuOpen">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav-links" [class.open]="menuOpen">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="menuOpen=false">בית</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle">מוצרים ▾</a>
+        <ul class="dropdown-menu-custom">
+          <li><a routerLink="/products/cat1" (click)="menuOpen=false">🍫 המוצרים המתוקים</a></li>
+          <li><a routerLink="/products/cat2" (click)="menuOpen=false">🥜 פירות יבשים</a></li>
+          <li><a routerLink="/products/cat3" (click)="menuOpen=false">🎁 אירועים ומתנות</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle">חגים ▾</a>
+        <ul class="dropdown-menu-custom">
+          <li><a routerLink="/products/passover" (click)="menuOpen=false">🍷 פסח</a></li>
+          <li><a routerLink="/products/roshAshana" (click)="menuOpen=false">🍎 ראש השנה</a></li>
+        </ul>
+      </li>
+      <li><a routerLink="/about" routerLinkActive="active" (click)="menuOpen=false">אודות</a></li>
+      <li><a routerLink="/contact" routerLinkActive="active" (click)="menuOpen=false">צור קשר</a></li>
+      <li>
+        <a routerLink="/cart" routerLinkActive="active" class="cart-link" (click)="menuOpen=false">
+          <i class="fas fa-shopping-cart"></i>
+          @if (basket.totalItems() > 0) {
+            <span class="cart-count">{{ basket.totalItems() }}</span>
+          }
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
