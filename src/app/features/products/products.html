@@ -8,13 +8,7 @@
     @for (product of products(); track product.id) {
       <div class="product-card">
         <div class="product-img-wrapper">
-          <span class="img-placeholder">
-            @if (product.category === 'cat1') { 🍫 }
-            @else if (product.category === 'cat2') { 🥜 }
-            @else if (product.category === 'cat3') { 🎁 }
-            @else if (product.category === 'passover') { 🍷 }
-            @else { 🍬 }
-          </span>
+          <img [src]="product.link" [alt]="product.title" loading="lazy">
         </div>
 
         <div class="product-body">

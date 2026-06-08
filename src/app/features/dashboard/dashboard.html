@@ -1,0 +1,172 @@
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="dash-sidebar">
+    <div class="sidebar-brand">
+      <mat-icon>storefront</mat-icon>
+      <span>ניהול חנות</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active">
+        <mat-icon>dashboard</mat-icon>
+        <span>לוח בקרה</span>
+      </a>
+      <a routerLink="/products/cat1" class="nav-item">
+        <mat-icon>inventory_2</mat-icon>
+        <span>מוצרים</span>
+      </a>
+      <a class="nav-item">
+        <mat-icon>receipt_long</mat-icon>
+        <span>הזמנות</span>
+      </a>
+      <a class="nav-item">
+        <mat-icon>people</mat-icon>
+        <span>לקוחות</span>
+      </a>
+      <a class="nav-item">
+        <mat-icon>bar_chart</mat-icon>
+        <span>דוחות</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/" class="nav-item">
+        <mat-icon>storefront</mat-icon>
+        <span>חזור לחנות</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="dash-main">
+
+    <!-- HEADER -->
+    <header class="dash-header">
+      <div>
+        <h1>לוח בקרה</h1>
+        <p class="dash-date">יוני 2026 · עדכון אחרון: עכשיו</p>
+      </div>
+      <div class="dash-header-actions">
+        <button mat-stroked-button class="header-btn">
+          <mat-icon>download</mat-icon>
+          ייצא דוח
+        </button>
+        <button mat-raised-button color="primary" class="header-btn">
+          <mat-icon>add</mat-icon>
+          הזמנה חדשה
+        </button>
+      </div>
+    </header>
+
+    <!-- KPI CARDS -->
+    <div class="kpi-grid">
+      @for (kpi of kpis; track kpi.label) {
+        <div class="kpi-card" [style.--kpi-color]="kpi.color">
+          <div class="kpi-icon-wrap">
+            <mat-icon>{{ kpi.icon }}</mat-icon>
+          </div>
+          <div class="kpi-body">
+            <p class="kpi-label">{{ kpi.label }}</p>
+            <span class="kpi-value">{{ kpi.value }}</span>
+          </div>
+          <div class="kpi-change" [class.up]="kpi.up" [class.down]="!kpi.up">
+            <mat-icon>{{ kpi.up ? 'trending_up' : 'trending_down' }}</mat-icon>
+            {{ kpi.change }}
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="charts-row">
+
+      <!-- BAR CHART -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <h2>הכנסות חודשיות</h2>
+          <span class="card-sub">ינואר – יוני 2026</span>
+        </div>
+        <div class="bar-chart">
+          @for (bar of salesData; track bar.month) {
+            <div class="bar-col">
+              <span class="bar-value">₪{{ (bar.value / 1000) | number:'1.0-0' }}K</span>
+              <div class="bar-track">
+                <div class="bar-fill" [style.height]="getBarHeight(bar.value, bar.max)"></div>
+              </div>
+              <span class="bar-label">{{ bar.month }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- CATEGORY STATS -->
+      <div class="card category-card">
+        <div class="card-header">
+          <h2>מכירות לפי קטגוריה</h2>
+          <span class="card-sub">החודש הנוכחי</span>
+        </div>
+        <div class="category-list">
+          @for (cat of categoryStats; track cat.name) {
+            <div class="cat-stat">
+              <div class="cat-stat-header">
+                <span class="cat-stat-name">{{ cat.name }}</span>
+                <span class="cat-stat-pct">{{ cat.percent }}%</span>
+              </div>
+              <div class="cat-progress-track">
+                <div class="cat-progress-fill"
+                     [style.width.%]="cat.percent"
+                     [style.background]="cat.color">
+                </div>
+              </div>
+              <div class="cat-stat-meta">
+                <span>{{ cat.sales }} הזמנות</span>
+                <span>₪{{ cat.revenue | number }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RECENT ORDERS TABLE -->
+    <div class="card orders-card">
+      <div class="card-header">
+        <h2>הזמנות אחרונות</h2>
+        <span class="card-sub">{{ recentOrders.length }} הזמנות הוצגו</span>
+      </div>
+      <div class="orders-table-wrap">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>מזהה</th>
+              <th>לקוח</th>
+              <th>מוצר</th>
+              <th>סכום</th>
+              <th>סטטוס</th>
+              <th>תאריך</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of recentOrders; track order.id) {
+              <tr>
+                <td class="order-id">{{ order.id }}</td>
+                <td>{{ order.customer }}</td>
+                <td class="order-product">{{ order.product }}</td>
+                <td class="order-amount">₪{{ order.amount | number }}</td>
+                <td>
+                  <span class="status-badge" [class]="statusClass(order.status)">
+                    {{ order.status }}
+                  </span>
+                </td>
+                <td class="order-date">{{ order.date }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>

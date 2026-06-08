@@ -1,39 +1,53 @@
-<div class="hero">
-  <div class="hero-content">
-    <h1 class="hero-title">ממתקי התקווה</h1>
-    <p class="hero-subtitle">פירות יבשים, ממתקים ומארזי מתנה איכותיים</p>
-    <div class="hero-actions">
-      <a routerLink="/products/cat1" mat-raised-button color="primary" class="hero-btn">
-        לקטלוג המוצרים
-      </a>
-      <a routerLink="/contact" mat-stroked-button class="hero-btn-outline">
-        צור קשר
-      </a>
+<!-- HERO — large auto-rotating image slider (m-egozim style) -->
+<section class="hero-slider">
+  @for (slide of heroSlides; track slide.image; let i = $index) {
+    <div class="hero-slide" [class.active]="currentSlide() === i">
+      <img [src]="slide.image" [alt]="slide.title" [attr.loading]="i === 0 ? 'eager' : 'lazy'">
+      <div class="hero-slide__overlay"></div>
+      <div class="hero-slide__content">
+        <span class="home-eyebrow">{{ slide.eyebrow }}</span>
+        <h1>{{ slide.title }}</h1>
+        <p>{{ slide.text }}</p>
+        <div class="home-hero__btns">
+          <a routerLink="/products/cat1" class="btn-primary-olive">לקטלוג</a>
+          <a routerLink="/landing" class="btn-outline-olive">עוד עלינו</a>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="hero-image">
-    <span class="hero-emoji">🍬🥜🎁</span>
-  </div>
-</div>
+  }
 
+  <button class="hero-arrow hero-arrow--prev" (click)="prev()" aria-label="הקודם"><mat-icon>chevron_right</mat-icon></button>
+  <button class="hero-arrow hero-arrow--next" (click)="next()" aria-label="הבא"><mat-icon>chevron_left</mat-icon></button>
+
+  <div class="hero-dots">
+    @for (slide of heroSlides; track slide.image; let i = $index) {
+      <button class="hero-dot" [class.active]="currentSlide() === i" (click)="goTo(i)" [attr.aria-label]="'שקופית ' + (i + 1)"></button>
+    }
+  </div>
+</section>
+
+<!-- CATEGORIES -->
 <section class="page-container">
+  <span class="eyebrow-label">הקולקציה</span>
   <h2 class="section-title">הקטגוריות שלנו</h2>
-  <div class="categories-grid">
+  <div class="category-tiles">
     @for (cat of categories; track cat.route) {
-      <a [routerLink]="cat.route" class="category-card">
-        <span class="cat-icon">{{ cat.icon }}</span>
-        <h3>{{ cat.title }}</h3>
-        <p>{{ cat.desc }}</p>
-        <span class="cat-arrow">← לצפייה</span>
+      <a [routerLink]="cat.route" class="category-tile">
+        <div class="tile-img"><img [src]="cat.image" [alt]="cat.title" loading="lazy"></div>
+        <div class="tile-label">
+          <h3>{{ cat.title }}</h3>
+          <p>{{ cat.desc }}</p>
+        </div>
       </a>
     }
   </div>
 
-  <h2 class="section-title" style="margin-top:3rem">מוצרי חג</h2>
+  <span class="eyebrow-label" style="margin-top:4rem; display:block">עונות ומועדים</span>
+  <h2 class="section-title">מוצרי חג</h2>
   <div class="holidays-grid">
     @for (h of holidays; track h.route) {
       <a [routerLink]="h.route" class="holiday-card">
-        <span class="cat-icon">{{ h.icon }}</span>
+        <mat-icon>{{ h.icon }}</mat-icon>
         <h3>{{ h.title }}</h3>
         <p>{{ h.desc }}</p>
       </a>
@@ -41,26 +55,27 @@
   </div>
 </section>
 
+<!-- FEATURES -->
 <section class="features-section">
   <div class="page-container">
     <div class="features-grid">
       <div class="feature-item">
-        <span class="feature-icon">🚚</span>
+        <mat-icon class="feature-icon">local_shipping</mat-icon>
         <h4>משלוח לכל הארץ</h4>
         <p>משלוח מהיר ואמין עד הבית</p>
       </div>
       <div class="feature-item">
-        <span class="feature-icon">⭐</span>
+        <mat-icon class="feature-icon">verified</mat-icon>
         <h4>מוצרים איכותיים</h4>
         <p>רק המוצרים הטובים ביותר</p>
       </div>
       <div class="feature-item">
-        <span class="feature-icon">🎁</span>
+        <mat-icon class="feature-icon">card_giftcard</mat-icon>
         <h4>מארזי מתנה</h4>
         <p>עיצוב אישי לכל אירוע</p>
       </div>
       <div class="feature-item">
-        <span class="feature-icon">💳</span>
+        <mat-icon class="feature-icon">lock</mat-icon>
         <h4>תשלום מאובטח</h4>
         <p>רכישה מאובטחת ובטוחה</p>
       </div>

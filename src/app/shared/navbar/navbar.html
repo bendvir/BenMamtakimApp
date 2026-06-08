@@ -1,68 +1,58 @@
+<!-- ANNOUNCEMENT BAR -->
+<div class="announce-bar">
+  <span>משלוח חינם בהזמנות מעל ₪250 · 058-5333673</span>
+</div>
+
+<!-- MAIN NAVBAR -->
 <nav class="navbar-main">
   <div class="navbar-inner">
 
-    <a routerLink="/" class="brand" (click)="closeMenu()">
-      <span class="brand-emoji">🍬</span>
-      <span class="brand-text">ממתקי התקווה</span>
-    </a>
-
-    <ul class="nav-links" [class.open]="mobileMenuOpen()">
-      <li>
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
-           (click)="closeMenu()">בית</a>
-      </li>
-
-      <li>
-        <button mat-button [matMenuTriggerFor]="productsMenu" class="nav-menu-btn">
-          מוצרים <mat-icon>expand_more</mat-icon>
-        </button>
-        <mat-menu #productsMenu="matMenu" xPosition="before">
-          <a mat-menu-item routerLink="/products/cat1" (click)="closeMenu()">
-            <mat-icon>cake</mat-icon> המוצרים המתוקים
-          </a>
-          <a mat-menu-item routerLink="/products/cat2" (click)="closeMenu()">
-            <mat-icon>eco</mat-icon> פירות יבשים
-          </a>
-          <a mat-menu-item routerLink="/products/cat3" (click)="closeMenu()">
-            <mat-icon>card_giftcard</mat-icon> אירועים ומתנות
-          </a>
-        </mat-menu>
-      </li>
-
-      <li>
-        <button mat-button [matMenuTriggerFor]="holidaysMenu" class="nav-menu-btn">
-          חגים <mat-icon>expand_more</mat-icon>
-        </button>
-        <mat-menu #holidaysMenu="matMenu" xPosition="before">
-          <a mat-menu-item routerLink="/products/passover" (click)="closeMenu()">
-            <mat-icon>wine_bar</mat-icon> חג פסח
-          </a>
-          <a mat-menu-item routerLink="/products/roshAshana" (click)="closeMenu()">
-            <mat-icon>apple</mat-icon> ראש השנה
-          </a>
-        </mat-menu>
-      </li>
-
-      <li>
-        <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">אודות</a>
-      </li>
-      <li>
-        <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">צור קשר</a>
-      </li>
-    </ul>
-
-    <div class="nav-actions">
-      <a routerLink="/cart" class="cart-btn" (click)="closeMenu()">
+    <!-- LEFT: actions -->
+    <div class="nav-left">
+      <a routerLink="/cart" class="nav-icon-btn" (click)="closeMenu()" aria-label="עגלת קניות">
         <mat-icon [matBadge]="basket.totalItems() > 0 ? basket.totalItems() : null"
-                  matBadgeColor="warn" matBadgePosition="above before">
-          shopping_cart
+                  matBadgeColor="warn" matBadgeSize="small" matBadgePosition="above before">
+          shopping_bag
         </mat-icon>
       </a>
-
-      <button class="hamburger" (click)="toggleMenu()" [class.open]="mobileMenuOpen()">
+      <a routerLink="/dashboard" class="nav-icon-btn" (click)="closeMenu()" aria-label="לוח בקרה">
+        <mat-icon>dashboard</mat-icon>
+      </a>
+      <button class="hamburger" (click)="toggleMenu()" [class.open]="mobileMenuOpen()" aria-label="תפריט">
         <span></span><span></span><span></span>
       </button>
     </div>
+
+    <!-- CENTER: logo -->
+    <a routerLink="/" class="brand" (click)="closeMenu()">
+      <mat-icon class="brand-icon">storefront</mat-icon>
+      <div class="brand-words">
+        <span class="brand-name">ממתקי התקווה</span>
+        <span class="brand-sub">MAMTAKIM HATIKVA</span>
+      </div>
+    </a>
+
+    <!-- RIGHT: nav links -->
+    <ul class="nav-links" [class.open]="mobileMenuOpen()">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="closeMenu()">בית</a></li>
+      <li>
+        <button mat-button [matMenuTriggerFor]="productsMenu" class="nav-menu-btn">מוצרים <mat-icon>expand_more</mat-icon></button>
+        <mat-menu #productsMenu="matMenu" xPosition="before">
+          <a mat-menu-item routerLink="/products/cat1" (click)="closeMenu()"><mat-icon>cake</mat-icon> ממתקים</a>
+          <a mat-menu-item routerLink="/products/cat2" (click)="closeMenu()"><mat-icon>eco</mat-icon> פירות יבשים</a>
+          <a mat-menu-item routerLink="/products/cat3" (click)="closeMenu()"><mat-icon>card_giftcard</mat-icon> מארזי מתנה</a>
+        </mat-menu>
+      </li>
+      <li>
+        <button mat-button [matMenuTriggerFor]="holidaysMenu" class="nav-menu-btn">חגים <mat-icon>expand_more</mat-icon></button>
+        <mat-menu #holidaysMenu="matMenu" xPosition="before">
+          <a mat-menu-item routerLink="/products/passover" (click)="closeMenu()"><mat-icon>wine_bar</mat-icon> פסח</a>
+          <a mat-menu-item routerLink="/products/roshAshana" (click)="closeMenu()"><mat-icon>apple</mat-icon> ראש השנה</a>
+        </mat-menu>
+      </li>
+      <li><a routerLink="/landing" routerLinkActive="active" (click)="closeMenu()">אודותינו</a></li>
+      <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">צור קשר</a></li>
+    </ul>
 
   </div>
 </nav>

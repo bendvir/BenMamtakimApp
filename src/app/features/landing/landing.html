@@ -1,0 +1,155 @@
+<!-- HERO — full dark, editorial -->
+<section class="hero">
+  <div class="hero__bg">
+    <div class="hero__bg-overlay"></div>
+    <div class="hero__bg-pattern"></div>
+  </div>
+  <div class="hero__body">
+    <span class="hero__eyebrow">ממתקי התקווה</span>
+    <h1 class="hero__title">
+      מתיקות<br>אמיתית
+    </h1>
+    <p class="hero__desc">
+      פירות יבשים, ממתקים פרמיום ומארזי מתנה יוקרתיים —<br>
+      מלאכת יד עם לב.
+    </p>
+    <div class="hero__actions">
+      <a routerLink="/products/cat1" class="btn-dark">גלה את הקטלוג</a>
+      <a routerLink="/about" class="btn-ghost-light">אודותינו</a>
+    </div>
+  </div>
+  <!-- Chocolate pralines decoration -->
+  <div class="hero__pralines" aria-hidden="true">
+    @for (i of [1,2,3,4,5,6,7,8,9,10,11,12]; track i) {
+      <div class="praline" [class]="'praline--' + ((i % 4) + 1)"></div>
+    }
+  </div>
+
+  <div class="hero__scroll-hint">
+    <span>גלול למטה</span>
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </div>
+</section>
+
+<!-- STRIP — stats -->
+<div class="strip">
+  @for (s of stats; track s.label) {
+    <div class="strip__item">
+      <strong>{{ s.value }}</strong>
+      <span>{{ s.label }}</span>
+    </div>
+  }
+</div>
+
+<!-- EDITORIAL PRODUCT GRID — Jolika style -->
+<section class="editorial-section">
+  <div class="inner">
+    <div class="eyebrow-block">
+      <span class="eyebrow">הקולקציה שלנו</span>
+      <h2>מוצרים נבחרים</h2>
+    </div>
+    <div class="editorial-grid">
+      @for (p of featured; track p.title) {
+        <a [routerLink]="p.route" class="ed-card" [style.background]="p.bg">
+          @if (p.label) { <span class="ed-label">{{ p.label }}</span> }
+          <div class="ed-dots">
+            @for (i of [1,2,3,4,5,6,7,8,9]; track i) {
+              <div class="ed-dot"></div>
+            }
+          </div>
+          <div class="ed-body">
+            <h3>{{ p.title }}</h3>
+            <p>{{ p.sub }}</p>
+            <div class="ed-footer">
+              <span class="ed-price">{{ p.price }}</span>
+              <span class="ed-cta">לקנייה <mat-icon>arrow_back_ios</mat-icon></span>
+            </div>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES — large editorial grid -->
+<section class="cats-section">
+  <div class="inner">
+    <div class="eyebrow-block">
+      <span class="eyebrow">הקולקציה שלנו</span>
+      <h2>גלה את הקטגוריות</h2>
+    </div>
+    <div class="cats-grid">
+      @for (cat of categories; track cat.route) {
+        <a [routerLink]="cat.route" class="cat-tile" [style.--clr]="cat.color">
+          <div class="cat-tile__icon">
+            <mat-icon>{{ cat.icon }}</mat-icon>
+          </div>
+          <div class="cat-tile__body">
+            <h3>{{ cat.title }}</h3>
+            <p>{{ cat.desc }}</p>
+            <span class="cat-tile__link">
+              לקטגוריה
+              <mat-icon>arrow_back_ios</mat-icon>
+            </span>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES — dark section -->
+<section class="features-section">
+  <div class="inner">
+    <div class="eyebrow-block light">
+      <span class="eyebrow">מדוע אנחנו?</span>
+      <h2>הבטחת האיכות שלנו</h2>
+    </div>
+    <div class="features-grid">
+      @for (f of features; track f.title) {
+        <div class="feat-card">
+          <mat-icon>{{ f.icon }}</mat-icon>
+          <h3>{{ f.title }}</h3>
+          <p>{{ f.desc }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="reviews-section">
+  <div class="inner">
+    <div class="eyebrow-block center">
+      <span class="eyebrow">לקוחות מרוצים</span>
+      <h2>מה אומרים עלינו?</h2>
+    </div>
+    <div class="reviews-grid">
+      @for (t of testimonials; track t.name) {
+        <blockquote class="review">
+          <div class="review__stars">
+            @for (i of [1,2,3,4,5]; track i) { <mat-icon>star</mat-icon> }
+          </div>
+          <p>"{{ t.text }}"</p>
+          <footer>
+            <div class="review__avatar">{{ t.name[0] }}</div>
+            <div>
+              <strong>{{ t.name }}</strong>
+              <cite>{{ t.role }}</cite>
+            </div>
+          </footer>
+        </blockquote>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <span class="eyebrow light">מוכן להתחיל?</span>
+    <h2>גלה את עולם המתיקות שלנו</h2>
+    <p>הזמנה ראשונה? קבל משלוח חינם</p>
+    <a routerLink="/products/cat1" class="btn-dark">לקטלוג המלא</a>
+  </div>
+</section>

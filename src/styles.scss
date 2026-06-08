@@ -4,8 +4,8 @@ html {
   height: 100%;
   @include mat.theme((
     color: (
-      primary: mat.$red-palette,
-      tertiary: mat.$orange-palette,
+      primary: mat.$orange-palette,
+      tertiary: mat.$yellow-palette,
     ),
     typography: Roboto,
     density: 0,
@@ -13,70 +13,107 @@ html {
 }
 
 :root {
-  --primary: #c0392b;
-  --primary-dark: #96281b;
-  --secondary: #e67e22;
-  --accent: #f39c12;
-  --bg-light: #fdf6ec;
-  --text-dark: #2c3e50;
-  --text-muted: #7f8c8d;
-  --border: #e8d5b7;
-  --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  --card-shadow-hover: 0 8px 25px rgba(0,0,0,0.15);
-  --radius: 12px;
-  --navbar-height: 70px;
+  // Natural-market palette — olive green + white/cream (m-egozim style)
+  --primary:       #567333;   // olive green — brand, headings, CTAs
+  --primary-dark:  #435828;   // deep olive — hover, footer
+  --primary-mid:   #6b8244;   // mid olive
+  --primary-light: #aabb96;   // soft sage-olive
+  --accent:        #567333;   // CTA accent (same olive family)
+  --accent-light:  #aabb96;   // light accent
+
+  // Olive-green accent family — for "fresh & natural" sections (categories, hero frame, badges)
+  --olive:         #567333;   // olive green
+  --olive-dark:    #435828;   // deep olive (footers, hover)
+  --olive-light:   #aabb96;   // soft sage-olive
+  --sage:          #d8e0cc;   // pale sage background
+
+  --bg:            #ffffff;   // clean white
+  --bg-warm:       #f7f8f3;   // faint sage-tinted off-white
+  --bg-dark:       #2f3a22;   // deep olive-black (hero/footer dark sections)
+  --bg-dark2:      #3c4a2b;   // slightly lighter dark olive
+
+  --surface:       #ffffff;
+  --surface-warm:  #f7f8f3;
+
+  --text:          #2b2f25;   // near-black warm green-gray
+  --text-soft:     #5a6450;   // muted olive-gray text
+  --text-muted:    #8b937e;   // soft muted
+
+  --border:        #e2e6da;
+  --border-light:  #eef1e8;
+
+  --shadow-sm:  0 1px 4px rgba(43,47,37,0.06);
+  --shadow-md:  0 4px 20px rgba(43,47,37,0.09);
+  --shadow-lg:  0 12px 40px rgba(43,47,37,0.13);
+
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  22px;
+  --radius-xl:  32px;
+
+  --announce-height: 34px;
+  --navbar-height: 62px;
+  --header-total: 96px; /* announce + navbar */
 }
 
 * { box-sizing: border-box; }
 
 body {
   color-scheme: light;
-  font-family: 'Segoe UI', 'Arial Hebrew', Arial, sans-serif;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
   direction: rtl;
-  background: var(--bg-light);
-  color: var(--text-dark);
+  background: var(--bg);
+  color: var(--text);
   margin: 0;
   height: 100%;
-  padding-top: var(--navbar-height);
+  padding-top: var(--header-total);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Cormorant Garamond', 'Frank Ruhl Libre', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 a { text-decoration: none; color: inherit; }
 
 .page-container {
-  max-width: 1200px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 3rem 2rem;
 }
 
 .section-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--text-dark);
-  margin-bottom: 0.5rem;
-  position: relative;
-  display: inline-block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.03em;
+
   &::after {
     content: '';
     display: block;
-    width: 60px;
-    height: 4px;
-    background: var(--primary);
-    border-radius: 2px;
-    margin-top: 8px;
+    width: 36px;
+    height: 2px;
+    background: var(--accent);
+    margin-top: 10px;
   }
 }
 
+// Product grid & cards (used across pages)
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1.5rem;
   padding: 1rem 0;
 }
 
 .product-card {
-  background: #fff;
-  border-radius: var(--radius);
-  box-shadow: var(--card-shadow);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
   transition: all 0.3s ease;
   overflow: hidden;
   height: 100%;
@@ -84,14 +121,15 @@ a { text-decoration: none; color: inherit; }
   flex-direction: column;
 
   &:hover {
-    box-shadow: var(--card-shadow-hover);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-4px);
+    border-color: var(--border);
   }
 
   .product-img-wrapper {
     overflow: hidden;
-    height: 200px;
-    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    height: 220px;
+    background: var(--bg-warm);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,34 +138,31 @@ a { text-decoration: none; color: inherit; }
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
+      transition: transform 0.4s ease;
     }
-    &:hover img { transform: scale(1.05); }
-
-    .img-placeholder {
-      font-size: 4rem;
-      opacity: 0.6;
-    }
+    &:hover img { transform: scale(1.04); }
   }
 
   .product-body {
-    padding: 1rem;
+    padding: 1.25rem;
     flex: 1;
     display: flex;
     flex-direction: column;
   }
 
   .product-title {
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--text-dark);
-    margin-bottom: 0.5rem;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
   }
 
   .product-price {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--accent);
     margin-bottom: 0.75rem;
   }
 
@@ -140,7 +175,7 @@ mat-form-field {
 }
 
 @media (max-width: 768px) {
-  .page-container { padding: 1rem 0.75rem; }
-  .section-title { font-size: 1.5rem; }
+  .page-container { padding: 2rem 1rem; }
+  .section-title { font-size: 1.75rem; }
   .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
 }
