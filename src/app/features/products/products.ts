@@ -2,17 +2,14 @@ import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { FormsModule } from '@angular/forms';
 import { BasketService } from '../../core/services/basket.service';
 import { CATEGORY_MAP } from '../../data/products.data';
 import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-products',
-  imports: [MatButtonModule, MatIconModule, MatSelectModule, MatFormFieldModule, MatSnackBarModule, FormsModule],
+  imports: [MatButtonModule, MatIconModule, MatSnackBarModule],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
@@ -41,6 +38,10 @@ export class Products implements OnInit {
         });
       }
     });
+  }
+
+  selectAmount(product: Product, amount: number) {
+    this.selectedAmounts[product.id] = amount;
   }
 
   addToCart(product: Product) {

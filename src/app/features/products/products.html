@@ -15,34 +15,37 @@
           <h3 class="product-title">{{ product.title }}</h3>
 
           @if (product.priceType === 0) {
-            <p class="product-price-label">₪{{ product.price }} לק"ג</p>
+            <p class="product-price-label">₪{{ product.price }} <span>לק"ג</span></p>
           } @else {
-            <p class="product-price-label">₪{{ product.price }} ליחידה</p>
+            <p class="product-price-label">₪{{ product.price }} <span>ליחידה</span></p>
           }
 
-          <mat-form-field appearance="outline" class="amount-field">
-            <mat-label>כמות</mat-label>
-            <mat-select [(ngModel)]="selectedAmounts[product.id]">
-              @if (product.priceType === 0) {
-                @for (w of weightOptions; track w) {
-                  <mat-option [value]="w">
-                    @if (w < 1000) { {{ w }} גרם }
-                    @else { {{ w / 1000 }} ק"ג }
-                  </mat-option>
-                }
-              } @else {
-                @for (u of unitOptions; track u) {
-                  <mat-option [value]="u">{{ u }} יח'</mat-option>
-                }
+          <div class="amount-selector">
+            @if (product.priceType === 0) {
+              @for (w of weightOptions; track w) {
+                <button type="button" class="amount-pill"
+                        [class.active]="selectedAmounts[product.id] === w"
+                        (click)="selectAmount(product, w)">
+                  @if (w < 1000) { {{ w }} גרם }
+                  @else { {{ w / 1000 }} ק"ג }
+                </button>
               }
-            </mat-select>
-          </mat-form-field>
+            } @else {
+              @for (u of unitOptions; track u) {
+                <button type="button" class="amount-pill"
+                        [class.active]="selectedAmounts[product.id] === u"
+                        (click)="selectAmount(product, u)">
+                  {{ u }} יח'
+                </button>
+              }
+            }
+          </div>
 
           <div class="product-actions">
-            <span class="calc-price">סה"כ: ₪{{ calcPrice(product) }}</span>
+            <span class="calc-price">₪{{ calcPrice(product) }}</span>
             <button mat-raised-button color="primary" (click)="addToCart(product)" class="add-btn">
               <mat-icon>add_shopping_cart</mat-icon>
-              הוסף לסל
+              הוספה לסל
             </button>
           </div>
         </div>

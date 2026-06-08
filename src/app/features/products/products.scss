@@ -11,33 +11,82 @@
   }
 }
 
-.amount-field {
-  width: 100%;
-  margin-bottom: 0.75rem;
+// ── PRICE LABEL ───────────────────────────────────────────────────────────
+.product-price-label {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.85rem;
+
+  span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-right: 2px;
+  }
 }
 
+// ── AMOUNT SELECTOR — pill chips replacing the old mat-select ────────────
+.amount-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.amount-pill {
+  font-family: 'Heebo', Arial, sans-serif;
+  padding: 0.4rem 0.95rem;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: var(--primary-light);
+    color: var(--primary);
+  }
+
+  &.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+  }
+}
+
+// ── ACTIONS ROW — total price + add-to-cart ──────────────────────────────
 .product-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-light);
 
   .calc-price {
     font-weight: 700;
-    color: var(--primary);
-    font-size: 1.05rem;
+    color: var(--text);
+    font-size: 1.3rem;
   }
 
   .add-btn {
     border-radius: 50px !important;
     font-weight: 700 !important;
-    gap: 0.25rem;
-  }
-}
+    gap: 0.3rem;
+    background-color: var(--primary) !important;
+    color: #fff !important;
 
-.product-price-label {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  margin-bottom: 0.75rem;
+    &:hover { background-color: var(--primary-dark) !important; }
+
+    mat-icon {
+      margin-inline-start: 0 !important;
+      margin-inline-end: 0 !important;
+    }
+  }
 }

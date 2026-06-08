@@ -71,9 +71,9 @@ body {
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Cormorant Garamond', 'Frank Ruhl Libre', Georgia, serif;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 a { text-decoration: none; color: inherit; }
@@ -85,12 +85,12 @@ a { text-decoration: none; color: inherit; }
 }
 
 .section-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2.2rem;
+  font-family: 'Heebo', Arial, sans-serif;
+  font-size: 1.8rem;
   font-weight: 600;
-  color: var(--text);
+  color: var(--primary);
   margin-bottom: 0.4rem;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
 
   &::after {
     content: '';
@@ -151,12 +151,12 @@ a { text-decoration: none; color: inherit; }
   }
 
   .product-title {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Heebo', Arial, sans-serif;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--text);
     margin-bottom: 0.4rem;
-    letter-spacing: 0.02em;
+    letter-spacing: 0;
   }
 
   .product-price {
