@@ -232,6 +232,48 @@
   }
 }
 
+// ── MOBILE ADMIN ────────────────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .admin-body { padding: 0.85rem 1rem 1.5rem; }
+
+  .admin-header {
+    padding: 0.6rem 1rem;
+    &__brand span { font-size: 0.88rem; }
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .table-header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .search-input { width: 100%; flex: 1; min-width: 0; }
+  .filter-select { flex: 1; min-width: 0; }
+
+  // Hide non-essential columns on mobile
+  .products-table {
+    th:nth-child(1), td:nth-child(1),   // id
+    th:nth-child(5), td:nth-child(5),   // price type
+    th:nth-child(8), td:nth-child(8)    // updated
+    { display: none; }
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card { padding: 2rem 1.25rem; }
+  .admin-form-card { padding: 0.85rem; }
+  .form-footer { flex-direction: column; align-items: flex-start; }
+  .form-actions { width: 100%; justify-content: flex-end; }
+  .btn-save { width: 100%; justify-content: center; }
+}
+
 .form-footer {
   display: flex; align-items: center; justify-content: space-between;
   padding-top: 0.75rem;

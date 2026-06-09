@@ -88,3 +88,8 @@
   .checkout-layout { grid-template-columns: 1fr; }
   .order-summary { position: static; }
 }
+
+@media (max-width: 480px) {
+  .checkout-form { padding: 1.25rem; }
+  .order-summary { padding: 1.25rem; }
+}

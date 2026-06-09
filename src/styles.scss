@@ -174,10 +174,38 @@ mat-form-field {
   direction: rtl;
 }
 
+// ── GLOBAL RESPONSIVE ────────────────────────────────────────────────────────
+
+// Prevent horizontal scroll on any page
+html, body { overflow-x: hidden; }
+
 @media (max-width: 768px) {
   .page-container { padding: 2rem 1rem; }
   .section-title { font-size: 1.75rem; }
   .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .page-container { padding: 1.5rem 0.85rem; }
+  .section-title { font-size: 1.4rem; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 0.65rem; }
+  .product-card .product-img-wrapper { height: 160px; }
+}
+
+// iOS auto-zoom fix — iOS Safari zooms in on any input with font-size < 16px
+@media (max-width: 900px) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+// Minimum touch target for buttons on mobile (not links — too aggressive)
+@media (max-width: 900px) {
+  button:not(.mdc-switch):not(.mat-mdc-menu-item) {
+    min-height: 44px;
+  }
 }
 
 // ── Olive-green slide toggle (overrides Material orange theme) ───────────────
