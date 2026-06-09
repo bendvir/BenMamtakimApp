@@ -43,13 +43,6 @@
           <a mat-menu-item routerLink="/products/cat3" (click)="closeMenu()"><mat-icon>card_giftcard</mat-icon> מארזי מתנה</a>
         </mat-menu>
       </li>
-      <li>
-        <button mat-button [matMenuTriggerFor]="holidaysMenu" class="nav-menu-btn">חגים <mat-icon>expand_more</mat-icon></button>
-        <mat-menu #holidaysMenu="matMenu" xPosition="before">
-          <a mat-menu-item routerLink="/products/passover" (click)="closeMenu()"><mat-icon>wine_bar</mat-icon> פסח</a>
-          <a mat-menu-item routerLink="/products/roshAshana" (click)="closeMenu()"><mat-icon>apple</mat-icon> ראש השנה</a>
-        </mat-menu>
-      </li>
       <li><a routerLink="/landing" routerLinkActive="active" (click)="closeMenu()">אודותינו</a></li>
       <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">צור קשר</a></li>
     </ul>
