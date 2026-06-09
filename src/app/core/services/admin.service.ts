@@ -44,8 +44,20 @@ export class AdminService {
     return new HttpHeaders({ Authorization: `Bearer ${this._token()}` });
   }
 
-  login(password: string): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${environment.apiUrl}/admin/login`, { password }).pipe(
+  /** Step 1 — password check; returns sessionId for OTP step */
+  requestOtp(password: string): Observable<{ step: string; sessionId: string }> {
+    return this.http.post<{ step: string; sessionId: string }>(
+      `${environment.apiUrl}/admin/login`,
+      { password }
+    );
+  }
+
+  /** Step 2 — OTP code verification; returns JWT token */
+  verifyOtp(sessionId: string, code: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(
+      `${environment.apiUrl}/admin/verify-otp`,
+      { sessionId, code }
+    ).pipe(
       tap(res => {
         localStorage.setItem('admin_token', res.token);
         this._token.set(res.token);

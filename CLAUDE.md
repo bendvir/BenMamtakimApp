@@ -9,7 +9,7 @@
 
 ---
 
-## סטטוס נוכחי — 09/06/2026
+## סטטוס נוכחי — 09/06/2026 (עדכון אחרון)
 
 ### ✅ הושלם
 
@@ -48,7 +48,8 @@
 - **Routes**:
   - `GET /api/products` — כל הקטגוריות עם מוצרים (ציבורי)
   - `GET /api/products/:categoryId` — קטגוריה ספציפית (ציבורי)
-  - `POST /api/admin/login` — JWT auth (סיסמה: `mamtakim2024`)
+  - `POST /api/admin/login` — שלב 1: בדיקת סיסמה + שליחת OTP למייל → מחזיר `sessionId`
+  - `POST /api/admin/verify-otp` — שלב 2: אימות קוד 6 ספרות → מחזיר JWT
   - `GET/POST/PUT/DELETE /api/admin/products` — CRUD מוגן ב-JWT
 - **שדות מוצר**: `id, title, price, price_type (0=ק"ג/1=יחידה), category_id, image_url, description, in_stock, is_new, is_new_until, created_at, updated_at`
 - **is_new auto-reset**: מוצר מסומן "חדש" מאפס אוטומטית אחרי 12 שעות (lazy cleanup ב-`getProducts()`)
@@ -60,11 +61,15 @@
   - signals: `categories`, `loading`, `lastSync`, `error`
 - **AdminService** (`core/services/admin.service.ts`):
   - JWT token ב-localStorage
-  - CRUD מלא: `login, logout, getCategories, getProducts, createProduct, updateProduct, deleteProduct`
+  - 2FA: `requestOtp(password)` → `verifyOtp(sessionId, code)` → שמירת JWT
+  - CRUD מלא: `logout, getCategories, getProducts, createProduct, updateProduct, deleteProduct`
 - **proxy**: `/api` → `http://localhost:3000` דרך `proxy.conf.json`
 
 #### Admin Panel (`/admin`)
-- **Login**: native password input עם JWT auth
+- **Login 2FA**: שלב 1 — סיסמה → שלב 2 — קוד OTP 6 ספרות שנשלח ל-`bendvirrr@gmail.com`
+  - OTP תקף 10 דקות, נמחק אחרי שימוש
+  - Gmail SMTP דרך `backend/mailer.js` + nodemailer
+  - credentials ב-`backend/.env` (לא ב-git)
 - **טופס הוספה/עריכה** (native inputs — לא Material form fields):
   - Grid 2 עמודות: שם, מחיר (₪ addon), קטגוריה, סוג תמחור, נתיב תמונה, תיאור
   - Toggles: "במלאי" + "מוצר חדש" (ירוק זית — override global ב-styles.scss)
@@ -86,6 +91,14 @@
 - **Admin** + **Contact** — native `<input>`, `<select>`, `<textarea>` (לא `mat-form-field`)
 - עיצוב אחיד: 38-42px height, border 1.5px, focus ring ירוק, label מעל
 
+#### WhatsApp FAB
+- כפתור צף (`position: fixed`, פינה שמאל תחתית) בכל דפי האתר
+- צבע ירוק WhatsApp (`#25d366`), אייקון SVG רשמי
+- לחיצה → פותח WhatsApp עם הודעה: "היי, הגעתי לממתקי התקוה דרך האתר אשמח לקבל עזרה"
+- טלפון: `972502195499` (0502195499)
+- Tooltip על hover, responsive למובייל
+- קוד ב-`src/app/app.html` + `src/app/app.scss`
+
 #### עיצוב
 - **פלטה**: ירוק זית (`#567333`), לבן/קרם (`#f7f8f3`), כהה (`#2b2f25`)
 - **פונטים**: Heebo (גוף + כותרות) — RTL
@@ -95,7 +108,6 @@
 - **תמונות מוצרים אמיתיות** — כרגע placeholder paths
 - **מערכת תשלומים** (Stripe / PayPal)
 - **Push notifications** כשנוסף מוצר חדש (WebSocket / SSE)
-- **אימות מייל** לאדמין (כרגע רק סיסמה)
 - **Pagination** בטבלת האדמין (כרגע הכל מוצג)
 
 ### הפעלת הפרויקט
@@ -115,7 +127,8 @@ ng serve                # רץ על http://localhost:4200 (proxy → 3000)
 | GET | `/api/health` | בדיקת שרת |
 | GET | `/api/products` | כל הקטגוריות + מוצרים |
 | GET | `/api/products/:id` | קטגוריה ספציפית |
-| POST | `/api/admin/login` | כניסת מנהל |
+| POST | `/api/admin/login` | שלב 1 — סיסמה → שולח OTP למייל |
+| POST | `/api/admin/verify-otp` | שלב 2 — אימות OTP → JWT |
 | GET | `/api/admin/products` | כל המוצרים (כולל אזולי מלאי) |
 | POST | `/api/admin/products` | הוספת מוצר |
 | PUT | `/api/admin/products/:id` | עדכון מוצר |
@@ -130,3 +143,48 @@ ng serve                # רץ על http://localhost:4200 (proxy → 3000)
 ### Skills מותקנים ב-`.claude/skills/`
 - **ui-ux-pro-max** — כלי עיצוב UI/UX עם Playwright screenshots
 - **AI Research Skills (98 skills)** מ-[Orchestra-Research/AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs)
+
+---
+
+## ✅ צ'קליסט לפני העלאה לפרודקשן
+
+### 1. `backend/.env` — עדכן את כל ה-secrets
+```env
+ADMIN_PASSWORD=סיסמה-חזקה-אחרת     # לא mamtakim2024
+JWT_SECRET=מחרוזת-רנדומלית-ארוכה   # לא dev-secret
+ALLOWED_ORIGINS=https://your-domain.com
+EMAIL_USER=bendvirrr@gmail.com
+EMAIL_PASS=gmail-app-password       # כבר מוגדר
+EMAIL_TO=bendvirrr@gmail.com
+```
+
+### 2. `src/environments/environment.prod.ts` — יצור קובץ זה עם ה-URL האמיתי
+```typescript
+export const environment = {
+  production: true,
+  apiUrl: 'https://YOUR-BACKEND-DOMAIN.com/api',  // כתובת ה-backend בפרודקשן
+  syncIntervalMs: 5 * 60 * 1000,
+};
+```
+ולוודא ב-`angular.json` שיש `fileReplacements` שמחליף `environment.ts` → `environment.prod.ts` ב-build.
+
+### 3. Angular build לפרודקשן
+```powershell
+ng build --configuration production
+# מייצר dist/ — יש להגיש דרך Nginx / Apache / hosting
+```
+
+### 4. Backend — הרץ עם PM2 (לא node ישיר)
+```bash
+npm install -g pm2
+pm2 start backend/server.js --name mamtakim-backend
+pm2 save
+```
+
+### 5. HTTPS — חובה (Let's Encrypt / Cloudflare)
+- ה-Gmail OTP לא יעבוד אם האתר לא על HTTPS בפרודקשן
+- גם cookies ו-JWT בטוחים יותר על HTTPS
+
+### 6. שים לב — `proxy.conf.json` עובד רק ב-dev
+- ב-`ng serve` — ה-proxy מעביר `/api` → `localhost:3000`
+- ב-`ng build` — אין proxy, חייבים `environment.prod.ts` עם URL מלא

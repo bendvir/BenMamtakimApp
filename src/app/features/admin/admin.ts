@@ -40,9 +40,18 @@ export class Admin implements OnInit {
     );
   });
 
-  loginForm  = this.fb.group({ password: ['', Validators.required] });
-  loginError = signal<string | null>(null);
+  // ── Login: two-step OTP ──────────────────────────────────────────────────
+  readonly loginStep      = signal<'password' | 'otp'>('password');
+  readonly loginSending   = signal(false);
+  readonly otpSessionId   = signal<string | null>(null);
+  readonly loginError     = signal<string | null>(null);
 
+  loginForm = this.fb.group({ password: ['', Validators.required] });
+  otpForm   = this.fb.group({
+    code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6), Validators.pattern(/^\d{6}$/)]]
+  });
+
+  // ── Product form ─────────────────────────────────────────────────────────
   productForm = this.fb.group({
     title:       ['', Validators.required],
     price:       [0,  [Validators.required, Validators.min(0.01)]],
@@ -58,13 +67,50 @@ export class Admin implements OnInit {
     if (this.adminSvc.isLoggedIn()) this.loadData();
   }
 
-  login() {
+  // Step 1 — send password, receive OTP
+  requestOtp() {
     if (this.loginForm.invalid) return;
-    const { password } = this.loginForm.value;
-    this.adminSvc.login(password!).subscribe({
-      next:  () => { this.loginError.set(null); this.loadData(); },
-      error: () => this.loginError.set('סיסמה שגויה — נסה שנית'),
+    this.loginSending.set(true);
+    this.loginError.set(null);
+    this.adminSvc.requestOtp(this.loginForm.value.password!).subscribe({
+      next: res => {
+        this.loginSending.set(false);
+        this.otpSessionId.set(res.sessionId);
+        this.loginStep.set('otp');
+      },
+      error: err => {
+        this.loginSending.set(false);
+        this.loginError.set(err.error?.error ?? 'שגיאה בכניסה');
+      },
     });
+  }
+
+  // Step 2 — verify OTP code
+  verifyOtp() {
+    if (this.otpForm.invalid) return;
+    const sessionId = this.otpSessionId();
+    if (!sessionId) return;
+    this.loginSending.set(true);
+    this.loginError.set(null);
+    this.adminSvc.verifyOtp(sessionId, this.otpForm.value.code!).subscribe({
+      next: () => {
+        this.loginSending.set(false);
+        this.loginStep.set('password');
+        this.otpForm.reset();
+        this.loadData();
+      },
+      error: err => {
+        this.loginSending.set(false);
+        this.loginError.set(err.error?.error ?? 'קוד שגוי');
+      },
+    });
+  }
+
+  backToPassword() {
+    this.loginStep.set('password');
+    this.otpSessionId.set(null);
+    this.otpForm.reset();
+    this.loginError.set(null);
   }
 
   logout() {

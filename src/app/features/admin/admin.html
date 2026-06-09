@@ -5,22 +5,64 @@
       <mat-icon class="login-icon">admin_panel_settings</mat-icon>
       <h1>כניסת מנהל</h1>
       <p>ממתקי התקווה — מערכת ניהול מוצרים</p>
-      <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
-        <div class="field-wrap">
-          <label class="field-label">סיסמה</label>
-          <div class="input-icon-wrap">
-            <input class="field-input" type="password" formControlName="password"
-                   placeholder="הכנס סיסמה" (keydown.enter)="login()">
-            <mat-icon class="input-suffix-icon">lock</mat-icon>
+
+      <!-- Step 1: Password -->
+      @if (loginStep() === 'password') {
+        <form [formGroup]="loginForm" (ngSubmit)="requestOtp()" class="login-form">
+          <div class="field-wrap">
+            <label class="field-label">סיסמה</label>
+            <div class="input-icon-wrap">
+              <input class="field-input" type="password" formControlName="password"
+                     placeholder="הכנס סיסמה" (keydown.enter)="requestOtp()">
+              <mat-icon class="input-suffix-icon">lock</mat-icon>
+            </div>
           </div>
+          @if (loginError()) {
+            <p class="login-error">{{ loginError() }}</p>
+          }
+          <button mat-raised-button class="btn-login" type="submit" [disabled]="loginSending()">
+            @if (loginSending()) {
+              <mat-icon class="spin-icon">hourglass_empty</mat-icon> שולח...
+            } @else {
+              <mat-icon>arrow_forward</mat-icon> המשך
+            }
+          </button>
+        </form>
+      }
+
+      <!-- Step 2: OTP code -->
+      @if (loginStep() === 'otp') {
+        <div class="otp-sent-notice">
+          <mat-icon class="otp-notice-icon">mark_email_read</mat-icon>
+          <span>קוד נשלח למייל שלך</span>
         </div>
-        @if (loginError()) {
-          <p class="login-error">{{ loginError() }}</p>
-        }
-        <button mat-raised-button class="btn-login" type="submit">
-          <mat-icon>login</mat-icon> כניסה
-        </button>
-      </form>
+        <form [formGroup]="otpForm" (ngSubmit)="verifyOtp()" class="login-form">
+          <div class="field-wrap">
+            <label class="field-label">קוד אימות (6 ספרות)</label>
+            <input class="field-input otp-input" type="text" formControlName="code"
+                   placeholder="000000" maxlength="6" inputmode="numeric"
+                   autocomplete="one-time-code" dir="ltr"
+                   (keydown.enter)="verifyOtp()">
+            @if (otpForm.get('code')?.invalid && otpForm.get('code')?.touched) {
+              <span class="field-error">יש להזין קוד בן 6 ספרות</span>
+            }
+          </div>
+          @if (loginError()) {
+            <p class="login-error">{{ loginError() }}</p>
+          }
+          <button mat-raised-button class="btn-login" type="submit" [disabled]="loginSending()">
+            @if (loginSending()) {
+              <mat-icon class="spin-icon">hourglass_empty</mat-icon> מאמת...
+            } @else {
+              <mat-icon>verified</mat-icon> אמת וכנס
+            }
+          </button>
+          <button type="button" class="btn-back" (click)="backToPassword()">
+            <mat-icon>arrow_back</mat-icon> חזור לסיסמה
+          </button>
+        </form>
+      }
+
     </div>
   </div>
 }

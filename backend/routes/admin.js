@@ -1,15 +1,69 @@
 const express = require('express');
 const jwt     = require('jsonwebtoken');
+const crypto  = require('crypto');
 const db      = require('../database');
 const auth    = require('../middleware/auth');
+const mailer  = require('../mailer');
 const router  = express.Router();
 
-// POST /api/admin/login
-router.post('/login', (req, res) => {
+// In-memory OTP store: sessionId → { code, expiresAt }
+const otpStore = new Map();
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+// Cleanup expired OTP entries periodically
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, val] of otpStore) {
+    if (now > val.expiresAt) otpStore.delete(key);
+  }
+}, 5 * 60 * 1000);
+
+// POST /api/admin/login — step 1: password → sends OTP to email
+router.post('/login', async (req, res) => {
   const { password } = req.body;
   if (!password || password !== process.env.ADMIN_PASSWORD) {
     return res.status(401).json({ error: 'סיסמה שגויה' });
   }
+
+  const code      = generateOTP();
+  const sessionId = crypto.randomBytes(16).toString('hex');
+  otpStore.set(sessionId, { code, expiresAt: Date.now() + 10 * 60 * 1000 });
+
+  try {
+    await mailer.sendOTP(code);
+    console.log(`[OTP] Sent to ${process.env.EMAIL_TO || process.env.EMAIL_USER}`);
+  } catch (e) {
+    console.error('[OTP] Email failed:', e.message);
+    // Fallback: log code to console so dev can still login
+    console.log('[OTP] DEV FALLBACK — code:', code);
+  }
+
+  res.json({ step: 'otp', sessionId });
+});
+
+// POST /api/admin/verify-otp — step 2: validate code → return JWT
+router.post('/verify-otp', (req, res) => {
+  const { sessionId, code } = req.body;
+  if (!sessionId || !code) {
+    return res.status(400).json({ error: 'נדרש sessionId וקוד' });
+  }
+
+  const entry = otpStore.get(sessionId);
+  if (!entry) {
+    return res.status(401).json({ error: 'הפעלה לא תקינה — נסה להתחבר מחדש' });
+  }
+  if (Date.now() > entry.expiresAt) {
+    otpStore.delete(sessionId);
+    return res.status(401).json({ error: 'הקוד פג תוקף — נסה שנית' });
+  }
+  if (entry.code !== code.trim()) {
+    return res.status(401).json({ error: 'קוד שגוי' });
+  }
+
+  otpStore.delete(sessionId);
   const token = jwt.sign(
     { role: 'admin' },
     process.env.JWT_SECRET || 'dev-secret',

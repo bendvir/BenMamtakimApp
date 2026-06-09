@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   { path: '',                loadComponent: () => import('./features/home/home').then(m => m.Home) },
@@ -10,6 +9,6 @@ export const routes: Routes = [
   { path: 'checkout',        loadComponent: () => import('./features/checkout/checkout').then(m => m.Checkout) },
   { path: 'about',           loadComponent: () => import('./features/about/about').then(m => m.About) },
   { path: 'contact',         loadComponent: () => import('./features/contact/contact').then(m => m.Contact) },
-  { path: 'admin',           loadComponent: () => import('./features/admin/admin').then(m => m.Admin), canActivate: [adminGuard] },
+  { path: 'admin',           loadComponent: () => import('./features/admin/admin').then(m => m.Admin) },
   { path: '**',              loadComponent: () => import('./features/not-found/not-found').then(m => m.NotFound) },
 ];
