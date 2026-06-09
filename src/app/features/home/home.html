@@ -44,12 +44,14 @@
 
   <span class="eyebrow-label" style="margin-top:4rem; display:block">עונות ומועדים</span>
   <h2 class="section-title">מוצרי חג</h2>
-  <div class="holidays-grid">
+  <div class="category-tiles holiday-tiles">
     @for (h of holidays; track h.route) {
-      <a [routerLink]="h.route" class="holiday-card">
-        <mat-icon>{{ h.icon }}</mat-icon>
-        <h3>{{ h.title }}</h3>
-        <p>{{ h.desc }}</p>
+      <a [routerLink]="h.route" class="category-tile">
+        <div class="tile-img"><img [src]="h.image" [alt]="h.title" loading="lazy"></div>
+        <div class="tile-label">
+          <h3>{{ h.title }}</h3>
+          <p>{{ h.desc }}</p>
+        </div>
       </a>
     }
   </div>

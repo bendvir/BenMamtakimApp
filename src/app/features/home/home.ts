@@ -29,8 +29,8 @@ export class Home implements OnDestroy {
   ];
 
   holidays = [
-    { route: '/products/passover', icon: 'wine_bar', title: 'פסח', desc: 'מוצרים כשר לפסח' },
-    { route: '/products/roshAshana', icon: 'apple', title: 'ראש השנה', desc: 'מארזים לחג' },
+    { route: '/products/roshAshana', image: 'assets/images/fruits/dates.jpg', title: 'ראש השנה', desc: 'מארזים ומוצרים לחג' },
+    { route: '/products/passover', image: 'assets/images/fruits/almonds.jpg', title: 'פסח', desc: 'מוצרים כשר לפסח' },
   ];
 
   next(): void {

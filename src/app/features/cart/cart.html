@@ -1,84 +1,97 @@
 <div class="page-container">
-  <h1 class="section-title">סל הקניות</h1>
+
+  <h1 class="section-title cart-page-title">
+    סל הקניות
+    @if (basket.items().length > 0) {
+      <span class="cart-count-badge">{{ basket.items().length }} מוצרים</span>
+    }
+  </h1>
 
   @if (basket.items().length === 0) {
     <div class="empty-cart">
-      <span class="empty-icon">🛒</span>
-      <h3>הסל שלך ריק</h3>
-      <p>הוסף מוצרים מהקטלוג שלנו</p>
-      <a routerLink="/products/cat1" mat-raised-button color="primary">
+      <mat-icon class="empty-icon">shopping_cart</mat-icon>
+      <h2>הסל שלך ריק</h2>
+      <p>בחר מוצרים מהקטלוג שלנו ותוסיף אותם לסל</p>
+      <a routerLink="/products/cat1" class="btn-go-shop">
+        <mat-icon>storefront</mat-icon>
         לקטלוג המוצרים
       </a>
     </div>
   } @else {
     <div class="cart-layout">
-      <div class="cart-items">
+
+      <!-- ── ITEMS ── -->
+      <div class="cart-items-col">
+        <div class="cart-col-header">
+          <span class="col-product">מוצר</span>
+          <span class="col-qty">כמות</span>
+          <span class="col-price">סכום</span>
+        </div>
+
         @for (item of basket.items(); track item.id) {
           <div class="cart-item">
-            <div class="item-icon">
-              @if (item.category === 'cat1') { 🍫 }
-              @else if (item.category === 'cat2') { 🥜 }
-              @else if (item.category === 'cat3') { 🎁 }
-              @else { 🍬 }
+            <div class="item-thumb">
+              <img [src]="item.link" [alt]="item.title" loading="lazy">
             </div>
 
-            <div class="item-details">
-              <h4 class="item-title">{{ item.title }}</h4>
-              <p class="item-base-price">
-                @if (item.priceType === 0) { ₪{{ item.price }} לק"ג }
-                @else { ₪{{ item.price }} ליחידה }
+            <div class="item-info">
+              <h4 class="item-name">{{ item.title }}</h4>
+              <p class="item-meta">
+                ₪{{ item.price }} {{ item.priceType === 0 ? 'לק"ג' : 'ליחידה' }}
               </p>
+              <button class="remove-link" (click)="remove(item.id)">הסר מהסל</button>
             </div>
 
-            <mat-form-field appearance="outline" class="amount-select">
-              <mat-select [ngModel]="item.amount" (ngModelChange)="updateAmount(item.id, $event)">
-                @if (item.priceType === 0) {
-                  @for (w of weightOptions; track w) {
-                    <mat-option [value]="w">
-                      @if (w < 1000) { {{ w }}ג' } @else { {{ w/1000 }}ק"ג }
-                    </mat-option>
-                  }
-                } @else {
-                  @for (u of unitOptions; track u) {
-                    <mat-option [value]="u">{{ u }} יח'</mat-option>
-                  }
-                }
-              </mat-select>
-            </mat-form-field>
+            <div class="item-qty-control">
+              <button class="qty-btn qty-plus" (click)="increaseAmount(item)" [disabled]="isMaxAmount(item)" aria-label="הגדל">
+                <mat-icon>add</mat-icon>
+              </button>
+              <span class="qty-label">{{ formatAmount(item) }}</span>
+              <button class="qty-btn qty-minus" (click)="decreaseAmount(item)" [disabled]="isMinAmount(item)" aria-label="הקטן">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
 
-            <div class="item-price">₪{{ item.pricePerUnit }}</div>
-
-            <button mat-icon-button color="warn" (click)="remove(item.id)" class="remove-btn">
-              <mat-icon>delete_outline</mat-icon>
-            </button>
+            <div class="item-subtotal">₪{{ item.pricePerUnit | number:'1.0-2' }}</div>
           </div>
         }
       </div>
 
-      <div class="cart-summary">
-        <h3>סיכום הזמנה</h3>
+      <!-- ── SUMMARY ── -->
+      <aside class="cart-summary">
+        <h2 class="summary-heading">סיכום הזמנה</h2>
 
-        <div class="summary-row">
-          <span>פריטים ({{ basket.totalItems() }})</span>
-          <span>₪{{ basket.totalPrice() | number:'1.0-2' }}</span>
+        <div class="summary-lines">
+          <div class="summary-line">
+            <span>{{ basket.items().length }} מוצרים</span>
+            <span>₪{{ basket.totalPrice() | number:'1.0-2' }}</span>
+          </div>
+          <div class="summary-line summary-line--muted">
+            <span>משלוח</span>
+            <span>יחושב בשלב הבא</span>
+          </div>
         </div>
-        <div class="summary-row delivery">
-          <span>משלוח</span>
-          <span>יחושב בהמשך</span>
-        </div>
+
         <div class="summary-total">
-          <span>סה"כ</span>
-          <span>₪{{ basket.totalPrice() | number:'1.0-2' }}</span>
+          <span>סה"כ לתשלום</span>
+          <strong>₪{{ basket.totalPrice() | number:'1.0-2' }}</strong>
         </div>
 
-        <a routerLink="/checkout" mat-raised-button color="primary" class="checkout-btn">
-          <mat-icon>payment</mat-icon>
-          המשך לתשלום
+        <a routerLink="/checkout" class="btn-checkout">
+          <mat-icon>lock</mat-icon>
+          לתשלום מאובטח
         </a>
-        <a routerLink="/products/cat1" mat-stroked-button class="continue-btn">
+
+        <a routerLink="/products/cat1" class="btn-continue">
           המשך בקנייה
         </a>
-      </div>
+
+        <div class="ssl-badge">
+          <mat-icon>verified_user</mat-icon>
+          <span>רכישה מאובטחת SSL</span>
+        </div>
+      </aside>
     </div>
   }
+
 </div>

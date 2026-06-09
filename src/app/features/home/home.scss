@@ -332,6 +332,16 @@
   .category-tiles { grid-template-columns: 1fr; }
 }
 
+// ── HOLIDAY TILES — 2-column variant of category-tiles ────────────────────
+.holiday-tiles {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 720px;
+}
+
+@media (max-width: 560px) {
+  .holiday-tiles { grid-template-columns: 1fr; max-width: 100%; }
+}
+
 // ── CATEGORIES (legacy icon cards — used elsewhere) ───────────────────────
 .categories-grid {
   display: grid;
