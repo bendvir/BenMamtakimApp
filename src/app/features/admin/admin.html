@@ -1,0 +1,176 @@
+<!-- ── LOGIN ──────────────────────────────────────────────────────────────── -->
+@if (!adminSvc.isLoggedIn()) {
+  <div class="login-wrap">
+    <div class="login-card">
+      <mat-icon class="login-icon">admin_panel_settings</mat-icon>
+      <h1>כניסת מנהל</h1>
+      <p>ממתקי התקווה — מערכת ניהול מוצרים</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>סיסמה</mat-label>
+          <input matInput type="password" formControlName="password" (keydown.enter)="login()">
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+
+        @if (loginError()) {
+          <p class="login-error">{{ loginError() }}</p>
+        }
+
+        <button mat-raised-button class="btn-login" type="submit">
+          <mat-icon>login</mat-icon>
+          כניסה
+        </button>
+      </form>
+    </div>
+  </div>
+}
+
+<!-- ── ADMIN PANEL ──────────────────────────────────────────────────────────── -->
+@if (adminSvc.isLoggedIn()) {
+  <div class="admin-wrap">
+
+    <!-- Header -->
+    <header class="admin-header">
+      <div class="admin-header__brand">
+        <mat-icon>storefront</mat-icon>
+        <span>ממתקי התקווה — ניהול מוצרים</span>
+      </div>
+      <button mat-stroked-button (click)="logout()" class="btn-logout">
+        <mat-icon>logout</mat-icon>
+        יציאה
+      </button>
+    </header>
+
+    <div class="admin-body">
+
+      <!-- ── FORM: Add / Edit ────────────────────────────────────────────────── -->
+      <section class="admin-form-card">
+        <h2 class="form-title">
+          <mat-icon>{{ editingId() ? 'edit' : 'add_circle' }}</mat-icon>
+          {{ editingId() ? 'עריכת מוצר #' + editingId() : 'הוספת מוצר חדש' }}
+        </h2>
+
+        <form [formGroup]="productForm" (ngSubmit)="saveProduct()" class="product-form">
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>שם המוצר *</mat-label>
+              <input matInput formControlName="title" placeholder="לדוגמה: שקדים טבעיים">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>מחיר (₪) *</mat-label>
+              <input matInput type="number" formControlName="price" min="0" step="0.5">
+              <span matTextSuffix>₪</span>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>קטגוריה *</mat-label>
+              <mat-select formControlName="categoryId">
+                @for (cat of categories(); track cat.id) {
+                  <mat-option [value]="cat.id">{{ cat.name_he }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>סוג תמחור</mat-label>
+              <mat-select formControlName="priceType">
+                <mat-option [value]="0">לפי ק"ג</mat-option>
+                <mat-option [value]="1">לפי יחידה</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>נתיב תמונה</mat-label>
+            <input matInput formControlName="imageUrl" placeholder="assets/images/fruits/almonds.jpg">
+            <mat-icon matSuffix>image</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>תיאור מוצר</mat-label>
+            <textarea matInput formControlName="description" rows="2" placeholder="תיאור קצר..."></textarea>
+          </mat-form-field>
+
+          <div class="form-footer">
+            <mat-slide-toggle formControlName="inStock" color="primary">
+              במלאי
+            </mat-slide-toggle>
+
+            <div class="form-actions">
+              @if (editingId()) {
+                <button mat-stroked-button type="button" (click)="cancelEdit()">ביטול</button>
+              }
+              <button mat-raised-button class="btn-save" type="submit" [disabled]="saving()">
+                <mat-icon>{{ saving() ? 'hourglass_empty' : 'save' }}</mat-icon>
+                {{ editingId() ? 'שמור שינויים' : 'הוסף מוצר' }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- ── PRODUCTS TABLE ──────────────────────────────────────────────────── -->
+      <section class="admin-table-card">
+        <div class="table-header">
+          <h2><mat-icon>inventory_2</mat-icon> רשימת מוצרים ({{ products().length }})</h2>
+          @if (loadError()) {
+            <span class="load-error">{{ loadError() }}</span>
+          }
+        </div>
+
+        <div class="products-table-wrap">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>שם</th>
+                <th>קטגוריה</th>
+                <th>מחיר</th>
+                <th>תמחור</th>
+                <th>מלאי</th>
+                <th>עודכן</th>
+                <th>פעולות</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of products(); track p.id) {
+                <tr [class.out-of-stock]="p.in_stock === 0">
+                  <td class="td-id">{{ p.id }}</td>
+                  <td class="td-title">
+                    @if (p.image_url) {
+                      <img [src]="p.image_url" [alt]="p.title" class="thumb">
+                    }
+                    {{ p.title }}
+                  </td>
+                  <td><span class="cat-badge">{{ p.category_name }}</span></td>
+                  <td class="td-price">₪{{ p.price }}</td>
+                  <td class="td-type">{{ priceTypeLabel(p.price_type) }}</td>
+                  <td>
+                    <span class="stock-badge" [class.in]="p.in_stock === 1">
+                      {{ stockLabel(p.in_stock) }}
+                    </span>
+                  </td>
+                  <td class="td-date">{{ p.updated_at | slice:0:10 }}</td>
+                  <td class="td-actions">
+                    <button mat-icon-button class="btn-edit" (click)="editProduct(p)" title="ערוך">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button class="btn-delete" (click)="deleteProduct(p)" title="מחק">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </div>
+}

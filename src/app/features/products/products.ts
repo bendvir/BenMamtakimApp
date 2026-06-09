@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BasketService } from '../../core/services/basket.service';
+import { ProductService } from '../../core/services/product.service';
 import { CATEGORY_MAP } from '../../data/products.data';
 import { Product } from '../../models/product.model';
 
@@ -14,29 +15,46 @@ import { Product } from '../../models/product.model';
   styleUrl: './products.scss',
 })
 export class Products implements OnInit {
-  private route = inject(ActivatedRoute);
-  private basket = inject(BasketService);
-  private snackBar = inject(MatSnackBar);
+  private route        = inject(ActivatedRoute);
+  private basket       = inject(BasketService);
+  private snackBar     = inject(MatSnackBar);
+  private productSvc   = inject(ProductService);
 
-  categoryTitle = signal('');
-  products = signal<Product[]>([]);
+  readonly categoryId = signal('');
+
+  // Reacts automatically when API data arrives OR category changes
+  readonly categoryData = computed(() => {
+    const cat = this.categoryId();
+    const apiProducts = this.productSvc.getCategoryProducts(cat);
+    if (apiProducts.length > 0) {
+      return { title: this.productSvc.getCategoryTitle(cat), products: apiProducts };
+    }
+    // Fallback to static data while backend is loading or unavailable
+    return CATEGORY_MAP[cat] ?? { title: '', products: [] };
+  });
+
+  readonly categoryTitle = computed(() => this.categoryData().title);
+  readonly products      = computed(() => this.categoryData().products);
+  readonly isLoading     = computed(() =>
+    this.productSvc.loading() && this.products().length === 0
+  );
+
   selectedAmounts: Record<number, number> = {};
-
   weightOptions = [250, 500, 1000, 2000];
-  unitOptions = [1, 2, 3, 4];
+  unitOptions   = [1, 2, 3, 4];
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const cat = params.get('category') ?? '';
-      const data = CATEGORY_MAP[cat];
-      if (data) {
-        this.categoryTitle.set(data.title);
-        this.products.set(data.products);
-        this.selectedAmounts = {};
-        data.products.forEach(p => {
-          this.selectedAmounts[p.id] = p.priceType === 0 ? 250 : 1;
-        });
-      }
+      this.categoryId.set(cat);
+      this.initAmounts();
+    });
+  }
+
+  private initAmounts() {
+    this.selectedAmounts = {};
+    this.products().forEach(p => {
+      this.selectedAmounts[p.id] = p.priceType === 0 ? 250 : 1;
     });
   }
 
@@ -47,7 +65,9 @@ export class Products implements OnInit {
   addToCart(product: Product) {
     const amount = this.selectedAmounts[product.id];
     this.basket.addProduct(product, amount);
-    const label = product.priceType === 0 ? `${amount}ג'` : `${amount} יח'`;
+    const label = product.priceType === 0
+      ? (amount < 1000 ? `${amount}ג'` : `${amount / 1000}ק"ג`)
+      : `${amount} יח'`;
     this.snackBar.open(`${product.title} (${label}) נוסף לסל!`, 'סגור', {
       duration: 2500,
       horizontalPosition: 'center',

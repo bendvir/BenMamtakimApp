@@ -22,10 +22,10 @@ export class Home implements OnDestroy {
   private timer = setInterval(() => this.next(), 5000);
 
   categories = [
-    { route: '/products/cat1', icon: 'cake', image: 'assets/images/categories/sweets.jpg', title: 'המוצרים המתוקים', desc: 'שוקולד, סוכריות, גומי ועוד' },
-    { route: '/products/cat2', icon: 'eco', image: 'assets/images/categories/dried-fruits.jpg', title: 'פירות יבשים', desc: 'שקדים, אגוזים, צימוקים ועוד' },
-    { route: '/products/cat3', icon: 'card_giftcard', image: 'assets/images/categories/gifts.jpg', title: 'אירועים ומתנות', desc: 'מארזי מתנה לכל אירוע' },
-    { route: '/products/cat2', icon: 'eco', image: 'assets/images/fruits/almonds.jpg', title: 'אגוזים טבעיים', desc: 'שקדים, קשיו, פיסטוק ועוד' },
+    { route: '/products/dried-fruits', image: 'assets/images/categories/dried-fruits.jpg', title: 'פירות יבשים',       desc: 'צימוקים, תמרים, משמש ועוד' },
+    { route: '/products/natural-nuts', image: 'assets/images/fruits/almonds.jpg',           title: 'אגוזים טבעיים',     desc: 'שקדים, קשיו, פיסטוק ועוד' },
+    { route: '/products/roasted',      image: 'assets/images/fruits/pistachios.jpg',         title: 'פיצוחים קלויים',   desc: 'בוטנים, גרעינים, אגוזים' },
+    { route: '/products/chocolates',   image: 'assets/images/categories/sweets.jpg',         title: 'שוקולדים וממתקים', desc: 'שוקולד בלגי, פרלינים ועוד' },
   ];
 
   holidays = [

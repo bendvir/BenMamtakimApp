@@ -38,8 +38,13 @@
       <li>
         <button mat-button [matMenuTriggerFor]="productsMenu" class="nav-menu-btn">מוצרים <mat-icon>expand_more</mat-icon></button>
         <mat-menu #productsMenu="matMenu" xPosition="before">
-          <a mat-menu-item routerLink="/products/cat1" (click)="closeMenu()"><mat-icon>cake</mat-icon> ממתקים</a>
-          <a mat-menu-item routerLink="/products/cat2" (click)="closeMenu()"><mat-icon>eco</mat-icon> פירות יבשים</a>
+          <a mat-menu-item routerLink="/products/dried-fruits"  (click)="closeMenu()"><mat-icon>eco</mat-icon>          פירות יבשים</a>
+          <a mat-menu-item routerLink="/products/natural-nuts"  (click)="closeMenu()"><mat-icon>spa</mat-icon>          אגוזים טבעיים</a>
+          <a mat-menu-item routerLink="/products/roasted"       (click)="closeMenu()"><mat-icon>whatshot</mat-icon>     פיצוחים קלויים</a>
+          <a mat-menu-item routerLink="/products/chocolates"    (click)="closeMenu()"><mat-icon>cake</mat-icon>         שוקולדים וממתקים</a>
+          <a mat-menu-item routerLink="/products/food"          (click)="closeMenu()"><mat-icon>restaurant</mat-icon>   מוצרי מזון</a>
+          <a mat-menu-item routerLink="/products/spirits"       (click)="closeMenu()"><mat-icon>liquor</mat-icon>       שתייה חריפה</a>
+          <a mat-menu-item routerLink="/products/soft-drinks"   (click)="closeMenu()"><mat-icon>local_drink</mat-icon>  שתייה קלה</a>
         </mat-menu>
       </li>
       <li><a routerLink="/landing" routerLinkActive="active" (click)="closeMenu()">אודותינו</a></li>

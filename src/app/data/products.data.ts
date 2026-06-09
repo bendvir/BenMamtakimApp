@@ -71,11 +71,18 @@ export const ROSH_HASHANA_PRODUCTS: Product[] = [
 ];
 
 export const CATEGORY_MAP: Record<string, { title: string; products: Product[] }> = {
-  cat1: { title: 'המוצרים המתוקים', products: SWEET_PRODUCTS },
-  cat2: { title: 'פירות יבשים', products: DRIED_FRUITS },
-  cat3: { title: 'אירועים ומתנות', products: GIFTS_PRODUCTS },
-  passover: { title: 'חג פסח', products: PASSOVER_PRODUCTS },
-  roshAshana: { title: 'ראש השנה', products: ROSH_HASHANA_PRODUCTS },
+  // New category IDs (backed by API)
+  'dried-fruits':  { title: 'פירות יבשים',       products: DRIED_FRUITS },
+  'natural-nuts':  { title: 'אגוזים טבעיים',     products: DRIED_FRUITS.filter(p => [201,202,205,206,207,208,219,220].includes(p.id)) },
+  'roasted':       { title: 'פיצוחים קלויים',    products: [] },
+  'chocolates':    { title: 'שוקולדים וממתקים',  products: SWEET_PRODUCTS },
+  'food':          { title: 'מוצרי מזון',         products: [] },
+  'spirits':       { title: 'שתייה חריפה',       products: [] },
+  'soft-drinks':   { title: 'שתייה קלה',         products: [] },
+  // Legacy IDs (keep for backward compat)
+  cat1: { title: 'שוקולדים וממתקים', products: SWEET_PRODUCTS },
+  cat2: { title: 'פירות יבשים',      products: DRIED_FRUITS },
+  cat3: { title: 'אירועים ומתנות',   products: GIFTS_PRODUCTS },
 };
 
 export const CITIES = [
