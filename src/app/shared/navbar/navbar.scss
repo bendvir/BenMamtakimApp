@@ -246,6 +246,9 @@
 .search-option-price { font-size: 0.75rem; color: #6b7280; font-weight: 600; }
 .search-no-results   { font-size: 0.855rem; color: #9ca3af; text-align: center; }
 
+// Mobile search container — hidden by default, shown only on mobile
+.search-container { display: none; }
+
 // ── HAMBURGER ────────────────────────────────────────────────────────────────
 .hamburger {
   display: none;
