@@ -9,6 +9,7 @@ export interface Product {
   pricePerUnit?: number;
   category?: string;
   description?: string;
+  isNew?: boolean;
 }
 
 export interface CartItem extends Product {

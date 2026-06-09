@@ -36,6 +36,7 @@ function mapProduct(p) {
     link:        p.image_url  || '',
     description: p.description || '',
     inStock:     p.in_stock === 1,
+    isNew:       p.is_new === 1,
     updatedAt:   p.updated_at,
   };
 }

@@ -38,7 +38,7 @@ router.get('/products', (_req, res) => {
 
 // POST /api/admin/products — create
 router.post('/products', (req, res) => {
-  const { title, price, priceType, categoryId, imageUrl, description, inStock } = req.body;
+  const { title, price, priceType, categoryId, imageUrl, description, inStock, isNew } = req.body;
   if (!title?.trim() || price == null || !categoryId) {
     return res.status(400).json({ error: 'שדות חובה: title, price, categoryId' });
   }
@@ -50,13 +50,14 @@ router.post('/products', (req, res) => {
     image_url:   imageUrl   || '',
     description: description || '',
     in_stock:    inStock === false ? 0 : 1,
+    is_new:      isNew ? 1 : 0,
   });
   res.status(201).json({ id, message: 'מוצר נוסף בהצלחה' });
 });
 
 // PUT /api/admin/products/:id — update
 router.put('/products/:id', (req, res) => {
-  const { title, price, priceType, categoryId, imageUrl, description, inStock } = req.body;
+  const { title, price, priceType, categoryId, imageUrl, description, inStock, isNew } = req.body;
   const ok = db.updateProduct(req.params.id, {
     title:       title?.trim(),
     price:       Number(price),
@@ -65,6 +66,7 @@ router.put('/products/:id', (req, res) => {
     image_url:   imageUrl   || '',
     description: description || '',
     in_stock:    inStock === false ? 0 : 1,
+    is_new:      isNew ? 1 : 0,
   });
   if (!ok) return res.status(404).json({ error: 'מוצר לא נמצא' });
   res.json({ message: 'מוצר עודכן בהצלחה' });

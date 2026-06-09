@@ -179,3 +179,26 @@ mat-form-field {
   .section-title { font-size: 1.75rem; }
   .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
 }
+
+// ── Olive-green slide toggle (overrides Material orange theme) ───────────────
+.toggle-olive.mat-mdc-slide-toggle {
+  // Track — checked state
+  button.mdc-switch:enabled:checked .mdc-switch__track::after {
+    background: #567333 !important;
+  }
+  button.mdc-switch:enabled:checked .mdc-switch__track::before {
+    background: #aabb96 !important;
+  }
+  // Handle — checked state
+  button.mdc-switch:enabled:checked .mdc-switch__handle::after {
+    background: #fff !important;
+  }
+  // Ripple / state-layer
+  button.mdc-switch:enabled:checked .mdc-switch__ripple::after {
+    background: #567333 !important;
+  }
+  // Focus ring
+  --mdc-switch-selected-focus-state-layer-color:   #567333;
+  --mdc-switch-selected-hover-state-layer-color:   #567333;
+  --mdc-switch-selected-pressed-state-layer-color: #567333;
+}

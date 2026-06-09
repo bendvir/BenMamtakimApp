@@ -3,41 +3,51 @@
 
   <div class="contact-layout">
     <form [formGroup]="form" (ngSubmit)="submit()" class="contact-form">
-      <mat-form-field appearance="outline">
-        <mat-label>שם מלא</mat-label>
-        <input matInput formControlName="name">
+
+      <div class="field-wrap">
+        <label class="field-label">שם מלא <span class="req">*</span></label>
+        <input class="field-input" formControlName="name" placeholder="ישראל ישראלי">
         @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
-          <mat-error>שדה חובה</mat-error>
+          <span class="field-error">שם מלא הוא שדה חובה</span>
         }
-      </mat-form-field>
+        @if (form.get('name')?.hasError('minlength') && form.get('name')?.touched) {
+          <span class="field-error">שם חייב להכיל לפחות 2 תווים</span>
+        }
+      </div>
 
-      <mat-form-field appearance="outline">
-        <mat-label>טלפון</mat-label>
-        <input matInput formControlName="phone" dir="ltr">
+      <div class="field-wrap">
+        <label class="field-label">טלפון <span class="req">*</span></label>
+        <input class="field-input ltr" formControlName="phone" placeholder="050-0000000" type="tel">
         @if (form.get('phone')?.hasError('pattern') && form.get('phone')?.touched) {
-          <mat-error>מספר טלפון לא תקין</mat-error>
+          <span class="field-error">מספר טלפון לא תקין</span>
         }
-      </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline">
-        <mat-label>אימייל</mat-label>
-        <input matInput formControlName="email" dir="ltr">
+      <div class="field-wrap">
+        <label class="field-label">אימייל</label>
+        <input class="field-input ltr" formControlName="email" placeholder="your@email.com" type="email">
         @if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
-          <mat-error>אימייל לא תקין</mat-error>
+          <span class="field-error">כתובת אימייל לא תקינה</span>
         }
-      </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline">
-        <mat-label>הודעה</mat-label>
-        <textarea matInput formControlName="message" rows="5" placeholder="כתוב לנו..."></textarea>
+      <div class="field-wrap">
+        <label class="field-label">הודעה <span class="req">*</span></label>
+        <textarea class="field-textarea" formControlName="message" rows="5"
+                  placeholder="כתוב לנו..."></textarea>
         @if (form.get('message')?.hasError('required') && form.get('message')?.touched) {
-          <mat-error>שדה חובה</mat-error>
+          <span class="field-error">שדה הודעה הוא חובה</span>
         }
-      </mat-form-field>
+        @if (form.get('message')?.hasError('minlength') && form.get('message')?.touched) {
+          <span class="field-error">ההודעה חייבת להכיל לפחות 10 תווים</span>
+        }
+      </div>
 
-      <button mat-raised-button color="primary" type="submit" class="send-btn">
-        <mat-icon>send</mat-icon> שלח הודעה
+      <button mat-raised-button type="submit" class="send-btn">
+        <mat-icon>send</mat-icon>
+        שלח הודעה
       </button>
+
     </form>
 
     <div class="contact-info">
