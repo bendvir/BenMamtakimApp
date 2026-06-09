@@ -7,66 +7,45 @@
 <nav class="navbar-main">
   <div class="navbar-inner">
 
-    <!-- LEFT: actions + search -->
+    <!-- LEFT: search (desktop) + cart + hamburger -->
     <div class="nav-left">
-      <!-- Search toggle (desktop) -->
-      <div class="search-container" [class.open]="searchOpen()">
-        <div class="search-field-wrap">
-          <mat-icon class="search-field-icon">search</mat-icon>
-          <input
-            #searchInput
-            class="search-field-input"
-            type="text"
-            placeholder="חיפוש מוצר..."
-            [value]="searchQuery()"
-            (input)="onSearchInput($event)"
-            [matAutocomplete]="searchAuto"
-            dir="rtl"
-          >
-          @if (searchQuery()) {
-            <button class="search-field-clear" (click)="clearSearch()">
-              <mat-icon>close</mat-icon>
-            </button>
-          }
-        </div>
 
-        <mat-autocomplete
-          #searchAuto="matAutocomplete"
-          [displayWith]="() => ''"
-          (optionSelected)="onSearchSelect($event)"
-          class="search-autocomplete"
+      <!-- Desktop: permanent search bar -->
+      <div class="search-desktop">
+        <mat-icon class="search-desktop__icon">search</mat-icon>
+        <input
+          class="search-desktop__input"
+          type="text"
+          placeholder="חיפוש מוצר..."
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          [matAutocomplete]="searchAuto"
+          dir="rtl"
+          autocomplete="off"
         >
-          @for (result of searchResults(); track result.id) {
-            <mat-option [value]="result" class="search-option">
-              <div class="search-option-inner">
-                <span class="search-option-title">{{ result.title }}</span>
-                <div class="search-option-meta">
-                  <span class="search-option-cat">{{ result.categoryName }}</span>
-                  <span class="search-option-price">{{ priceLabel(result) }}</span>
-                </div>
-              </div>
-            </mat-option>
-          }
-          @if (searchQuery().length >= 2 && searchResults().length === 0) {
-            <mat-option disabled class="search-no-results">
-              לא נמצאו מוצרים עבור "{{ searchQuery() }}"
-            </mat-option>
-          }
-        </mat-autocomplete>
+        @if (searchQuery()) {
+          <button class="search-desktop__clear" (click)="clearSearch()" type="button">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
       </div>
 
-      <button class="nav-icon-btn search-toggle-btn" (click)="toggleSearch()" aria-label="חיפוש">
+      <!-- Mobile: search toggle button -->
+      <button class="nav-icon-btn search-toggle-btn" (click)="toggleSearch()" aria-label="חיפוש" type="button">
         <mat-icon>{{ searchOpen() ? 'close' : 'search' }}</mat-icon>
       </button>
 
-      <a routerLink="/cart" class="nav-icon-btn" (click)="closeMenu()" aria-label="עגלת קניות">
-        <mat-icon [matBadge]="basket.totalItems() > 0 ? basket.totalItems() : null"
-                  matBadgeColor="warn" matBadgeSize="small" matBadgePosition="above before">
-          shopping_bag
-        </mat-icon>
+      <!-- Cart pill (all screens) -->
+      <a routerLink="/cart" class="cart-pill" [class.has-items]="basket.totalItems() > 0"
+         (click)="closeMenu()" aria-label="סל קניות">
+        <mat-icon class="cart-pill__icon">shopping_bag</mat-icon>
+        @if (basket.totalItems() > 0) {
+          <span class="cart-pill__count">{{ basket.totalItems() }}</span>
+        }
       </a>
 
-      <button class="hamburger" (click)="toggleMenu()" [class.open]="mobileMenuOpen()" aria-label="תפריט">
+      <!-- Hamburger (mobile only) -->
+      <button class="hamburger" (click)="toggleMenu()" [class.open]="mobileMenuOpen()" aria-label="תפריט" type="button">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -101,3 +80,50 @@
 
   </div>
 </nav>
+
+<!-- Shared autocomplete panel (connected to both desktop + mobile inputs) -->
+<mat-autocomplete
+  #searchAuto="matAutocomplete"
+  [displayWith]="() => ''"
+  (optionSelected)="onSearchSelect($event)"
+  class="search-autocomplete"
+>
+  @for (result of searchResults(); track result.id) {
+    <mat-option [value]="result" class="search-option">
+      <div class="search-option-inner">
+        <span class="search-option-title">{{ result.title }}</span>
+        <div class="search-option-meta">
+          <span class="search-option-cat">{{ result.categoryName }}</span>
+          <span class="search-option-price">{{ priceLabel(result) }}</span>
+        </div>
+      </div>
+    </mat-option>
+  }
+  @if (searchQuery().length >= 2 && searchResults().length === 0) {
+    <mat-option disabled class="search-no-results">
+      לא נמצאו מוצרים עבור "{{ searchQuery() }}"
+    </mat-option>
+  }
+</mat-autocomplete>
+
+<!-- Mobile: full-width search dropdown (below navbar, triggered by search-toggle-btn) -->
+<div class="search-container" [class.open]="searchOpen()">
+  <div class="search-field-wrap">
+    <mat-icon class="search-field-icon">search</mat-icon>
+    <input
+      class="search-field-input"
+      type="text"
+      placeholder="חיפוש מוצר..."
+      [value]="searchQuery()"
+      (input)="onSearchInput($event)"
+      [matAutocomplete]="searchAuto"
+      dir="rtl"
+      autocomplete="off"
+    >
+    @if (searchQuery()) {
+      <button class="search-field-clear" (click)="clearSearch()" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </div>
+</div>

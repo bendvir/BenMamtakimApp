@@ -79,12 +79,11 @@
   &:hover { color: var(--primary) !important; background: transparent !important; }
 }
 
-// ── LEFT ACTIONS + SEARCH ─────────────────────────────────────────────────────
+// ── LEFT ACTIONS ──────────────────────────────────────────────────────────────
 .nav-left {
   grid-column: 1;
-  display: flex; align-items: center; gap: 2px;
+  display: flex; align-items: center; gap: 8px;
   justify-content: flex-start;
-  position: relative;
 }
 
 .nav-icon-btn {
@@ -97,71 +96,119 @@
   mat-icon { font-size: 1.3rem; width: 1.3rem; height: 1.3rem; }
 }
 
-// ── SEARCH ────────────────────────────────────────────────────────────────────
-.search-container {
-  position: absolute;
-  right: 100%;
-  top: 50%; transform: translateY(-50%);
-  width: 0;
-  overflow: hidden;
-  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &.open { width: 260px; overflow: visible; }
-}
-
-.search-field-wrap {
+// ── DESKTOP: PERMANENT SEARCH BAR ─────────────────────────────────────────────
+.search-desktop {
   position: relative;
-  display: flex; align-items: center;
-  width: 260px;
-}
+  display: flex;
+  align-items: center;
 
-.search-field-icon {
-  position: absolute;
-  right: 10px;
-  font-size: 17px; width: 17px; height: 17px;
-  color: #9ca3af; pointer-events: none;
-  z-index: 1;
-}
-
-.search-field-input {
-  width: 100%;
-  height: 36px;
-  padding: 0 10px 0 34px;
-  padding-right: 36px;
-  border: 1.5px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-family: 'Heebo', sans-serif;
-  color: #111827;
-  background: #fff;
-  outline: none;
-  direction: rtl;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-
-  &:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(86,115,51,0.12);
+  &__icon {
+    position: absolute;
+    right: 12px;
+    font-size: 17px; width: 17px; height: 17px;
+    color: #9ca3af;
+    pointer-events: none;
+    z-index: 1;
   }
-  &::placeholder { color: #9ca3af; font-size: 0.83rem; }
+
+  &__input {
+    width: 240px;
+    height: 38px;
+    padding: 0 10px 0 36px;
+    padding-right: 38px;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-family: 'Heebo', sans-serif;
+    color: var(--text);
+    background: var(--bg-warm);
+    outline: none;
+    direction: rtl;
+    transition: border-color 0.2s, box-shadow 0.2s, width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:focus {
+      width: 300px;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(86,115,51,0.12);
+      background: #fff;
+    }
+    &::placeholder { color: #9ca3af; font-size: 0.82rem; }
+  }
+
+  &__clear {
+    position: absolute;
+    left: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: none; border: none; cursor: pointer;
+    color: #9ca3af; padding: 2px; border-radius: 4px;
+    &:hover { color: var(--text); }
+    mat-icon { font-size: 15px; width: 15px; height: 15px; }
+  }
 }
 
-.search-field-clear {
-  position: absolute;
-  left: 6px;
-  display: flex; align-items: center; justify-content: center;
-  background: none; border: none; cursor: pointer;
-  color: #9ca3af; padding: 2px; border-radius: 4px;
-  &:hover { color: #374151; }
-  mat-icon { font-size: 15px; width: 15px; height: 15px; }
+// Hide desktop search on mobile
+@media (max-width: 900px) {
+  .search-desktop { display: none; }
 }
 
+// ── MOBILE: SEARCH TOGGLE BUTTON ──────────────────────────────────────────────
 .search-toggle-btn {
-  position: relative;
-  z-index: 1;
+  display: none; // hidden on desktop
 }
 
-// Autocomplete panel styles (global-ish via ::ng-deep or panel class)
+// ── CART PILL BUTTON ──────────────────────────────────────────────────────────
+.cart-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.85rem 0.38rem 0.65rem;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &__icon {
+    font-size: 1.15rem;
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  &__count {
+    background: #fff;
+    color: var(--primary);
+    border-radius: 50px;
+    min-width: 19px;
+    height: 19px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    line-height: 1;
+  }
+
+  &:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(86,115,51,0.38);
+  }
+
+  // Pulsing glow animation when cart has items
+  &.has-items {
+    animation: cart-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes cart-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(86,115,51,0.35); }
+  50%       { box-shadow: 0 0 0 7px rgba(86,115,51,0); }
+}
+
+// Autocomplete panel styles
 ::ng-deep .search-autocomplete {
   border-radius: 10px !important;
   box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
@@ -195,30 +242,17 @@
   gap: 0.5rem;
 }
 
-.search-option-cat {
-  font-size: 0.75rem;
-  color: var(--primary);
-  font-weight: 500;
-}
-
-.search-option-price {
-  font-size: 0.75rem;
-  color: #6b7280;
-  font-weight: 600;
-}
-
-.search-no-results {
-  font-size: 0.855rem;
-  color: #9ca3af;
-  text-align: center;
-}
+.search-option-cat   { font-size: 0.75rem; color: var(--primary); font-weight: 500; }
+.search-option-price { font-size: 0.75rem; color: #6b7280; font-weight: 600; }
+.search-no-results   { font-size: 0.855rem; color: #9ca3af; text-align: center; }
 
 // ── HAMBURGER ────────────────────────────────────────────────────────────────
 .hamburger {
   display: none;
   flex-direction: column; gap: 5px;
   background: none; border: none; cursor: pointer;
-  padding: 8px; border-radius: 8px;
+  padding: 10px; border-radius: 8px;
+  min-height: 44px;
 
   span {
     display: block; width: 20px; height: 1.5px;
@@ -235,27 +269,24 @@
 
 // ── MOBILE ────────────────────────────────────────────────────────────────────
 @media (max-width: 900px) {
-  .hamburger {
-    display: flex;
-    padding: 10px; // 44px touch target
-    min-height: 44px;
-  }
+  .navbar-inner { padding: 0 1rem; }
 
-  .nav-icon-btn {
-    padding: 10px;
-    min-height: 44px;
-  }
-
-  // Search toggle btn — visible on mobile (opens full-width search bar)
+  .hamburger { display: flex; }
   .search-toggle-btn { display: flex !important; }
+  .nav-icon-btn { padding: 10px; min-height: 44px; }
 
-  // Search bar — full-width drop-down below navbar on mobile
+  // Smaller cart pill on mobile
+  .cart-pill {
+    padding: 0.35rem 0.7rem 0.35rem 0.5rem;
+    &__icon { font-size: 1.05rem; width: 1.05rem; height: 1.05rem; }
+  }
+
+  // Mobile search dropdown (below navbar, full-width)
   .search-container {
     display: block !important;
     position: fixed;
     top: calc(var(--announce-height) + var(--navbar-height));
-    right: 0;
-    left: 0;
+    right: 0; left: 0;
     width: 100% !important;
     height: 0;
     overflow: hidden;
@@ -264,7 +295,7 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: height 0.22s ease;
     z-index: 997;
-    pointer-events: none; // prevent blocking clicks when closed
+    pointer-events: none;
 
     &.open {
       height: 62px;
@@ -278,6 +309,7 @@
     }
   }
 
+  // Mobile nav menu
   .nav-links {
     display: none;
     position: fixed;
@@ -301,4 +333,50 @@
       width: 100%; text-align: right;
     }
   }
+}
+
+// ── MOBILE SEARCH FIELD (in search-container) ────────────────────────────────
+.search-field-wrap {
+  position: relative;
+  display: flex; align-items: center;
+}
+
+.search-field-icon {
+  position: absolute;
+  right: 10px;
+  font-size: 17px; width: 17px; height: 17px;
+  color: #9ca3af; pointer-events: none;
+  z-index: 1;
+}
+
+.search-field-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 10px 0 34px;
+  padding-right: 36px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-family: 'Heebo', sans-serif;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  direction: rtl;
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(86,115,51,0.12);
+  }
+  &::placeholder { color: #9ca3af; font-size: 0.83rem; }
+}
+
+.search-field-clear {
+  position: absolute;
+  left: 6px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  color: #9ca3af; padding: 2px; border-radius: 4px;
+  &:hover { color: #374151; }
+  mat-icon { font-size: 15px; width: 15px; height: 15px; }
 }
