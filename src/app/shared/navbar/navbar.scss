@@ -263,11 +263,13 @@
     border-bottom: 1px solid var(--border-light);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: height 0.22s ease;
-    z-index: 999;
+    z-index: 997;
+    pointer-events: none; // prevent blocking clicks when closed
 
     &.open {
       height: 62px;
       overflow: visible;
+      pointer-events: auto;
     }
 
     .search-field-wrap {
@@ -279,12 +281,14 @@
   .nav-links {
     display: none;
     position: fixed;
-    top: calc(34px + 62px); right: 0; left: 0; bottom: 0;
+    top: calc(var(--announce-height) + var(--navbar-height));
+    right: 0; left: 0; bottom: 0;
     background: var(--bg);
     flex-direction: column; align-items: stretch;
     padding: 1rem; gap: 0; overflow-y: auto;
     justify-content: flex-start;
     border-top: 1px solid var(--border-light);
+    z-index: 998;
     &.open { display: flex; }
 
     > li > a, .nav-menu-btn {

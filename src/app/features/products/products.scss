@@ -59,6 +59,21 @@
   }
 }
 
+// ── MOBILE ────────────────────────────────────────────────────────────────
+@media (max-width: 640px) {
+  .amount-pill {
+    padding: 0.28rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  .amount-selector { gap: 0.35rem; }
+  .product-price-label { font-size: 1rem; margin-bottom: 0.6rem; }
+}
+
+@media (max-width: 400px) {
+  // 1 column on very small phones so cards are wide enough for pills
+  :host { display: block; }
+}
+
 // ── ACTIONS ROW — total price + add-to-cart ──────────────────────────────
 .product-actions {
   display: flex;

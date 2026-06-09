@@ -176,8 +176,8 @@ mat-form-field {
 
 // ── GLOBAL RESPONSIVE ────────────────────────────────────────────────────────
 
-// Prevent horizontal scroll on any page
-html, body { overflow-x: hidden; }
+// Prevent horizontal scroll — body only! html overflow-x:hidden breaks position:fixed on iOS Safari
+body { overflow-x: hidden; }
 
 @media (max-width: 768px) {
   .page-container { padding: 2rem 1rem; }
@@ -190,6 +190,13 @@ html, body { overflow-x: hidden; }
   .section-title { font-size: 1.4rem; }
   .products-grid { grid-template-columns: repeat(2, 1fr); gap: 0.65rem; }
   .product-card .product-img-wrapper { height: 160px; }
+  .product-card .product-body { padding: 0.85rem; }
+}
+
+@media (max-width: 380px) {
+  // Very small phones — 1 column so amount pills don't wrap
+  .products-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  .product-card .product-img-wrapper { height: 200px; }
 }
 
 // iOS auto-zoom fix — iOS Safari zooms in on any input with font-size < 16px
