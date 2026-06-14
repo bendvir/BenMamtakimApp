@@ -232,6 +232,51 @@
   }
 }
 
+.image-upload-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  flex-wrap: wrap;
+
+  .input-icon-wrap { min-width: 0; }
+  .btn-upload-img  { flex-shrink: 0; }
+}
+
+.btn-upload-img {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1.5px solid #567333;
+  background: #f3f7ee;
+  color: #567333;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.18s, color 0.18s;
+  font-family: inherit;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+  &:hover { background: #567333; color: #fff; }
+
+  &.uploading {
+    opacity: 0.7;
+    cursor: wait;
+  }
+}
+
+.img-preview {
+  margin-top: 8px;
+  height: 90px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1.5px solid #d1d5db;
+}
+
 // ── MOBILE ADMIN ────────────────────────────────────────────────────────────
 @media (max-width: 768px) {
   .admin-body { padding: 0.85rem 1rem 1.5rem; }

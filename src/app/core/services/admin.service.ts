@@ -89,4 +89,10 @@ export class AdminService {
   deleteProduct(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${environment.apiUrl}/admin/products/${id}`, { headers: this.headers() });
   }
+
+  uploadImage(file: File): Observable<{ imageUrl: string }> {
+    const form = new FormData();
+    form.append('image', file);
+    return this.http.post<{ imageUrl: string }>(`${environment.apiUrl}/admin/upload`, form, { headers: this.headers() });
+  }
 }

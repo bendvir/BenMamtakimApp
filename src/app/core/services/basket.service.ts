@@ -7,9 +7,7 @@ export class BasketService {
 
   readonly items = this._items.asReadonly();
 
-  readonly totalItems = computed(() =>
-    this._items().reduce((sum, item) => sum + item.amount, 0)
-  );
+  readonly totalItems = computed(() => this._items().length);
 
   readonly totalPrice = computed(() =>
     this._items().reduce((sum, item) => sum + item.pricePerUnit, 0)

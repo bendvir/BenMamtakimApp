@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,10 +7,11 @@ import { BasketService } from '../../core/services/basket.service';
 import { ProductService } from '../../core/services/product.service';
 import { CATEGORY_MAP } from '../../data/products.data';
 import { Product } from '../../models/product.model';
+import { MagnifierDirective } from '../../shared/directives/magnifier.directive';
 
 @Component({
   selector: 'app-products',
-  imports: [MatButtonModule, MatIconModule, MatSnackBarModule],
+  imports: [MatButtonModule, MatIconModule, MatSnackBarModule, MagnifierDirective],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
@@ -42,6 +43,24 @@ export class Products implements OnInit {
   selectedAmounts: Record<number, number> = {};
   weightOptions = [250, 500, 1000, 2000];
   unitOptions   = [1, 2, 3, 4];
+
+  // Lightbox
+  lightboxImg  = signal<string | null>(null);
+  lightboxTitle = signal<string>('');
+
+  openLightbox(product: { link: string; title: string }) {
+    this.lightboxImg.set(product.link);
+    this.lightboxTitle.set(product.title);
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeLightbox() {
+    this.lightboxImg.set(null);
+    document.body.style.overflow = '';
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() { this.closeLightbox(); }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {

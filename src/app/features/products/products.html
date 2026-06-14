@@ -7,8 +7,11 @@
   <div class="products-grid">
     @for (product of products(); track product.id) {
       <div class="product-card">
-        <div class="product-img-wrapper">
+        <div class="product-img-wrapper" appMagnifier (click)="openLightbox(product)">
           <img [src]="product.link" [alt]="product.title" loading="lazy">
+          <div class="img-zoom-hint">
+            <mat-icon>zoom_in</mat-icon>
+          </div>
         </div>
 
         <div class="product-body">
@@ -53,3 +56,16 @@
     }
   </div>
 </div>
+
+<!-- Lightbox -->
+@if (lightboxImg()) {
+  <div class="lightbox-overlay" (click)="closeLightbox()">
+    <div class="lightbox-box" (click)="$event.stopPropagation()">
+      <button class="lightbox-close" (click)="closeLightbox()" aria-label="סגור">
+        <mat-icon>close</mat-icon>
+      </button>
+      <img [src]="lightboxImg()!" [alt]="lightboxTitle()" class="lightbox-img">
+      <p class="lightbox-caption">{{ lightboxTitle() }}</p>
+    </div>
+  </div>
+}

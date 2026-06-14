@@ -1,5 +1,5 @@
 {
-  "_nextId": 1015,
+  "_nextId": 1019,
   "categories": [
     {
       "id": "dried-fruits",
@@ -44,12 +44,12 @@
       "price": 60,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/dried-apricots-market.jpg",
+      "image_url": "assets\\images\\fruits\\dried-apricots-market.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
-      "updated_at": "2026-06-09T14:58:26.851Z"
+      "updated_at": "2026-06-11T11:46:39.233Z"
     },
     {
       "id": 3,
@@ -57,12 +57,12 @@
       "price": 45,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/sour-fruits.jpg",
+      "image_url": "assets\\images\\PerotYeveshim\\enhanced\\new\\emptyShezif.PNG",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
-      "updated_at": "2026-06-10T09:07:46.588Z"
+      "updated_at": "2026-06-11T11:16:45.571Z"
     },
     {
       "id": 4,
@@ -70,9 +70,12 @@
       "price": 80,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/prunes.jpg",
+      "image_url": "assets/images/fruits/dried-figs.jpg",
       "description": "",
-      "in_stock": 1
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "updated_at": "2026-06-11T11:09:27.234Z"
     },
     {
       "id": 6,
@@ -100,7 +103,7 @@
       "price": 70,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/mango.jpg",
+      "image_url": "assets/images/fruits/papaya-burlap.jpg",
       "description": "",
       "in_stock": 1
     },
@@ -110,9 +113,12 @@
       "price": 75,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/pineapple.jpg",
+      "image_url": "assets\\images\\PerotYeveshim\\enhanced\\new\\SugerAnanas.PNG",
       "description": "",
-      "in_stock": 1
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "updated_at": "2026-06-11T11:14:34.305Z"
     },
     {
       "id": 11,
@@ -120,52 +126,64 @@
       "price": 22,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/dates-ceramic-bowl.jpg",
+      "image_url": "assets\\images\\PerotYeveshim\\enhanced\\new\\omri.PNG",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
-      "updated_at": "2026-06-10T08:44:49.388Z"
+      "updated_at": "2026-06-11T11:17:40.186Z"
     },
     {
       "id": 12,
-      "title": "שקדים",
+      "title": "שקדים ישראל קטן",
       "price": 90,
       "price_type": 0,
       "category_id": "natural-nuts",
       "image_url": "assets/images/fruits/almonds.jpg",
       "description": "",
-      "in_stock": 1
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "updated_at": "2026-06-11T11:51:52.328Z"
     },
     {
       "id": 13,
-      "title": "אגוזי מלך",
-      "price": 100,
+      "title": "אגוזי מלך קלופים",
+      "price": 40,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/fruits/walnuts-ceramic-bowl.jpg",
+      "image_url": "",
       "description": "",
-      "in_stock": 1
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "updated_at": "2026-06-11T11:47:19.754Z"
     },
     {
       "id": 14,
-      "title": "אגוזי קשיו",
-      "price": 120,
+      "title": "אגוזי קשיו טבעיים",
+      "price": 48,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/fruits/cashews.jpg",
+      "image_url": "",
       "description": "",
-      "in_stock": 1
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "updated_at": "2026-06-11T11:48:31.487Z"
     },
     {
       "id": 15,
-      "title": "פיסטוקים",
-      "price": 130,
+      "title": "פיסטוקים טבעיים",
+      "price": 60,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/fruits/pistachios.jpg",
+      "image_url": "",
       "description": "",
-      "in_stock": 1
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "updated_at": "2026-06-11T11:49:32.160Z"
     },
     {
       "id": 16,
@@ -179,33 +197,29 @@
     },
     {
       "id": 17,
-      "title": "אגוזי לוז",
+      "title": "אגוזי לוז בונדוק",
       "price": 95,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/fruits/hazelnuts-bowl.jpg",
+      "image_url": "",
       "description": "",
-      "in_stock": 1
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "updated_at": "2026-06-11T11:52:41.675Z"
     },
     {
       "id": 18,
-      "title": "פקאן",
-      "price": 140,
+      "title": "פקאן אמריקאי טבעי",
+      "price": 75,
       "price_type": 0,
       "category_id": "natural-nuts",
       "image_url": "assets/images/fruits/pecan-bowl-dark.jpg",
       "description": "",
-      "in_stock": 1
-    },
-    {
-      "id": 19,
-      "title": "מקדמיה",
-      "price": 150,
-      "price_type": 0,
-      "category_id": "natural-nuts",
-      "image_url": "assets/images/fruits/macadamia.jpg",
-      "description": "",
-      "in_stock": 1
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "updated_at": "2026-06-11T11:50:05.237Z"
     },
     {
       "id": 20,
@@ -400,46 +414,18 @@
       "updated_at": "2026-06-09T08:39:37.176Z"
     },
     {
-      "id": 1002,
-      "title": "ניסיון ירין",
-      "price": 100,
-      "price_type": 0,
-      "category_id": "dried-fruits",
-      "image_url": "",
-      "description": "סתם ניסיון",
-      "in_stock": 1,
-      "is_new": 0,
-      "is_new_until": null,
-      "created_at": "2026-06-09T14:56:40.349Z",
-      "updated_at": "2026-06-09T14:56:40.349Z"
-    },
-    {
-      "id": 1003,
-      "title": "ארתור ניסיון",
-      "price": 100,
-      "price_type": 0,
-      "category_id": "natural-nuts",
-      "image_url": "",
-      "description": "",
-      "in_stock": 1,
-      "is_new": 0,
-      "is_new_until": null,
-      "created_at": "2026-06-10T08:06:01.745Z",
-      "updated_at": "2026-06-10T08:06:01.745Z"
-    },
-    {
       "id": 1004,
       "title": "צימוקים צהובים גמבו",
       "price": 38,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/raisins-white-bowl.jpg",
+      "image_url": "assets/images/fruits/raisins-golden-large.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:00:13.532Z",
-      "updated_at": "2026-06-10T09:00:13.532Z"
+      "updated_at": "2026-06-11T10:55:18.057Z"
     },
     {
       "id": 1005,
@@ -447,7 +433,7 @@
       "price": 34,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/cranberries.jpg",
+      "image_url": "assets/images/fruits/prunes-bowl.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
@@ -461,27 +447,27 @@
       "price": 22,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/dates-ceramic-bowl.jpg",
+      "image_url": "uploads/1781423762665-915203.png",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:01:23.871Z",
-      "updated_at": "2026-06-10T09:01:23.871Z"
+      "updated_at": "2026-06-14T07:56:05.238Z"
     },
     {
       "id": 1007,
-      "title": "צימוק שחור",
+      "title": "צימוק חום",
       "price": 24,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/raisins-ceramic-bowl.jpg",
+      "image_url": "assets/images/uploads/1781423525311-132784.png",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:03:27.740Z",
-      "updated_at": "2026-06-10T09:03:27.740Z"
+      "updated_at": "2026-06-14T07:52:09.658Z"
     },
     {
       "id": 1008,
@@ -489,7 +475,7 @@
       "price": 30,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/dates-ceramic-bowl.jpg",
+      "image_url": "assets/images/fruits/dates-dark-bowl.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
@@ -503,13 +489,13 @@
       "price": 28,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/raisins-white-bowl.jpg",
+      "image_url": "assets\\images\\PerotYeveshim\\enhanced\\new\\SmallZimuk.PNG",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:04:05.663Z",
-      "updated_at": "2026-06-10T09:04:05.663Z"
+      "updated_at": "2026-06-11T11:06:44.650Z"
     },
     {
       "id": 1010,
@@ -517,13 +503,13 @@
       "price": 44,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/cranberries.jpg",
+      "image_url": "assets\\images\\PerotYeveshim\\enhanced\\new\\noSuger.PNG",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:04:23.252Z",
-      "updated_at": "2026-06-10T09:04:23.252Z"
+      "updated_at": "2026-06-11T11:08:45.092Z"
     },
     {
       "id": 1011,
@@ -531,13 +517,13 @@
       "price": 28,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/cranberries.jpg",
+      "image_url": "assets\\images\\PerotYeveshim\\enhanced\\new\\hamuziyot.PNG",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:04:34.515Z",
-      "updated_at": "2026-06-10T09:04:34.515Z"
+      "updated_at": "2026-06-11T11:08:08.682Z"
     },
     {
       "id": 1012,
@@ -545,13 +531,13 @@
       "price": 55,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/dried-apricots-market.jpg",
+      "image_url": "assets\\images\\PerotYeveshim\\enhanced\\new\\Uzbeki.PNG",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:04:58.106Z",
-      "updated_at": "2026-06-10T09:04:58.106Z"
+      "updated_at": "2026-06-11T11:11:49.057Z"
     },
     {
       "id": 1013,
@@ -559,13 +545,13 @@
       "price": 45,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/raisins-white-bowl.jpg",
+      "image_url": "assets\\images\\PerotYeveshim\\enhanced\\new\\parsi.PNG",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:05:32.958Z",
-      "updated_at": "2026-06-10T09:05:32.958Z"
+      "updated_at": "2026-06-11T11:02:22.457Z"
     },
     {
       "id": 1014,
@@ -573,13 +559,13 @@
       "price": 38,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/raisins-white-bowl.jpg",
+      "image_url": "assets/images/fruits/raisins-black-bowl.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:05:41.974Z",
-      "updated_at": "2026-06-10T09:05:41.974Z"
+      "updated_at": "2026-06-11T10:57:23.922Z"
     },
     {
       "id": 1015,
@@ -587,13 +573,69 @@
       "price": 45,
       "price_type": 0,
       "category_id": "dried-fruits",
-      "image_url": "assets/images/fruits/dates-ceramic-bowl.jpg",
+      "image_url": "assets/images/fruits/dates.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-10T09:06:50.808Z",
-      "updated_at": "2026-06-10T09:06:50.808Z"
+      "updated_at": "2026-06-11T10:57:35.906Z"
+    },
+    {
+      "id": 1016,
+      "title": "שקד ישראלי גדול",
+      "price": 60,
+      "price_type": 0,
+      "category_id": "natural-nuts",
+      "image_url": "",
+      "description": "",
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "created_at": "2026-06-11T11:52:07.913Z",
+      "updated_at": "2026-06-11T11:52:07.913Z"
+    },
+    {
+      "id": 1017,
+      "title": "שקד אמריקאי",
+      "price": 54,
+      "price_type": 0,
+      "category_id": "natural-nuts",
+      "image_url": "",
+      "description": "",
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "created_at": "2026-06-11T11:52:23.252Z",
+      "updated_at": "2026-06-11T11:52:23.252Z"
+    },
+    {
+      "id": 1018,
+      "title": "בוטנים טבעיים",
+      "price": 24,
+      "price_type": 0,
+      "category_id": "natural-nuts",
+      "image_url": "",
+      "description": "",
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "created_at": "2026-06-11T11:53:03.637Z",
+      "updated_at": "2026-06-11T11:53:03.637Z"
+    },
+    {
+      "id": 1019,
+      "title": "אגוזי מלך עם קליפה",
+      "price": 25,
+      "price_type": 0,
+      "category_id": "natural-nuts",
+      "image_url": "assets\\images\\fruits\\walnuts-ceramic-bowl.jpg",
+      "description": "",
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "created_at": "2026-06-11T11:53:57.224Z",
+      "updated_at": "2026-06-11T11:53:57.224Z"
     }
   ]
 }

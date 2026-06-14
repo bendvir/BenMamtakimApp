@@ -20,6 +20,9 @@ app.use(cors({
 }));
 app.use(express.json());
 
+const uploadsPath = require('path').join(__dirname, '..', 'public', 'assets', 'images', 'uploads');
+app.use('/uploads', require('express').static(uploadsPath));
+
 app.use('/api/products', require('./routes/products'));
 app.use('/api/admin',   require('./routes/admin'));
 

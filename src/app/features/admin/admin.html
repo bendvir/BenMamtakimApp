@@ -134,12 +134,26 @@
             </div>
 
             <div class="field-wrap field-full">
-              <label class="field-label">נתיב תמונה</label>
-              <div class="input-icon-wrap">
-                <input class="field-input has-icon" formControlName="imageUrl"
-                       placeholder="assets/images/fruits/almonds.jpg" dir="ltr">
-                <mat-icon class="input-suffix-icon">image</mat-icon>
+              <label class="field-label">תמונה</label>
+              <div class="image-upload-row">
+                <div class="input-icon-wrap" style="flex:1">
+                  <input class="field-input has-icon" formControlName="imageUrl"
+                         placeholder="assets/images/fruits/almonds.jpg" dir="ltr">
+                  <mat-icon class="input-suffix-icon">link</mat-icon>
+                </div>
+                <label class="btn-upload-img" [class.uploading]="uploading()" title="בחר תמונה מהמחשב">
+                  @if (uploading()) {
+                    <mat-icon class="spin-icon">hourglass_empty</mat-icon>
+                  } @else {
+                    <mat-icon>upload</mat-icon> העלה תמונה
+                  }
+                  <input type="file" accept="image/*" style="display:none"
+                         (change)="onImageFilePicked($event)" [disabled]="uploading()">
+                </label>
               </div>
+              @if (productForm.get('imageUrl')?.value) {
+                <img class="img-preview" [src]="productForm.get('imageUrl')?.value" alt="תצוגה מקדימה">
+              }
             </div>
 
             <div class="field-wrap field-full">

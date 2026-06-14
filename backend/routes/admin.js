@@ -1,10 +1,29 @@
 const express = require('express');
 const jwt     = require('jsonwebtoken');
 const crypto  = require('crypto');
+const path    = require('path');
+const multer  = require('multer');
 const db      = require('../database');
 const auth    = require('../middleware/auth');
 const mailer  = require('../mailer');
 const router  = express.Router();
+
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, '..', '..', 'public', 'assets', 'images', 'uploads'),
+  filename: (_req, file, cb) => {
+    const ext  = path.extname(file.originalname).toLowerCase();
+    const name = Date.now() + '-' + Math.round(Math.random() * 1e6) + ext;
+    cb(null, name);
+  },
+});
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (/^image\//.test(file.mimetype)) cb(null, true);
+    else cb(new Error('קבצי תמונה בלבד'));
+  },
+});
 
 // In-memory OTP store: sessionId → { code, expiresAt }
 const otpStore = new Map();
@@ -70,6 +89,12 @@ router.post('/verify-otp', (req, res) => {
     { expiresIn: '8h' }
   );
   res.json({ token });
+});
+
+// POST /api/admin/upload — upload product image (protected)
+router.post('/upload', auth, upload.single('image'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'לא נבחר קובץ' });
+  res.json({ imageUrl: `uploads/${req.file.filename}` });
 });
 
 router.use(auth);

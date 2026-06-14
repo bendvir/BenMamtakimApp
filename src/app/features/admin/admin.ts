@@ -26,8 +26,9 @@ export class Admin implements OnInit {
   readonly products   = signal<AdminProduct[]>([]);
   readonly categories = signal<AdminCategory[]>([]);
   readonly editingId  = signal<number | null>(null);
-  readonly saving     = signal(false);
-  readonly loadError  = signal<string | null>(null);
+  readonly saving       = signal(false);
+  readonly uploading    = signal(false);
+  readonly loadError    = signal<string | null>(null);
   readonly searchQuery    = signal('');
   readonly filterCategory = signal('');
 
@@ -183,6 +184,24 @@ export class Admin implements OnInit {
   private resetForm() {
     this.editingId.set(null);
     this.productForm.reset({ priceType: 0, inStock: true, price: 0, isNew: true });
+  }
+
+  onImageFilePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.uploading.set(true);
+    this.adminSvc.uploadImage(file).subscribe({
+      next: res => {
+        this.uploading.set(false);
+        this.productForm.patchValue({ imageUrl: res.imageUrl });
+        this.snackBar.open('התמונה הועלתה בהצלחה', '', { duration: 2000 });
+      },
+      error: () => {
+        this.uploading.set(false);
+        this.snackBar.open('שגיאה בהעלאת התמונה', '', { duration: 3000 });
+      },
+    });
+    (event.target as HTMLInputElement).value = '';
   }
 
   priceTypeLabel(t: number) { return t === 0 ? 'לפי ק"ג' : 'לפי יחידה'; }

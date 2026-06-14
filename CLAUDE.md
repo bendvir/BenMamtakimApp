@@ -9,7 +9,7 @@
 
 ---
 
-## סטטוס נוכחי — 09/06/2026 (עדכון אחרון)
+## סטטוס נוכחי — 14/06/2026 (עדכון אחרון)
 
 ### ✅ הושלם
 
@@ -63,7 +63,8 @@
   - JWT token ב-localStorage
   - 2FA: `requestOtp(password)` → `verifyOtp(sessionId, code)` → שמירת JWT
   - CRUD מלא: `logout, getCategories, getProducts, createProduct, updateProduct, deleteProduct`
-- **proxy**: `/api` → `http://localhost:3000` דרך `proxy.conf.json`
+  - `uploadImage(file)` — העלאת תמונה ל-backend → מחזיר `imageUrl`
+- **proxy**: `/api` + `/uploads` → `http://localhost:3000` דרך `proxy.conf.json`
 
 #### Admin Panel (`/admin`)
 - **Login 2FA**: שלב 1 — סיסמה → שלב 2 — קוד OTP 6 ספרות שנשלח ל-`bendvirrr@gmail.com`
@@ -72,6 +73,7 @@
   - credentials ב-`backend/.env` (לא ב-git)
 - **טופס הוספה/עריכה** (native inputs — לא Material form fields):
   - Grid 2 עמודות: שם, מחיר (₪ addon), קטגוריה, סוג תמחור, נתיב תמונה, תיאור
+  - **העלאת תמונה מהמחשב/טלפון**: כפתור "העלה תמונה" → `multer` שומר ב-`public/assets/images/uploads/` → מוגש ב-`/uploads/` → נתיב מתמלא אוטומטית + תצוגה מקדימה
   - Toggles: "במלאי" + "מוצר חדש" (ירוק זית — override global ב-styles.scss)
 - **טבלת מוצרים**:
   - גלילה פנימית (`max-height: 62vh`) — לא צריך לגלול את הדף
@@ -99,13 +101,29 @@
 - Tooltip על hover, responsive למובייל
 - קוד ב-`src/app/app.html` + `src/app/app.scss`
 
+#### קטלוג מוצרים — Magnifier + Lightbox
+- **זכוכית מגדלת (Hover)**: `MagnifierDirective` ב-`src/app/shared/directives/magnifier.directive.ts`
+  - עיגול 140px עם זום 2.5x שעוקב אחרי העכבר
+  - Shimmer animation + מסגרת ירוק זית
+- **Lightbox (Click)**: לחיצה על תמונה פותחת modal מוגדל
+  - `lightboxImg` + `lightboxTitle` signals
+  - backdrop blur, אנימציה scale-in, סגירה ב-ESC + כפתור X
+  - קוד ב-`products.ts`, `products.html`, `products.scss`
+
+#### סל קניות — תיקון ספירה
+- `totalItems` ב-`BasketService` מחזיר `this._items().length` (מספר מוצרים שונים) ולא סכום גרמים
+
+#### תמונות מוצרים
+- **פירות יבשים**: תמונות מקצועיות מ-Pexels ב-`public/assets/images/fruits/`
+  - `dates-dark-bowl.jpg`, `cranberries-rustic.jpg`, `prunes-bowl.jpg`, `apricots-bowl.jpg`
+  - `pineapple-rings-bowl.jpg`, `papaya-burlap.jpg`, `raisins-black-closeup.jpg`, `raisins-golden-large.jpg`
+
 #### עיצוב
 - **פלטה**: ירוק זית (`#567333`), לבן/קרם (`#f7f8f3`), כהה (`#2b2f25`)
 - **פונטים**: Heebo (גוף + כותרות) — RTL
 - **Slide toggles**: override ל-ירוק זית בתוך `styles.scss` (`.toggle-olive` class)
 
 ### 🔄 עדיין חסר
-- **תמונות מוצרים אמיתיות** — כרגע placeholder paths
 - **מערכת תשלומים** (Stripe / PayPal)
 - **Push notifications** כשנוסף מוצר חדש (WebSocket / SSE)
 - **Pagination** בטבלת האדמין (כרגע הכל מוצג)
@@ -118,7 +136,9 @@ node server.js          # רץ על http://localhost:3000
 
 # טרמינל 2 — Angular
 cd "d:\Angular Projects\BenMamtakimApp-v22"
-ng serve                # רץ על http://localhost:4200 (proxy → 3000)
+npx ng serve            # רץ על http://localhost:4200 (proxy → 3000)
+# אם ng serve לא עובד (execution policy):
+# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 ### API endpoints חשובים
@@ -133,10 +153,12 @@ ng serve                # רץ על http://localhost:4200 (proxy → 3000)
 | POST | `/api/admin/products` | הוספת מוצר |
 | PUT | `/api/admin/products/:id` | עדכון מוצר |
 | DELETE | `/api/admin/products/:id` | מחיקת מוצר |
+| POST | `/api/admin/upload` | העלאת תמונה (JWT) → שומר ב-`uploads/` |
+| GET | `/uploads/:filename` | הגשת תמונות שהועלו |
 
 ### טכנולוגיות
 - **Frontend**: Angular 22, Angular Material 22, SCSS, Signals, RxJS, Lazy Loading
-- **Backend**: Node.js 24, Express 4, JWT, JSON file store
+- **Backend**: Node.js 24, Express 4, JWT, JSON file store, Multer (file uploads)
 - **Auth**: JWT Bearer token (8h expiry)
 - **Fonts**: Heebo (Google Fonts)
 

@@ -47,3 +47,8 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Log files
+*.log
+ng-serve.log
+backend.log
