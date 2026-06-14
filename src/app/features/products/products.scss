@@ -222,6 +222,68 @@
   }
 }
 
+// ── UNIT STEPPER (+/-) ────────────────────────────────────────────────────
+.unit-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  overflow: hidden;
+  background: var(--surface);
+  margin-bottom: 1rem;
+
+  &.disabled { opacity: 0.45; pointer-events: none; }
+
+  .stepper-btn {
+    width: 38px;
+    height: 38px;
+    min-height: unset !important; // override global mobile 44px rule
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    transition: background 0.15s;
+    flex-shrink: 0;
+    padding: 0;
+
+    mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+    &:hover:not(:disabled) { background: var(--sage); }
+
+    &:disabled {
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+  }
+
+  .stepper-input {
+    width: 52px;
+    height: 38px;
+    text-align: center;
+    border: none;
+    border-inline: 1.5px solid var(--border);
+    background: transparent;
+    font-family: 'Heebo', Arial, sans-serif;
+    font-size: 1rem !important; // override iOS zoom-fix (already 16px so no zoom)
+    font-weight: 700;
+    color: var(--text);
+    padding: 0;
+    appearance: textfield;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    &:focus {
+      outline: none;
+      background: var(--bg-warm);
+    }
+  }
+}
+
 // ── MOBILE ────────────────────────────────────────────────────────────────
 @media (max-width: 640px) {
   .amount-pill {

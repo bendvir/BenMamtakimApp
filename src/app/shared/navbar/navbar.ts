@@ -7,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { BasketService } from '../../core/services/basket.service';
 import { ProductService } from '../../core/services/product.service';
+import { CartDrawerService } from '../../core/services/cart-drawer.service';
 
 interface SearchResult {
   id: number;
@@ -31,6 +32,7 @@ export class Navbar {
   private router     = inject(Router);
   basket             = inject(BasketService);
   private productSvc = inject(ProductService);
+  readonly cartDrawer = inject(CartDrawerService);
 
   mobileMenuOpen = signal(false);
   searchQuery    = signal('');
@@ -70,6 +72,12 @@ export class Navbar {
   toggleSearch() {
     this.searchOpen.update(v => !v);
     if (!this.searchOpen()) this.searchQuery.set('');
+  }
+
+  openCart(event: Event) {
+    event.preventDefault();
+    this.cartDrawer.toggle();
+    this.mobileMenuOpen.set(false);
   }
 
   toggleMenu() { this.mobileMenuOpen.update(v => !v); }

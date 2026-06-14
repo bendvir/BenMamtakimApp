@@ -1,3 +1,28 @@
+// ── SKIP LINK (keyboard / screen reader) ─────────────────────────────────────
+.skip-link {
+  position: fixed;
+  top: -100%;
+  right: 50%;
+  transform: translateX(50%);
+  z-index: 9999;
+  background: #1a6bb5;
+  color: #fff;
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 0 0 10px 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: top 0.15s;
+
+  &:focus {
+    top: 0;
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+  }
+}
+
 .whatsapp-fab {
   position: fixed;
   bottom: 28px;

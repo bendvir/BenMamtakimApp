@@ -75,22 +75,44 @@
       </form>
 
       <div class="order-summary">
-        <h3>סיכום הזמנה</h3>
-        @for (item of basket.items(); track item.id) {
-          <div class="summary-item">
-            <span class="s-title">{{ item.title }}</span>
-            <span class="s-price">₪{{ item.pricePerUnit | number:'1.0-2' }}</span>
-          </div>
-        }
-        <mat-divider></mat-divider>
+        <h3>
+          סיכום הזמנה
+          <span class="summary-count">{{ basket.totalItems() }} פריטים</span>
+        </h3>
+
+        <div class="summary-items">
+          @for (item of basket.items(); track item.id) {
+            <div class="summary-item">
+              <!-- Thumbnail -->
+              <div class="s-img-wrap">
+                <img [src]="item.link" [alt]="item.title" class="s-img" loading="lazy">
+              </div>
+              <!-- Info -->
+              <div class="s-info">
+                <p class="s-title">{{ item.title }}</p>
+                <p class="s-qty">{{ amountLabel(item) }}</p>
+              </div>
+              <!-- Line price -->
+              <span class="s-price">₪{{ item.pricePerUnit | number:'1.0-2' }}</span>
+            </div>
+          }
+        </div>
+
+        <div class="summary-divider"></div>
+
         <div class="summary-row">
-          <span>מוצרים</span>
+          <span>סכום מוצרים</span>
           <span>₪{{ basket.totalPrice() | number:'1.0-2' }}</span>
         </div>
         @if (isDelivery) {
           <div class="summary-row">
             <span>משלוח</span>
             <span>₪{{ deliveryFee }}</span>
+          </div>
+        } @else {
+          <div class="summary-row">
+            <span>משלוח</span>
+            <span class="s-free">חינם</span>
           </div>
         }
         <div class="summary-total">

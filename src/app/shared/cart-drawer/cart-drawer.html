@@ -1,0 +1,155 @@
+@if (drawer.isOpen()) {
+  <!-- Backdrop -->
+  <div class="cart-backdrop" (click)="close()" aria-hidden="true"></div>
+
+  <!-- Drawer panel -->
+  <aside
+    class="cart-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="סל הקניות"
+    dir="rtl"
+  >
+    <!-- ── Header ── -->
+    <header class="cart-drawer__header">
+      <div class="cart-drawer__title-row">
+        <h2 class="cart-drawer__title">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true">
+            <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm0 10c-1.66 0-3-1.34-3-3h2c0 .55.45 1 1 1s1-.45 1-1h2c0 1.66-1.34 3-3 3z"/>
+          </svg>
+          סל הקניות
+        </h2>
+        @if (basket.totalItems() > 0) {
+          <span class="cart-drawer__count">{{ basket.totalItems() }} פריטים</span>
+        }
+      </div>
+      <button class="cart-drawer__close" type="button" (click)="close()" aria-label="סגור סל קניות">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- ── Items ── -->
+    <div class="cart-drawer__items">
+
+      @if (basket.items().length === 0) {
+        <!-- Empty state -->
+        <div class="cart-empty">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="56" height="56" aria-hidden="true" class="cart-empty__icon">
+            <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3z" opacity=".3"/>
+          </svg>
+          <p class="cart-empty__title">הסל שלך ריק</p>
+          <p class="cart-empty__sub">הוסף מוצרים מהקטגוריות שלנו</p>
+          <a routerLink="/products/dried-fruits" (click)="close()" class="cart-empty__btn">
+            לקטלוג המוצרים
+          </a>
+        </div>
+
+      } @else {
+        @for (item of basket.items(); track item.id) {
+          <div class="cart-item">
+            <!-- Product image -->
+            <div class="cart-item__img-wrap">
+              <img
+                [src]="item.link"
+                [alt]="item.title"
+                class="cart-item__img"
+                loading="lazy"
+              >
+            </div>
+
+            <!-- Details -->
+            <div class="cart-item__body">
+              <p class="cart-item__title">{{ item.title }}</p>
+              <p class="cart-item__unit-price">
+                ₪{{ item.price }}
+                <span>{{ item.priceType === 0 ? '/ק"ג' : '/יח\''}}</span>
+              </p>
+
+              <!-- Quantity control -->
+              @if (item.priceType === 0) {
+                <!-- Weight pills -->
+                <div class="cart-weight-pills" role="group" [attr.aria-label]="'כמות עבור ' + item.title">
+                  @for (w of weightOptions; track w) {
+                    <button
+                      type="button"
+                      class="weight-pill"
+                      [class.active]="item.amount === w"
+                      (click)="selectWeight(item, w)"
+                      [attr.aria-pressed]="item.amount === w"
+                      [attr.aria-label]="w < 1000 ? w + ' גרם' : (w/1000) + ' קילו'"
+                    >
+                      {{ w < 1000 ? w + 'ג' : (w/1000) + 'ק"ג' }}
+                    </button>
+                  }
+                </div>
+              } @else {
+                <!-- Unit stepper -->
+                <div class="cart-stepper" role="group" [attr.aria-label]="'כמות יחידות עבור ' + item.title">
+                  <button
+                    type="button"
+                    class="cart-stepper__btn"
+                    (click)="changeUnits(item, -1)"
+                    [disabled]="item.amount <= 1"
+                    aria-label="הפחת כמות"
+                  >−</button>
+                  <span class="cart-stepper__val" aria-live="polite">{{ item.amount }}</span>
+                  <button
+                    type="button"
+                    class="cart-stepper__btn"
+                    (click)="changeUnits(item, 1)"
+                    [disabled]="item.amount >= 999"
+                    aria-label="הוסף כמות"
+                  >+</button>
+                </div>
+              }
+            </div>
+
+            <!-- Price + remove -->
+            <div class="cart-item__end">
+              <p class="cart-item__line-price">₪{{ formatPrice(item.pricePerUnit) }}</p>
+              <button
+                type="button"
+                class="cart-item__remove"
+                (click)="remove(item)"
+                [attr.aria-label]="'הסר ' + item.title + ' מהסל'"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- ── Footer (summary + CTA) ── -->
+    @if (basket.items().length > 0) {
+      <footer class="cart-drawer__footer">
+        <div class="cart-summary">
+          <span class="cart-summary__label">סה"כ לתשלום</span>
+          <span class="cart-summary__price">₪{{ formatPrice(basket.totalPrice()) }}</span>
+        </div>
+        <a
+          routerLink="/checkout"
+          (click)="close()"
+          class="cart-cta cart-cta--primary"
+        >
+          המשך לתשלום
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
+            <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
+          </svg>
+        </a>
+        <a
+          routerLink="/cart"
+          (click)="close()"
+          class="cart-cta cart-cta--secondary"
+        >
+          צפה בסל המלא
+        </a>
+      </footer>
+    }
+  </aside>
+}

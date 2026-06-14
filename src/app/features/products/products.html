@@ -43,14 +43,23 @@
                 </button>
               }
             } @else {
-              @for (u of unitOptions; track u) {
-                <button type="button" class="amount-pill"
-                        [class.active]="selectedAmounts[product.id] === u"
-                        [disabled]="product.inStock === false"
-                        (click)="selectAmount(product, u)">
-                  {{ u }} יח'
+              <div class="unit-stepper" [class.disabled]="product.inStock === false">
+                <button type="button" class="stepper-btn"
+                        [disabled]="product.inStock === false || (selectedAmounts[product.id] ?? 1) <= 1"
+                        (click)="changeUnitAmount(product, -1)">
+                  <mat-icon>remove</mat-icon>
                 </button>
-              }
+                <input type="number" class="stepper-input"
+                       [value]="selectedAmounts[product.id] ?? 1"
+                       min="1" max="999"
+                       [disabled]="product.inStock === false"
+                       (input)="onUnitInput(product, $event)">
+                <button type="button" class="stepper-btn"
+                        [disabled]="product.inStock === false || (selectedAmounts[product.id] ?? 1) >= 999"
+                        (click)="changeUnitAmount(product, 1)">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
             }
           </div>
 

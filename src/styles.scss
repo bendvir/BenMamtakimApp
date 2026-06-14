@@ -52,8 +52,8 @@ html {
   --radius-xl:  32px;
 
   --announce-height: 34px;
-  --navbar-height: 62px;
-  --header-total: 96px; /* announce + navbar */
+  --navbar-height: 76px;
+  --header-total: 110px; /* announce + navbar */
 }
 
 * { box-sizing: border-box; }
@@ -238,6 +238,45 @@ body { overflow-x: hidden; }
   button:not(.mdc-switch):not(.mat-mdc-menu-item) {
     min-height: 44px;
   }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ACCESSIBILITY MODES — classes applied to <html> by AccessibilityService
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Font size scaling (scales everything that uses rem)
+html.a11y-font-lg { font-size: 112.5%; }
+html.a11y-font-xl { font-size: 125%;   }
+
+// High contrast
+html.a11y-contrast body  { filter: contrast(1.8); }
+
+// Grayscale
+html.a11y-grayscale body { filter: grayscale(100%); }
+
+// Both together
+html.a11y-contrast.a11y-grayscale body { filter: contrast(1.8) grayscale(100%); }
+
+// Underline all links
+html.a11y-links a { text-decoration: underline !important; }
+
+// Stop all animations & transitions
+html.a11y-no-anim *,
+html.a11y-no-anim *::before,
+html.a11y-no-anim *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+// Readable / dyslexia-friendly font
+html.a11y-readable,
+html.a11y-readable * {
+  font-family: Arial, Verdana, sans-serif !important;
+  line-height: 1.75 !important;
+  letter-spacing: 0.04em !important;
+  word-spacing: 0.12em !important;
 }
 
 // ── Olive-green slide toggle (overrides Material orange theme) ───────────────

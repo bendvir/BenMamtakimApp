@@ -22,7 +22,7 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-light);
-  height: 62px;
+  height: 76px;
 }
 
 .navbar-inner {
@@ -39,18 +39,40 @@
 // ── LOGO ─────────────────────────────────────────────────────────────────────
 .brand {
   grid-column: 2;
-  display: flex; align-items: center; gap: 9px;
-  text-decoration: none; color: var(--primary);
-  justify-content: center; white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
 
-  .brand-icon { font-size: 22px; width: 22px; height: 22px; color: var(--accent); }
+.brand-logo-clip {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 12px rgba(43, 47, 37, 0.25);
+  transition: box-shadow 0.2s, transform 0.2s;
+  flex-shrink: 0;
 
-  .brand-words {
-    display: flex; flex-direction: column; line-height: 1;
-
-    .brand-name { font-family: 'Heebo', Arial, sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.02em; }
-    .brand-sub  { font-size: 0.58rem; letter-spacing: 0.22em; color: var(--text-muted); font-weight: 500; margin-top: 1px; }
+  .brand:hover & {
+    box-shadow: 0 4px 20px rgba(43, 47, 37, 0.38);
+    transform: scale(1.05);
   }
+}
+
+.brand-logo-img {
+  position: absolute;
+  // Scale the full image so the badge fills the circular clip.
+  // The badge occupies roughly the center 42% of the image width.
+  // We want that 42% to fill 100% of our 52px container → scale ~238%
+  width: 238%;
+  height: auto;
+  // Center horizontally on the badge (badge is centered in the image)
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -52%);
 }
 
 // ── NAV LINKS ─────────────────────────────────────────────────────────────────
@@ -273,6 +295,11 @@
 // ── MOBILE ────────────────────────────────────────────────────────────────────
 @media (max-width: 900px) {
   .navbar-inner { padding: 0 1rem; }
+
+  .brand-logo-clip {
+    width: 58px;
+    height: 58px;
+  }
 
   .hamburger { display: flex; }
   .search-toggle-btn { display: flex !important; }

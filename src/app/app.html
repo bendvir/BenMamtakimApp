@@ -1,8 +1,14 @@
+<!-- Skip to main content (keyboard / screen reader) -->
+<a class="skip-link" href="#main-content">דלג לתוכן הראשי</a>
+
 <app-navbar></app-navbar>
-<main>
+<main id="main-content">
   <router-outlet></router-outlet>
 </main>
 <app-footer></app-footer>
+
+<app-accessibility-widget></app-accessibility-widget>
+<app-cart-drawer></app-cart-drawer>
 
 <!-- WhatsApp floating button -->
 <a class="whatsapp-fab"

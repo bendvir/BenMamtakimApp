@@ -1,0 +1,160 @@
+<!-- Floating accessibility button -->
+<button
+  class="a11y-fab"
+  type="button"
+  (click)="togglePanel()"
+  [attr.aria-expanded]="panelOpen()"
+  [attr.aria-label]="panelOpen() ? 'סגור תפריט נגישות' : 'פתח תפריט נגישות'"
+  title="נגישות"
+>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="26" height="26">
+    <circle cx="12" cy="4" r="2"/>
+    <path d="M19 7h-4.18l-.64-1.29A2 2 0 0 0 12.4 5h-.8a2 2 0 0 0-1.78 1.09L9.18 7H5a1 1 0 0 0 0 2h1.33l1.42 5.68A2 2 0 0 0 9.68 16H10v4a1 1 0 0 0 2 0v-4h.32a2 2 0 0 0 1.93-1.32L15.67 9H19a1 1 0 0 0 0-2z"/>
+  </svg>
+</button>
+
+<!-- Panel -->
+@if (panelOpen()) {
+  <div
+    class="a11y-panel"
+    role="dialog"
+    aria-modal="false"
+    aria-label="תפריט נגישות"
+    dir="rtl"
+  >
+    <!-- Header -->
+    <div class="a11y-panel__header">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="18" height="18" style="flex-shrink:0">
+        <circle cx="12" cy="4" r="2"/>
+        <path d="M19 7h-4.18l-.64-1.29A2 2 0 0 0 12.4 5h-.8a2 2 0 0 0-1.78 1.09L9.18 7H5a1 1 0 0 0 0 2h1.33l1.42 5.68A2 2 0 0 0 9.68 16H10v4a1 1 0 0 0 2 0v-4h.32a2 2 0 0 0 1.93-1.32L15.67 9H19a1 1 0 0 0 0-2z"/>
+      </svg>
+      <span class="a11y-panel__title">הגדרות נגישות</span>
+      <button class="a11y-panel__close" type="button" (click)="togglePanel()" aria-label="סגור">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="a11y-panel__body">
+
+      <!-- Font size -->
+      <section class="a11y-section">
+        <p class="a11y-section__label" id="font-size-label">גודל טקסט</p>
+        <div class="a11y-font-row" role="group" aria-labelledby="font-size-label">
+          <button
+            class="a11y-font-btn"
+            type="button"
+            [class.active]="a11y.state().fontSize === 'normal'"
+            (click)="setFontSize('normal')"
+            aria-label="גודל טקסט רגיל"
+          >A</button>
+          <button
+            class="a11y-font-btn a11y-font-btn--md"
+            type="button"
+            [class.active]="a11y.state().fontSize === 'large'"
+            (click)="setFontSize('large')"
+            aria-label="גודל טקסט גדול"
+          >A+</button>
+          <button
+            class="a11y-font-btn a11y-font-btn--lg"
+            type="button"
+            [class.active]="a11y.state().fontSize === 'xlarge'"
+            (click)="setFontSize('xlarge')"
+            aria-label="גודל טקסט גדול מאוד"
+          >A++</button>
+        </div>
+      </section>
+
+      <div class="a11y-divider"></div>
+
+      <!-- Display toggles -->
+      <section class="a11y-section">
+        <p class="a11y-section__label">הגדרות תצוגה</p>
+
+        <button
+          class="a11y-toggle"
+          type="button"
+          [class.active]="a11y.state().highContrast"
+          [attr.aria-pressed]="a11y.state().highContrast"
+          (click)="toggle('highContrast')"
+        >
+          <span class="a11y-toggle__icon" aria-hidden="true">◑</span>
+          <span class="a11y-toggle__label">ניגודיות גבוהה</span>
+          <span class="a11y-toggle__switch" aria-hidden="true">
+            <span class="a11y-toggle__knob"></span>
+          </span>
+        </button>
+
+        <button
+          class="a11y-toggle"
+          type="button"
+          [class.active]="a11y.state().grayscale"
+          [attr.aria-pressed]="a11y.state().grayscale"
+          (click)="toggle('grayscale')"
+        >
+          <span class="a11y-toggle__icon" aria-hidden="true">◻</span>
+          <span class="a11y-toggle__label">גווני אפור</span>
+          <span class="a11y-toggle__switch" aria-hidden="true">
+            <span class="a11y-toggle__knob"></span>
+          </span>
+        </button>
+
+        <button
+          class="a11y-toggle"
+          type="button"
+          [class.active]="a11y.state().underlineLinks"
+          [attr.aria-pressed]="a11y.state().underlineLinks"
+          (click)="toggle('underlineLinks')"
+        >
+          <span class="a11y-toggle__icon" aria-hidden="true" style="text-decoration:underline">A</span>
+          <span class="a11y-toggle__label">הדגש קישורים</span>
+          <span class="a11y-toggle__switch" aria-hidden="true">
+            <span class="a11y-toggle__knob"></span>
+          </span>
+        </button>
+
+        <button
+          class="a11y-toggle"
+          type="button"
+          [class.active]="a11y.state().stopAnimations"
+          [attr.aria-pressed]="a11y.state().stopAnimations"
+          (click)="toggle('stopAnimations')"
+        >
+          <span class="a11y-toggle__icon" aria-hidden="true">⏸</span>
+          <span class="a11y-toggle__label">עצור אנימציות</span>
+          <span class="a11y-toggle__switch" aria-hidden="true">
+            <span class="a11y-toggle__knob"></span>
+          </span>
+        </button>
+
+        <button
+          class="a11y-toggle"
+          type="button"
+          [class.active]="a11y.state().readableFont"
+          [attr.aria-pressed]="a11y.state().readableFont"
+          (click)="toggle('readableFont')"
+        >
+          <span class="a11y-toggle__icon" aria-hidden="true">Aa</span>
+          <span class="a11y-toggle__label">גופן קריא</span>
+          <span class="a11y-toggle__switch" aria-hidden="true">
+            <span class="a11y-toggle__knob"></span>
+          </span>
+        </button>
+      </section>
+
+      <div class="a11y-divider"></div>
+
+      <!-- Footer actions -->
+      <div class="a11y-panel__footer">
+        <button class="a11y-reset-btn" type="button" (click)="reset()">
+          איפוס הכל
+        </button>
+        <a class="a11y-statement-link" routerLink="/accessibility" (click)="togglePanel()">
+          הצהרת נגישות
+        </a>
+      </div>
+
+    </div>
+  </div>
+}

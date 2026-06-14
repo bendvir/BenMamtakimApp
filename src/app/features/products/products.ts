@@ -81,6 +81,18 @@ export class Products implements OnInit {
     this.selectedAmounts[product.id] = amount;
   }
 
+  changeUnitAmount(product: Product, delta: number) {
+    const current = this.selectedAmounts[product.id] ?? 1;
+    this.selectedAmounts[product.id] = Math.max(1, Math.min(999, current + delta));
+  }
+
+  onUnitInput(product: Product, event: Event) {
+    const val = parseInt((event.target as HTMLInputElement).value, 10);
+    if (Number.isInteger(val) && val >= 1 && val <= 999) {
+      this.selectedAmounts[product.id] = val;
+    }
+  }
+
   addToCart(product: Product) {
     const amount = this.selectedAmounts[product.id];
     this.basket.addProduct(product, amount);

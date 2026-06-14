@@ -10,5 +10,6 @@ export const routes: Routes = [
   { path: 'about',           loadComponent: () => import('./features/about/about').then(m => m.About) },
   { path: 'contact',         loadComponent: () => import('./features/contact/contact').then(m => m.Contact) },
   { path: 'admin',           loadComponent: () => import('./features/admin/admin').then(m => m.Admin) },
+  { path: 'accessibility',   loadComponent: () => import('./features/accessibility/accessibility-page').then(m => m.AccessibilityPage) },
   { path: '**',              loadComponent: () => import('./features/not-found/not-found').then(m => m.NotFound) },
 ];

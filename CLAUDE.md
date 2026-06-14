@@ -9,7 +9,7 @@
 
 ---
 
-## סטטוס נוכחי — 14/06/2026 (עדכון 2)
+## סטטוס נוכחי — 14/06/2026 (עדכון 3)
 
 ### ✅ הושלם
 
@@ -144,6 +144,14 @@
 - **Push notifications** כשנוסף מוצר חדש (WebSocket / SSE)
 - **Pagination** בטבלת האדמין (כרגע הכל מוצג)
 
+### 📦 אחסון תמונות — החלטה עתידית
+- **כרגע**: תמונות ב-`public/assets/images/` — בסדר לפיתוח
+- **לפני פרודקשן**: לעבור ל-**Cloudinary** (חינמי עד 25GB):
+  - Git נקי מקבצים בינאריים
+  - CDN אוטומטי + WebP + resize לפי URL
+  - Admin upload ישלח ישירות ל-Cloudinary במקום multer
+  - `shop.json` ישמור URLs של Cloudinary
+
 ### הפעלת הפרויקט
 ```powershell
 # טרמינל 1 — Backend
@@ -181,6 +189,102 @@ npx ng serve            # רץ על http://localhost:4200 (proxy → 3000)
 ### Skills מותקנים ב-`.claude/skills/`
 - **ui-ux-pro-max** — כלי עיצוב UI/UX עם Playwright screenshots
 - **AI Research Skills (98 skills)** מ-[Orchestra-Research/AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs)
+
+---
+
+## 🆕 עדכון 3 — 14/06/2026
+
+### ✅ נוסף בסשן זה
+
+#### לוגו מותג
+- **`public/assets/לוגו 2.png`** — לוגו מקצועי שסופק ע"י המשתמש (אמבלם עגול ירוק עם טקסט ומוצרים)
+- **Navbar** — לוגו מוצג בחיתוך עגול (72px) עם CSS `overflow: hidden` + `transform` לאיזור האמבלם
+- **Navbar height** עודכן מ-62px ל-76px + `--header-total: 110px`
+
+#### נגישות (WCAG 2.1 AA / IS 5568)
+- **`AccessibilityService`** (`core/services/accessibility.service.ts`):
+  - 6 מצבים: גודל גופן (normal/large/xlarge), ניגודיות גבוהה, גווני אפור, הדגש קישורים, עצור אנימציות, גופן קריא
+  - שומר ב-localStorage ומחיל classes על `<html>`
+- **`AccessibilityWidget`** (`shared/accessibility-widget/`):
+  - כפתור כחול קבוע (bottom-right, z-index 1050)
+  - פאנל slide-in עם font-size buttons + 5 toggles + reset + קישור להצהרה
+- **`AccessibilityPage`** (`features/accessibility/`) — דף `/accessibility` עם הצהרה חוקית מלאה
+- **`index.html`**: `lang="he" dir="rtl"`, כותרת עמוד עודכנה
+- **Skip-to-content link** — מופיע ב-focus ראשון (keyboard navigation)
+- **Footer** — קישור "הצהרת נגישות" נוסף
+- **`styles.scss`** — CSS classes לכל מצבי הנגישות (`a11y-font-lg`, `a11y-contrast`, `a11y-grayscale`, `a11y-links`, `a11y-no-anim`, `a11y-readable`)
+
+#### Cart Drawer — סל צד
+- **`CartDrawerService`** (`core/services/cart-drawer.service.ts`) — signal פתוח/סגור + ניהול body overflow
+- **`CartDrawer`** (`shared/cart-drawer/`):
+  - Backdrop + drawer panel מאנימציה מימין (`translateX(100%)` → `0`)
+  - כל פריט: תמונה + שם + מחיר ליחידה + בחירת כמות + מחיקה
+  - מוצרי ק"ג: weight pills (250ג/500ג/1ק"ג/2ק"ג)
+  - מוצרי יחידות: stepper +/−
+  - Empty state עם קישור לקטלוג
+  - Footer: סה"כ + "המשך לתשלום" → `/checkout` + "צפה בסל המלא" → `/cart`
+- **Navbar**: כפתור סל עובר מ-`<a routerLink>` ל-`<button>` שפותח ה-drawer
+
+#### Unit Stepper במוצרים
+- מוצרי יחידות (priceType=1) מציגים stepper +/− עם input ישיר (1-999)
+- CSS: `.unit-stepper`, `.stepper-btn`, `.stepper-input` ב-`products.scss`
+
+#### Checkout — סיכום הזמנה משופר
+- תמונות מוצרים קטנות (52×52px) בסיכום
+- badge כמות (`500ג'` / `1ק"ג` / `2 יח'`)
+- "חינם" בירוק לאיסוף עצמי
+- עיצוב מחודש לסיכום (`checkout.scss`)
+
+#### Footer מקצועי — 4 עמודות
+- **עמודה 1**: לוגו + תיאור + כפתור WhatsApp + שעות פעילות
+- **עמודה 2**: קטגוריות (7 קישורים)
+- **עמודה 3**: ניווט מהיר (6 קישורים)
+- **עמודה 4**: יצירת קשר (2 טלפונים + מייל + אזור + אמצעי תשלום)
+- Bottom bar: copyright + תקן IS 5568
+- Responsive: 4→2→1 עמודות לפי גודל מסך
+
+#### מבנה קבצים — תוספות
+```
+src/app/
+  core/services/
+    accessibility.service.ts   ← NEW
+    cart-drawer.service.ts      ← NEW
+  features/
+    accessibility/              ← NEW (דף הצהרת נגישות)
+  shared/
+    accessibility-widget/       ← NEW
+    cart-drawer/                ← NEW
+public/assets/
+  לוגו 2.png                   ← NEW (לוגו מותג)
+  לוגו.png                     ← קיים
+  logo.svg                     ← קיים (גרסה ישנה, לא בשימוש)
+```
+
+---
+
+## 🔄 עדיין חסר / TODO
+
+### עדיפות גבוהה — לפני פרודקשן
+| משימה | פירוט |
+|-------|-------|
+| **Cloudinary** | העברת תמונות מ-multer מקומי → Cloudinary CDN (חינם 25GB). בעל עסק יוכל להעלות תמונות בפרודקשן |
+| **Deployment** | Frontend → Vercel · Backend → Railway (עם Persistent Volume לשמירת shop.json) |
+| **environment.prod.ts** | יצירת קובץ עם URL backend אמיתי |
+| **backend/.env secrets** | עדכון סיסמה, JWT_SECRET לפרודקשן |
+
+### עדיפות בינונית
+| משימה | פירוט |
+|-------|-------|
+| **מערכת תשלומים** | Stripe / PayPal / Cardcom ישראלי |
+| **תמונות אגוזים** | בחירה מתמונות מועמדות שהורדו (`new_*.jpg` ב-`public/assets/images/nuts/`) — ממתין להחלטת המשתמש |
+| **Pagination** | טבלת מוצרים באדמין — כרגע הכל מוצג |
+
+### עדיפות נמוכה
+| משימה | פירוט |
+|-------|-------|
+| **Push Notifications** | WebSocket/SSE כשנוסף מוצר חדש |
+| **מדיניות פרטיות** | דף `/privacy` — מופיע כ-placeholder ב-footer |
+| **SEO** | meta tags, Open Graph, sitemap.xml |
 
 ---
 

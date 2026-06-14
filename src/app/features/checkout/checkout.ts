@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BasketService } from '../../core/services/basket.service';
+import { CartItem } from '../../models/product.model';
 import { CITIES } from '../../data/products.data';
 
 @Component({
@@ -43,6 +44,13 @@ export class Checkout {
   });
 
   get isDelivery() { return this.form.value.deliveryType === 'delivery'; }
+
+  amountLabel(item: CartItem): string {
+    if (item.priceType === 0) {
+      return item.amount < 1000 ? `${item.amount}ג'` : `${item.amount / 1000}ק"ג`;
+    }
+    return `${item.amount} יח'`;
+  }
 
   get finalTotal() {
     return this.basket.totalPrice() + (this.isDelivery ? this.deliveryFee : 0);

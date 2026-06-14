@@ -1,6 +1,6 @@
 <!-- ANNOUNCEMENT BAR -->
 <div class="announce-bar">
-  <span>משלוח חינם בהזמנות מעל ₪250 · 058-5333673</span>
+  <span>משלוח חינם בהזמנות מעל ₪200 · 050-2195499</span>
 </div>
 
 <!-- MAIN NAVBAR -->
@@ -35,14 +35,14 @@
         <mat-icon>{{ searchOpen() ? 'close' : 'search' }}</mat-icon>
       </button>
 
-      <!-- Cart pill (all screens) -->
-      <a routerLink="/cart" class="cart-pill" [class.has-items]="basket.totalItems() > 0"
-         (click)="closeMenu()" aria-label="סל קניות">
+      <!-- Cart pill (all screens) — opens drawer -->
+      <button type="button" class="cart-pill" [class.has-items]="basket.totalItems() > 0"
+              (click)="openCart($event)" aria-label="פתח סל קניות">
         <mat-icon class="cart-pill__icon">shopping_bag</mat-icon>
         @if (basket.totalItems() > 0) {
           <span class="cart-pill__count">{{ basket.totalItems() }}</span>
         }
-      </a>
+      </button>
 
       <!-- Hamburger (mobile only) -->
       <button class="hamburger" (click)="toggleMenu()" [class.open]="mobileMenuOpen()" aria-label="תפריט" type="button">
@@ -51,11 +51,9 @@
     </div>
 
     <!-- CENTER: logo -->
-    <a routerLink="/" class="brand" (click)="closeMenu()">
-      <mat-icon class="brand-icon">storefront</mat-icon>
-      <div class="brand-words">
-        <span class="brand-name">ממתקי התקווה</span>
-        <span class="brand-sub">MAMTAKIM HATIKVA</span>
+    <a routerLink="/" class="brand" (click)="closeMenu()" aria-label="ממתקי התקווה - דף הבית">
+      <div class="brand-logo-clip">
+        <img src="/assets/לוגו 2.png" alt="ממתקי התקווה" class="brand-logo-img">
       </div>
     </a>
 
