@@ -5,7 +5,7 @@ const router = express.Router();
 // GET /api/products — all categories with their in-stock products
 router.get('/', (req, res) => {
   const categories = db.getCategories();
-  const products   = db.getProducts();
+  const products   = db.getProducts({ includeOutOfStock: true });
   res.json(categories.map(cat => ({
     ...cat,
     products: products
@@ -22,7 +22,7 @@ router.get('/:categoryId', (req, res) => {
 
   res.json({
     ...cat,
-    products: db.getProductsByCategory(req.params.categoryId).map(mapProduct),
+    products: db.getProductsByCategory(req.params.categoryId, { includeOutOfStock: true }).map(mapProduct),
   });
 });
 

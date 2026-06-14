@@ -9,7 +9,7 @@
 
 ---
 
-## סטטוס נוכחי — 14/06/2026 (עדכון אחרון)
+## סטטוס נוכחי — 14/06/2026 (עדכון 2)
 
 ### ✅ הושלם
 
@@ -43,7 +43,7 @@
 #### Backend (Node.js + Express)
 - **שרת**: `backend/server.js` על port 3000
 - **אחסון**: JSON file store (`backend/data/shop.json`) — ללא native dependencies
-- **37 מוצרים** ב-7 קטגוריות מגורעות:
+- **~53 מוצרים** ב-7 קטגוריות מגורעות:
   - פירות יבשים, אגוזים טבעיים, פיצוחים קלויים, שוקולדים וממתקים, מוצרי מזון, שתייה חריפה, שתייה קלה
 - **Routes**:
   - `GET /api/products` — כל הקטגוריות עם מוצרים (ציבורי)
@@ -117,6 +117,22 @@
 - **פירות יבשים**: תמונות מקצועיות מ-Pexels ב-`public/assets/images/fruits/`
   - `dates-dark-bowl.jpg`, `cranberries-rustic.jpg`, `prunes-bowl.jpg`, `apricots-bowl.jpg`
   - `pineapple-rings-bowl.jpg`, `papaya-burlap.jpg`, `raisins-black-closeup.jpg`, `raisins-golden-large.jpg`
+- **אגוזים טבעיים**: 13 תמונות מקצועיות מ-Pexels ב-`public/assets/images/nuts/`
+  - `almonds-cutting-board.jpg`, `almonds-desk-bowl.jpg`, `almonds-red-bowl.jpg`, `almonds-sliced-bowl.jpg`
+  - `cashews-bowl.jpg`, `hazelnuts-stone-bowl.jpg`, `peanuts-bowl.jpg`, `pine-nuts-bowl.jpg`
+  - `pistachios-plate.jpg`, `pumpkin-seeds-bowl.jpg`, `sunflower-seeds-bowl.jpg`
+  - `walnuts-peeled-bowl.jpg`, `walnuts-whole-bowl.jpg`
+
+#### אזל המלאי — out-of-stock overlay
+- שדה `in_stock` ב-backend + `inStock` ב-Product model
+- Backend API כולל **תמיד** מוצרים אזולי מלאי (`{ includeOutOfStock: true }`) — לא מסנן אותם
+- UI ב-`products.html`: overlay על התמונה + badge "אזל המלאי", כפתורי כמות מנוטרלים, כפתור סל מוחלף
+- CSS ב-`products.scss`: `.out-of-stock-card`, `.out-of-stock-overlay`, `.out-of-stock-btn`
+- `MagnifierDirective` — `@Input() appMagnifier: boolean | '' = true` — מנוטרל אוטומטית למוצרים אזולי מלאי
+
+#### עיצוב — תיקון פונט
+- Angular Material theme עודכן: `typography: Heebo` (במקום Roboto) ב-`styles.scss`
+- כל קומפוננטות Material (כפתורים, טבלאות, snackbar וכד') משתמשים ב-Heebo
 
 #### עיצוב
 - **פלטה**: ירוק זית (`#567333`), לבן/קרם (`#f7f8f3`), כהה (`#2b2f25`)

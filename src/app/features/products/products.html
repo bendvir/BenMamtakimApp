@@ -6,12 +6,20 @@
 
   <div class="products-grid">
     @for (product of products(); track product.id) {
-      <div class="product-card">
-        <div class="product-img-wrapper" appMagnifier (click)="openLightbox(product)">
+      <div class="product-card" [class.out-of-stock-card]="product.inStock === false">
+        <div class="product-img-wrapper" [class.no-zoom]="product.inStock === false"
+             [appMagnifier]="product.inStock !== false"
+             (click)="product.inStock !== false && openLightbox(product)">
           <img [src]="product.link" [alt]="product.title" loading="lazy">
-          <div class="img-zoom-hint">
-            <mat-icon>zoom_in</mat-icon>
-          </div>
+          @if (product.inStock === false) {
+            <div class="out-of-stock-overlay">
+              <span class="out-of-stock-label">אזל המלאי</span>
+            </div>
+          } @else {
+            <div class="img-zoom-hint">
+              <mat-icon>zoom_in</mat-icon>
+            </div>
+          }
         </div>
 
         <div class="product-body">
@@ -28,6 +36,7 @@
               @for (w of weightOptions; track w) {
                 <button type="button" class="amount-pill"
                         [class.active]="selectedAmounts[product.id] === w"
+                        [disabled]="product.inStock === false"
                         (click)="selectAmount(product, w)">
                   @if (w < 1000) { {{ w }} גרם }
                   @else { {{ w / 1000 }} ק"ג }
@@ -37,6 +46,7 @@
               @for (u of unitOptions; track u) {
                 <button type="button" class="amount-pill"
                         [class.active]="selectedAmounts[product.id] === u"
+                        [disabled]="product.inStock === false"
                         (click)="selectAmount(product, u)">
                   {{ u }} יח'
                 </button>
@@ -45,11 +55,19 @@
           </div>
 
           <div class="product-actions">
-            <span class="calc-price">₪{{ calcPrice(product) }}</span>
-            <button mat-raised-button color="primary" (click)="addToCart(product)" class="add-btn">
-              <mat-icon>add_shopping_cart</mat-icon>
-              הוספה לסל
-            </button>
+            @if (product.inStock === false) {
+              <span class="out-of-stock-text">אזל המלאי</span>
+              <button mat-stroked-button class="add-btn out-of-stock-btn" disabled>
+                <mat-icon>remove_shopping_cart</mat-icon>
+                אזל המלאי
+              </button>
+            } @else {
+              <span class="calc-price">₪{{ calcPrice(product) }}</span>
+              <button mat-raised-button color="primary" (click)="addToCart(product)" class="add-btn">
+                <mat-icon>add_shopping_cart</mat-icon>
+                הוספה לסל
+              </button>
+            }
           </div>
         </div>
       </div>

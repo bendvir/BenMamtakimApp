@@ -1,18 +1,23 @@
-import { Directive, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appMagnifier]',
   standalone: true
 })
 export class MagnifierDirective implements OnInit {
+  @Input() appMagnifier: boolean | '' = true;
+
   private lens!: HTMLElement;
   private img!: HTMLImageElement;
   private readonly zoom = 2.5;
   private readonly lensSize = 140;
 
+  private get enabled() { return this.appMagnifier !== false; }
+
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit() {
+    if (!this.enabled) return;
     this.img = this.el.nativeElement.querySelector('img');
     if (!this.img) return;
 
@@ -24,7 +29,7 @@ export class MagnifierDirective implements OnInit {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
-    if (!this.lens || !this.img) return;
+    if (!this.enabled || !this.lens || !this.img) return;
     const rect = this.el.nativeElement.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -45,7 +50,7 @@ export class MagnifierDirective implements OnInit {
 
   @HostListener('mouseenter')
   onMouseEnter() {
-    if (this.lens) this.renderer.setStyle(this.lens, 'opacity', '1');
+    if (this.enabled && this.lens) this.renderer.setStyle(this.lens, 'opacity', '1');
   }
 
   @HostListener('mouseleave')
