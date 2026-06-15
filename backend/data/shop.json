@@ -1,5 +1,5 @@
 {
-  "_nextId": 1023,
+  "_nextId": 1025,
   "categories": [
     {
       "id": "dried-fruits",
@@ -46,10 +46,10 @@
       "category_id": "dried-fruits",
       "image_url": "assets\\images\\fruits\\dried-apricots-market.jpg",
       "description": "",
-      "in_stock": 0,
+      "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
-      "updated_at": "2026-06-14T08:26:30.512Z"
+      "updated_at": "2026-06-14T10:52:29.482Z"
     },
     {
       "id": 3,
@@ -139,12 +139,12 @@
       "price": 90,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/nuts/almonds-cutting-board.jpg",
+      "image_url": "uploads/1781428860756-517101.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
-      "updated_at": "2026-06-11T11:51:52.328Z"
+      "updated_at": "2026-06-14T09:21:02.718Z"
     },
     {
       "id": 13,
@@ -152,12 +152,12 @@
       "price": 40,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/nuts/walnuts-peeled-bowl.jpg",
+      "image_url": "uploads/1781428244870-424650.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
-      "updated_at": "2026-06-11T11:47:19.754Z"
+      "updated_at": "2026-06-14T09:10:48.175Z"
     },
     {
       "id": 14,
@@ -191,9 +191,12 @@
       "price": 110,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/PerotYeveshim/brazil-nuts.jpg",
+      "image_url": "uploads/1781428765035-441200.png",
       "description": "",
-      "in_stock": 1
+      "in_stock": 1,
+      "is_new": 0,
+      "is_new_until": null,
+      "updated_at": "2026-06-14T09:19:26.700Z"
     },
     {
       "id": 17,
@@ -201,25 +204,25 @@
       "price": 95,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/nuts/hazelnuts-stone-bowl.jpg",
+      "image_url": "uploads/1781428316640-798300.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
-      "updated_at": "2026-06-11T11:52:41.675Z"
+      "updated_at": "2026-06-14T09:11:58.745Z"
     },
     {
       "id": 18,
-      "title": "פקאן אמריקאי טבעי",
+      "title": "פקאן אמריקאי קלוף",
       "price": 75,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/fruits/pecan-bowl-dark.jpg",
+      "image_url": "uploads/1781428359333-777817.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
-      "updated_at": "2026-06-11T11:50:05.237Z"
+      "updated_at": "2026-06-14T09:12:42.023Z"
     },
     {
       "id": 20,
@@ -587,13 +590,13 @@
       "price": 60,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/nuts/almonds-desk-bowl.jpg",
+      "image_url": "uploads/1781428822706-647942.png",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-11T11:52:07.913Z",
-      "updated_at": "2026-06-11T11:52:07.913Z"
+      "updated_at": "2026-06-14T09:20:23.782Z"
     },
     {
       "id": 1017,
@@ -601,13 +604,13 @@
       "price": 54,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/nuts/almonds-red-bowl.jpg",
+      "image_url": "uploads/1781428848095-825276.jpg",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-11T11:52:23.252Z",
-      "updated_at": "2026-06-11T11:52:23.252Z"
+      "updated_at": "2026-06-14T09:20:50.049Z"
     },
     {
       "id": 1018,
@@ -615,13 +618,13 @@
       "price": 24,
       "price_type": 0,
       "category_id": "natural-nuts",
-      "image_url": "assets/images/nuts/peanuts-bowl.jpg",
+      "image_url": "uploads/1781428748569-394790.png",
       "description": "",
       "in_stock": 1,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-11T11:53:03.637Z",
-      "updated_at": "2026-06-11T11:53:03.637Z"
+      "updated_at": "2026-06-14T09:19:10.472Z"
     },
     {
       "id": 1019,
@@ -631,11 +634,11 @@
       "category_id": "natural-nuts",
       "image_url": "assets/images/nuts/walnuts-whole-bowl.jpg",
       "description": "",
-      "in_stock": 1,
+      "in_stock": 0,
       "is_new": 0,
       "is_new_until": null,
       "created_at": "2026-06-11T11:53:57.224Z",
-      "updated_at": "2026-06-11T11:53:57.224Z"
+      "updated_at": "2026-06-14T09:21:25.712Z"
     },
     {
       "id": 1020,
@@ -667,7 +670,7 @@
     },
     {
       "id": 1022,
-      "title": "שקד פרוס",
+      "title": "שקד פרוס לבן",
       "price": 85,
       "price_type": 0,
       "category_id": "natural-nuts",
@@ -675,9 +678,9 @@
       "description": "",
       "in_stock": 1,
       "is_new": 1,
-      "is_new_until": "2026-06-14T20:42:27.589Z",
+      "is_new_until": "2026-06-14T21:03:51.243Z",
       "created_at": "2026-06-14T08:42:27.589Z",
-      "updated_at": "2026-06-14T08:42:27.589Z"
+      "updated_at": "2026-06-14T09:03:51.243Z"
     },
     {
       "id": 1023,
@@ -692,6 +695,34 @@
       "is_new_until": "2026-06-14T20:42:41.441Z",
       "created_at": "2026-06-14T08:42:41.441Z",
       "updated_at": "2026-06-14T08:42:41.441Z"
+    },
+    {
+      "id": 1024,
+      "title": "פקאן עם קליפה",
+      "price": 30,
+      "price_type": 0,
+      "category_id": "natural-nuts",
+      "image_url": "uploads/1781428918923-399276.jpg",
+      "description": "",
+      "in_stock": 0,
+      "is_new": 1,
+      "is_new_until": "2026-06-14T21:22:01.784Z",
+      "created_at": "2026-06-14T09:22:01.784Z",
+      "updated_at": "2026-06-14T09:22:01.784Z"
+    },
+    {
+      "id": 1025,
+      "title": "שוקלוד פרה",
+      "price": 9,
+      "price_type": 1,
+      "category_id": "chocolates",
+      "image_url": "",
+      "description": "",
+      "in_stock": 1,
+      "is_new": 1,
+      "is_new_until": "2026-06-14T22:25:11.838Z",
+      "created_at": "2026-06-14T10:25:11.838Z",
+      "updated_at": "2026-06-14T10:25:11.838Z"
     }
   ]
 }
