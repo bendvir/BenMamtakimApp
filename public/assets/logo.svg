@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272 76" width="272" height="76" role="img" aria-label="ממתקי התקווה">
+  <defs>
+    <radialGradient id="emblemGrad" cx="38%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#6b9140"/>
+      <stop offset="100%" stop-color="#3e5523"/>
+    </radialGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(43,47,37,0.22)"/>
+    </filter>
+  </defs>
+
+  <!-- ══ EMBLEM CIRCLE ══ -->
+  <circle cx="38" cy="38" r="35" fill="url(#emblemGrad)" filter="url(#softShadow)"/>
+
+  <!-- Inner ring accent -->
+  <circle cx="38" cy="38" r="28.5" fill="none" stroke="rgba(255,255,255,0.20)" stroke-width="1.5"/>
+
+  <!-- ══ ALMOND / NUT SHAPE (white) ══ -->
+  <path d="M38,16 C50,19 54,28 54,38 C54,48 50,57 38,60 C26,57 22,48 22,38 C22,28 26,19 38,16 Z"
+        fill="rgba(255,255,255,0.94)"/>
+
+  <!-- Nut seam -->
+  <path d="M38,18 Q36.5,38 38,58"
+        stroke="#4a6b28" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.45"/>
+
+  <!-- ══ OLIVE BRANCH (top of nut) ══ -->
+  <!-- Left stem + leaf -->
+  <path d="M38,16 L32,9" stroke="#9dc968" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="30.5" cy="8" rx="5" ry="2.6"
+           fill="#7aab3e" transform="rotate(-38 30.5 8)" opacity="0.9"/>
+
+  <!-- Right stem + leaf -->
+  <path d="M38,16 L44,10" stroke="#9dc968" stroke-width="1.7" stroke-linecap="round"/>
+  <ellipse cx="45.5" cy="9" rx="4.5" ry="2.4"
+           fill="#7aab3e" transform="rotate(32 45.5 9)" opacity="0.9"/>
+
+  <!-- Center stem -->
+  <path d="M38,16 L38,9" stroke="#9dc968" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="38" cy="8" r="2" fill="#5c8a2b"/>
+
+  <!-- ══ BRAND TEXT ══ -->
+
+  <!-- ממתקי — primary color, larger -->
+  <text x="263" y="35"
+        text-anchor="end"
+        font-family="'Heebo', 'Arial Hebrew', Arial, sans-serif"
+        font-size="27"
+        font-weight="800"
+        fill="#567333"
+        letter-spacing="-0.3">ממתקי</text>
+
+  <!-- Thin divider line between words -->
+  <line x1="87" y1="42" x2="263" y2="42" stroke="#d4ddc9" stroke-width="0.8"/>
+
+  <!-- התקווה — darker, slightly smaller -->
+  <text x="263" y="62"
+        text-anchor="end"
+        font-family="'Heebo', 'Arial Hebrew', Arial, sans-serif"
+        font-size="20"
+        font-weight="600"
+        fill="#3d5220"
+        letter-spacing="1.8">התקווה</text>
+</svg>
