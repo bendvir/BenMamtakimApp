@@ -60,7 +60,7 @@ export class Navbar {
 
   onSearchSelect(event: MatAutocompleteSelectedEvent) {
     const p: SearchResult = event.option.value;
-    this.router.navigate(['/products', p.category]);
+    this.router.navigate(['/products', p.category], { queryParams: { highlight: p.id } });
     this.searchQuery.set('');
     this.searchOpen.set(false);
   }

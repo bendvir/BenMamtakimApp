@@ -7,35 +7,9 @@
 <nav class="navbar-main">
   <div class="navbar-inner">
 
-    <!-- LEFT: search (desktop) + cart + hamburger -->
-    <div class="nav-left">
-
-      <!-- Desktop: permanent search bar -->
-      <div class="search-desktop">
-        <mat-icon class="search-desktop__icon">search</mat-icon>
-        <input
-          class="search-desktop__input"
-          type="text"
-          placeholder="חיפוש מוצר..."
-          [value]="searchQuery()"
-          (input)="onSearchInput($event)"
-          [matAutocomplete]="searchAuto"
-          dir="rtl"
-          autocomplete="off"
-        >
-        @if (searchQuery()) {
-          <button class="search-desktop__clear" (click)="clearSearch()" type="button">
-            <mat-icon>close</mat-icon>
-          </button>
-        }
-      </div>
-
-      <!-- Mobile: search toggle button -->
-      <button class="nav-icon-btn search-toggle-btn" (click)="toggleSearch()" aria-label="חיפוש" type="button">
-        <mat-icon>{{ searchOpen() ? 'close' : 'search' }}</mat-icon>
-      </button>
-
-      <!-- Cart pill (all screens) — opens drawer -->
+    <!-- COL 1 (RTL = visual RIGHT): cart (far-right) + nav links + hamburger/search-toggle (mobile) -->
+    <div class="nav-right">
+      <!-- Cart pill first in RTL flex = physically rightmost (far-right edge) on desktop -->
       <button type="button" class="cart-pill" [class.has-items]="basket.totalItems() > 0"
               (click)="openCart($event)" aria-label="פתח סל קניות">
         <mat-icon class="cart-pill__icon">shopping_bag</mat-icon>
@@ -44,37 +18,61 @@
         }
       </button>
 
-      <!-- Hamburger (mobile only) -->
+      <ul class="nav-links" [class.open]="mobileMenuOpen()">
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="closeMenu()">בית</a></li>
+        <li>
+          <button mat-button [matMenuTriggerFor]="productsMenu" class="nav-menu-btn">מוצרים <mat-icon>expand_more</mat-icon></button>
+          <mat-menu #productsMenu="matMenu" xPosition="before">
+            <a mat-menu-item routerLink="/products/dried-fruits"  (click)="closeMenu()"><mat-icon>eco</mat-icon>         פירות יבשים</a>
+            <a mat-menu-item routerLink="/products/natural-nuts"  (click)="closeMenu()"><mat-icon>spa</mat-icon>         אגוזים טבעיים</a>
+            <a mat-menu-item routerLink="/products/roasted"       (click)="closeMenu()"><mat-icon>whatshot</mat-icon>    פיצוחים קלויים</a>
+            <a mat-menu-item routerLink="/products/chocolates"    (click)="closeMenu()"><mat-icon>cake</mat-icon>        שוקולדים וממתקים</a>
+            <a mat-menu-item routerLink="/products/food"          (click)="closeMenu()"><mat-icon>restaurant</mat-icon>  מוצרי מזון</a>
+            <a mat-menu-item routerLink="/products/spirits"       (click)="closeMenu()"><mat-icon>liquor</mat-icon>      שתייה חריפה</a>
+            <a mat-menu-item routerLink="/products/soft-drinks"   (click)="closeMenu()"><mat-icon>local_drink</mat-icon> שתייה קלה</a>
+          </mat-menu>
+        </li>
+        <li><a routerLink="/landing" routerLinkActive="active" (click)="closeMenu()">אודותינו</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">צור קשר</a></li>
+      </ul>
+
+      <!-- Mobile: hamburger + search toggle (hidden on desktop) -->
       <button class="hamburger" (click)="toggleMenu()" [class.open]="mobileMenuOpen()" aria-label="תפריט" type="button">
         <span></span><span></span><span></span>
       </button>
+      <button class="nav-icon-btn search-toggle-btn" (click)="toggleSearch()" aria-label="חיפוש" type="button">
+        <mat-icon>{{ searchOpen() ? 'close' : 'search' }}</mat-icon>
+      </button>
     </div>
 
-    <!-- CENTER: logo -->
-    <a routerLink="/" class="brand" (click)="closeMenu()" aria-label="ממתקי התקווה - דף הבית">
-      <div class="brand-logo-clip">
-        <img src="/assets/לוגו 2.png" alt="ממתקי התקווה" class="brand-logo-img">
-      </div>
-    </a>
+    <!-- COL 2 (CENTER): wide search bar (desktop only) -->
+    <div class="search-center">
+      <mat-icon class="search-center__icon">search</mat-icon>
+      <input
+        class="search-center__input"
+        type="text"
+        placeholder="חפשו מוצר, קטגוריה או מותג..."
+        [value]="searchQuery()"
+        (input)="onSearchInput($event)"
+        [matAutocomplete]="searchAuto"
+        dir="rtl"
+        autocomplete="off"
+      >
+      @if (searchQuery()) {
+        <button class="search-center__clear" (click)="clearSearch()" type="button" aria-label="נקה חיפוש">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </div>
 
-    <!-- RIGHT: nav links -->
-    <ul class="nav-links" [class.open]="mobileMenuOpen()">
-      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="closeMenu()">בית</a></li>
-      <li>
-        <button mat-button [matMenuTriggerFor]="productsMenu" class="nav-menu-btn">מוצרים <mat-icon>expand_more</mat-icon></button>
-        <mat-menu #productsMenu="matMenu" xPosition="before">
-          <a mat-menu-item routerLink="/products/dried-fruits"  (click)="closeMenu()"><mat-icon>eco</mat-icon>         פירות יבשים</a>
-          <a mat-menu-item routerLink="/products/natural-nuts"  (click)="closeMenu()"><mat-icon>spa</mat-icon>         אגוזים טבעיים</a>
-          <a mat-menu-item routerLink="/products/roasted"       (click)="closeMenu()"><mat-icon>whatshot</mat-icon>    פיצוחים קלויים</a>
-          <a mat-menu-item routerLink="/products/chocolates"    (click)="closeMenu()"><mat-icon>cake</mat-icon>        שוקולדים וממתקים</a>
-          <a mat-menu-item routerLink="/products/food"          (click)="closeMenu()"><mat-icon>restaurant</mat-icon>  מוצרי מזון</a>
-          <a mat-menu-item routerLink="/products/spirits"       (click)="closeMenu()"><mat-icon>liquor</mat-icon>      שתייה חריפה</a>
-          <a mat-menu-item routerLink="/products/soft-drinks"   (click)="closeMenu()"><mat-icon>local_drink</mat-icon> שתייה קלה</a>
-        </mat-menu>
-      </li>
-      <li><a routerLink="/landing" routerLinkActive="active" (click)="closeMenu()">אודותינו</a></li>
-      <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">צור קשר</a></li>
-    </ul>
+    <!-- COL 3 (RTL = visual LEFT): logo only -->
+    <div class="brand-group">
+      <a routerLink="/" class="brand" (click)="closeMenu()" aria-label="ממתקי התקווה - דף הבית">
+        <div class="brand-logo-clip">
+          <img src="/assets/לוגו 2.png" alt="ממתקי התקווה" class="brand-logo-img">
+        </div>
+      </a>
+    </div>
 
   </div>
 </nav>
@@ -104,7 +102,7 @@
   }
 </mat-autocomplete>
 
-<!-- Mobile: full-width search dropdown (below navbar, triggered by search-toggle-btn) -->
+<!-- Mobile: full-width search dropdown (below navbar) -->
 <div class="search-container" [class.open]="searchOpen()">
   <div class="search-field-wrap">
     <mat-icon class="search-field-icon">search</mat-icon>

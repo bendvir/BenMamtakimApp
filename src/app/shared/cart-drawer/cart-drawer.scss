@@ -16,7 +16,7 @@
 .cart-drawer {
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
   bottom: 0;
   width: 420px;
   max-width: 100vw;
@@ -24,13 +24,13 @@
   background: #fff;
   display: flex;
   flex-direction: column;
-  box-shadow: -8px 0 48px rgba(0, 0, 0, 0.18);
+  box-shadow: 8px 0 48px rgba(0, 0, 0, 0.18);
   animation: drawer-in 0.32s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: 'Heebo', Arial, sans-serif;
 }
 
 @keyframes drawer-in {
-  from { transform: translateX(100%); }
+  from { transform: translateX(-100%); }
   to   { transform: translateX(0); }
 }
 

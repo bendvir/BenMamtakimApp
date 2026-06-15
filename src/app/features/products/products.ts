@@ -68,6 +68,21 @@ export class Products implements OnInit {
       this.categoryId.set(cat);
       this.initAmounts();
     });
+
+    this.route.queryParamMap.subscribe(params => {
+      const id = params.get('highlight');
+      if (id) this.scrollToProduct(Number(id));
+    });
+  }
+
+  private scrollToProduct(id: number) {
+    setTimeout(() => {
+      const el = document.getElementById('product-' + id);
+      if (!el) return;
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.add('highlight-flash');
+      setTimeout(() => el.classList.remove('highlight-flash'), 2000);
+    }, 350);
   }
 
   private initAmounts() {

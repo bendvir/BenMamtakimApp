@@ -6,7 +6,7 @@
 
   <div class="products-grid">
     @for (product of products(); track product.id) {
-      <div class="product-card" [class.out-of-stock-card]="product.inStock === false">
+      <div class="product-card" [id]="'product-' + product.id" [class.out-of-stock-card]="product.inStock === false">
         <div class="product-img-wrapper" [class.no-zoom]="product.inStock === false"
              [appMagnifier]="product.inStock !== false"
              (click)="product.inStock !== false && openLightbox(product)">
