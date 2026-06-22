@@ -263,6 +263,12 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
 
   const results = { added: 0, updated: 0, skipped: [], errors: [] };
 
+  // טוען את כל המוצרים פעם אחת ובונה מפה לפי שם מנורמל
+  const Product = require('../models/Product');
+  const allProducts = await Product.find({}).lean();
+  const normalize   = s => s.replace(/\s+/g, ' ').trim().toLowerCase();
+  const productMap  = new Map(allProducts.map(p => [normalize(p.title), p]));
+
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
     const rowNum = i + 2;
@@ -271,7 +277,7 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
     const price      = parseFloat(row['מחיר'] || row['price']);
     const priceType  = parseInt(row['סוג תמחור'] ?? row['price_type'] ?? 1);
     const catRaw     = String(row['קטגוריה'] || row['category_id'] || '').trim();
-    const categoryId = hebrewToCat[catRaw] ?? catRaw; // עברית → ID, אחרת כמות שהיא
+    const categoryId = hebrewToCat[catRaw] ?? catRaw;
     const imageUrl   = String(row['URL תמונה'] || row['image_url'] || '').trim();
     const description= String(row['תיאור']    || row['description'] || '').trim();
     const inStock    = parseInt(row['במלאי']     ?? row['in_stock']    ?? 1);
@@ -283,8 +289,7 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
     if (isNaN(price) || price < 0) { results.errors.push(`שורה ${rowNum} (${title}): מחיר לא תקין`); continue; }
     if (!validCats.has(categoryId)) { results.errors.push(`שורה ${rowNum} (${title}): קטגוריה "${categoryId}" לא קיימת`); continue; }
 
-    const Product = require('../models/Product');
-    const existing = await Product.findOne({ title: title });
+    const existing = productMap.get(normalize(title));
 
     try {
       if (existing) {
@@ -309,6 +314,7 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
           description, in_stock: inStock ? 1 : 0, is_new: isNew ? 1 : 0,
           promo_qty: promoQty, promo_price: promoPrice,
         });
+        productMap.set(normalize(title), { title }); // מונע כפול בתוך אותו קובץ
         results.added++;
       }
     } catch (err) {
