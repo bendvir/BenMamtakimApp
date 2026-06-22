@@ -279,6 +279,10 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
     if (isNaN(price) || price < 0) { results.errors.push(`שורה ${rowNum} (${title}): מחיר לא תקין`); continue; }
     if (!validCats.has(categoryId)) { results.errors.push(`שורה ${rowNum} (${title}): קטגוריה "${categoryId}" לא קיימת`); continue; }
 
+    const Product = require('../models/Product');
+    const exists = await Product.findOne({ title: { $regex: `^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, $options: 'i' } });
+    if (exists) { results.skipped.push(`${title} (כבר קיים)`); continue; }
+
     try {
       await db.createProduct({
         title, price,
