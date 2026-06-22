@@ -295,14 +295,14 @@
                [value]="imgSearchQuery()"
                (input)="imgSearchQuery.set($any($event.target).value)"
                (keydown.enter)="runImageSearch()"
-               placeholder="שם מוצר לחיפוש (עברית או אנגלית)...">
+               placeholder="שם באנגלית / ברקוד (7290...)">
         <button mat-raised-button class="btn-do-search" (click)="runImageSearch()" [disabled]="imgSearchLoading()">
           <mat-icon>search</mat-icon> חפש
         </button>
       </div>
       <div class="img-search-tip">
         <mat-icon>tips_and_updates</mat-icon>
-        טיפ: אם לא נמצאו תוצאות — נסה לחפש באנגלית (לדוגמא "toffee" במקום "טופי")
+        מוצרי עלית/אסם: חפש לפי <strong>ברקוד</strong> (המספר מאחורי האריזה) או שם <strong>באנגלית</strong> — "Elite chocolate", "Osem bamba"
       </div>
 
       @if (imgSearchLoading()) {

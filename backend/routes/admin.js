@@ -183,7 +183,7 @@ router.patch('/products/:id/image', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// GET /api/admin/search-image?q=שם+מוצר
+// GET /api/admin/search-image?q=שם+מוצר+או+ברקוד
 router.get('/search-image', async (req, res) => {
   const q = req.query.q?.toString().trim();
   if (!q) return res.status(400).json({ error: 'חסר פרמטר q' });
@@ -193,7 +193,35 @@ router.get('/search-image', async (req, res) => {
     'Accept': 'application/json, */*',
   };
 
-  // ── 1. Open Food Facts ────────────────────────────────────────────────────
+  function mapUpcItems(items) {
+    return (items || [])
+      .filter(item => item.images?.length > 0)
+      .slice(0, 9)
+      .map(item => ({
+        name:     item.title || '',
+        brand:    item.brand || '',
+        imageUrl: item.images[0],
+        thumbUrl: item.images[0],
+        source:   'upcitemdb',
+      }));
+  }
+
+  // ── ברקוד (8–14 ספרות) → lookup מדויק ב-UPC Item DB ─────────────────────
+  if (/^\d{8,14}$/.test(q)) {
+    try {
+      const r = await fetch(`https://api.upcitemdb.com/prod/trial/lookup?upc=${q}`, { headers: HEADERS, signal: AbortSignal.timeout(8000) });
+      if (r.ok) {
+        const data = await r.json();
+        const results = mapUpcItems(data.items);
+        if (results.length > 0) return res.json(results);
+      }
+    } catch (_) {}
+    return res.json([]);
+  }
+
+  // ── חיפוש טקסט ──────────────────────────────────────────────────────────
+
+  // 1. Open Food Facts
   try {
     const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=30&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
     const offResp = await fetch(offUrl, { headers: HEADERS, signal: AbortSignal.timeout(8000) });
@@ -211,27 +239,18 @@ router.get('/search-image', async (req, res) => {
         }));
       if (results.length > 0) return res.json(results);
     }
-  } catch (_) { /* fall through */ }
+  } catch (_) {}
 
-  // ── 2. UPC Item DB (fallback) ─────────────────────────────────────────────
+  // 2. UPC Item DB (fallback)
   try {
     const upcUrl = `https://api.upcitemdb.com/prod/trial/search?s=${encodeURIComponent(q)}&type=product`;
     const upcResp = await fetch(upcUrl, { headers: HEADERS, signal: AbortSignal.timeout(8000) });
     if (upcResp.ok) {
       const data = await upcResp.json();
-      const results = (data.items || [])
-        .filter(item => item.images?.length > 0)
-        .slice(0, 9)
-        .map(item => ({
-          name:     item.title || '',
-          brand:    item.brand || '',
-          imageUrl: item.images[0],
-          thumbUrl: item.images[0],
-          source:   'upcitemdb',
-        }));
-      return res.json(results);
+      const results = mapUpcItems(data.items);
+      if (results.length > 0) return res.json(results);
     }
-  } catch (_) { /* fall through */ }
+  } catch (_) {}
 
   res.json([]);
 });
