@@ -183,29 +183,57 @@ router.patch('/products/:id/image', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// GET /api/admin/search-image?q=שם+מוצר — חיפוש תמונה ב-Open Food Facts
+// GET /api/admin/search-image?q=שם+מוצר
 router.get('/search-image', async (req, res) => {
   const q = req.query.q?.toString().trim();
   if (!q) return res.status(400).json({ error: 'חסר פרמטר q' });
+
+  const HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    'Accept': 'application/json, */*',
+  };
+
+  // ── 1. Open Food Facts ────────────────────────────────────────────────────
   try {
-    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=12&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
-    const resp = await fetch(url, {
-      headers: { 'User-Agent': 'MamtakimApp/1.0' },
-      signal: AbortSignal.timeout(10000),
-    });
-    if (!resp.ok) throw new Error(`Open Food Facts returned ${resp.status}`);
-    const data = await resp.json();
-    const results = (data.products || [])
-      .filter(p => p.image_front_url || p.image_url)
-      .slice(0, 9)
-      .map(p => ({
-        name:     p.product_name || '',
-        brand:    p.brands       || '',
-        imageUrl: p.image_front_url || p.image_url,
-        thumbUrl: p.image_front_small_url || p.image_front_url || p.image_url,
-      }));
-    res.json(results);
-  } catch (err) { console.error('[search-image]', err); res.status(500).json({ error: err.message }); }
+    const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=30&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
+    const offResp = await fetch(offUrl, { headers: HEADERS, signal: AbortSignal.timeout(8000) });
+    if (offResp.ok) {
+      const data = await offResp.json();
+      const results = (data.products || [])
+        .filter(p => p.image_front_url || p.image_url)
+        .slice(0, 9)
+        .map(p => ({
+          name:     p.product_name || '',
+          brand:    p.brands       || '',
+          imageUrl: p.image_front_url || p.image_url,
+          thumbUrl: p.image_front_small_url || p.image_front_url || p.image_url,
+          source:   'openfoodfacts',
+        }));
+      if (results.length > 0) return res.json(results);
+    }
+  } catch (_) { /* fall through */ }
+
+  // ── 2. UPC Item DB (fallback) ─────────────────────────────────────────────
+  try {
+    const upcUrl = `https://api.upcitemdb.com/prod/trial/search?s=${encodeURIComponent(q)}&type=product`;
+    const upcResp = await fetch(upcUrl, { headers: HEADERS, signal: AbortSignal.timeout(8000) });
+    if (upcResp.ok) {
+      const data = await upcResp.json();
+      const results = (data.items || [])
+        .filter(item => item.images?.length > 0)
+        .slice(0, 9)
+        .map(item => ({
+          name:     item.title || '',
+          brand:    item.brand || '',
+          imageUrl: item.images[0],
+          thumbUrl: item.images[0],
+          source:   'upcitemdb',
+        }));
+      return res.json(results);
+    }
+  } catch (_) { /* fall through */ }
+
+  res.json([]);
 });
 
 module.exports = router;

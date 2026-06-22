@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap, map, catchError, of, switchMap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface AdminProduct {
@@ -104,45 +104,9 @@ export class AdminService {
   }
 
   searchProductImage(query: string): Observable<ImageSearchResult[]> {
-    return this.searchOpenFoodFacts(query).pipe(
-      switchMap(results => results.length > 0 ? of(results) : this.searchUpcItemDb(query)),
-      catchError(() => this.searchUpcItemDb(query))
-    );
-  }
-
-  private searchOpenFoodFacts(query: string): Observable<ImageSearchResult[]> {
-    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=30&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
-    return this.http.get<any>(url).pipe(
-      map((data: any) =>
-        ((data.products as any[]) || [])
-          .filter((p: any) => p.image_front_url || p.image_url)
-          .slice(0, 9)
-          .map((p: any) => ({
-            name:     p.product_name || '',
-            brand:    p.brands       || '',
-            imageUrl: p.image_front_url || p.image_url,
-            thumbUrl: p.image_front_small_url || p.image_front_url || p.image_url,
-          }))
-      ),
-      catchError(() => of([]))
-    );
-  }
-
-  private searchUpcItemDb(query: string): Observable<ImageSearchResult[]> {
-    const url = `https://api.upcitemdb.com/prod/trial/search?s=${encodeURIComponent(query)}&type=product`;
-    return this.http.get<any>(url).pipe(
-      map((data: any) =>
-        ((data.items as any[]) || [])
-          .filter((item: any) => item.images?.length > 0)
-          .slice(0, 9)
-          .map((item: any) => ({
-            name:     item.title || '',
-            brand:    item.brand || '',
-            imageUrl: item.images[0],
-            thumbUrl: item.images[0],
-          }))
-      ),
-      catchError(() => of([]))
+    return this.http.get<ImageSearchResult[]>(
+      `${environment.apiUrl}/admin/search-image?q=${encodeURIComponent(query)}`,
+      { headers: this.headers() }
     );
   }
 
