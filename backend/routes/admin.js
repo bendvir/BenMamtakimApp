@@ -1,23 +1,22 @@
-const express = require('express');
-const jwt     = require('jsonwebtoken');
-const crypto  = require('crypto');
-const path    = require('path');
-const multer  = require('multer');
-const db      = require('../database');
-const auth    = require('../middleware/auth');
-const mailer  = require('../mailer');
-const router  = express.Router();
+const express    = require('express');
+const jwt        = require('jsonwebtoken');
+const crypto     = require('crypto');
+const path       = require('path');
+const multer     = require('multer');
+const cloudinary = require('cloudinary').v2;
+const db         = require('../database');
+const auth       = require('../middleware/auth');
+const mailer     = require('../mailer');
+const router     = express.Router();
 
-const storage = multer.diskStorage({
-  destination: path.join(__dirname, '..', '..', 'public', 'assets', 'images', 'uploads'),
-  filename: (_req, file, cb) => {
-    const ext  = path.extname(file.originalname).toLowerCase();
-    const name = Date.now() + '-' + Math.round(Math.random() * 1e6) + ext;
-    cb(null, name);
-  },
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     if (/^image\//.test(file.mimetype)) cb(null, true);
@@ -91,10 +90,22 @@ router.post('/verify-otp', (req, res) => {
   res.json({ token });
 });
 
-// POST /api/admin/upload — upload product image (protected)
-router.post('/upload', auth, upload.single('image'), (req, res) => {
+// POST /api/admin/upload — upload product image to Cloudinary (protected)
+router.post('/upload', auth, upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'לא נבחר קובץ' });
-  res.json({ imageUrl: `uploads/${req.file.filename}` });
+  try {
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: 'mamtakim', resource_type: 'image' },
+        (err, result) => err ? reject(err) : resolve(result)
+      );
+      stream.end(req.file.buffer);
+    });
+    res.json({ imageUrl: result.secure_url });
+  } catch (err) {
+    console.error('Cloudinary upload error:', err);
+    res.status(500).json({ error: 'שגיאה בהעלאת תמונה' });
+  }
 });
 
 router.use(auth);
