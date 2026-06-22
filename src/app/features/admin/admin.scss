@@ -476,8 +476,30 @@
   border-top: 1px solid #e5e7eb;
 }
 
+// ── URL PASTE BAR ────────────────────────────────────────────────────────────
+.img-paste-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.2rem;
+  border-top: 2px dashed #e5e7eb;
+  background: #f9fafb;
+
+  .paste-icon { color: #9ca3af; font-size: 1.1rem; }
+  .field-input { flex: 1; height: 38px; font-size: 0.8rem; }
+}
+
+.btn-apply-url {
+  background: #567333 !important;
+  color: #fff !important;
+  height: 38px;
+  white-space: nowrap;
+  &:disabled { opacity: 0.4; }
+}
+
 @media (max-width: 480px) {
   .img-search-grid { grid-template-columns: repeat(2, 1fr); }
+  .img-paste-bar { flex-wrap: wrap; .field-input { min-width: 0; } }
 }
 
 .new-toggle-label {

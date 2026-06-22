@@ -36,6 +36,7 @@ export class Admin implements OnInit {
   readonly imgSearchQuery     = signal('');
   readonly imgSearchResults   = signal<ImageSearchResult[]>([]);
   readonly imgSearchProductId = signal<number | null>(null);
+  readonly imgPasteUrl        = signal('');
   readonly searchQuery    = signal('');
   readonly filterCategory = signal('');
 
@@ -226,6 +227,7 @@ export class Admin implements OnInit {
     this.imgSearchOpen.set(false);
     this.imgSearchResults.set([]);
     this.imgSearchProductId.set(null);
+    this.imgPasteUrl.set('');
   }
 
   runImageSearch(query?: string) {

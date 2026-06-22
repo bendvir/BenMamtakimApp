@@ -328,6 +328,20 @@
           </div>
         }
       </div>
+
+      <!-- הדבקת URL ישירה -->
+      <div class="img-paste-bar">
+        <mat-icon class="paste-icon">link</mat-icon>
+        <input class="field-input" type="text" dir="ltr"
+               [value]="imgPasteUrl()"
+               (input)="imgPasteUrl.set($any($event.target).value)"
+               placeholder="הדבק כאן כתובת תמונה מגוגל או מכל אתר...">
+        <button mat-raised-button class="btn-apply-url"
+                [disabled]="!imgPasteUrl().trim()"
+                (click)="applySearchedImage(imgPasteUrl())">
+          <mat-icon>check</mat-icon> החל
+        </button>
+      </div>
     </div>
   }
 }
