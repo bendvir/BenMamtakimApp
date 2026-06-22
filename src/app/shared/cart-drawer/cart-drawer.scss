@@ -369,15 +369,15 @@
 // ── PROMO INDICATORS ─────────────────────────────────────────────────────────
 .cart-promo-active {
   display: inline-block;
-  background: linear-gradient(135deg, #f97316, #e85d04);
-  color: #fff;
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0.15rem 0.55rem;
+  background: #ffe600;
+  color: #cc0000;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 0.15rem 0.6rem;
   border-radius: 50px;
   margin-bottom: 4px;
   white-space: nowrap;
-  box-shadow: 0 1px 5px rgba(234,93,4,0.3);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 }
 
 .cart-promo-hint {

@@ -61,15 +61,15 @@
 
 .promo-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #f97316, #e85d04);
-  color: #fff;
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 0.2rem 0.7rem;
+  background: #ffe600;
+  color: #cc0000;
+  font-size: 0.9rem;
+  font-weight: 800;
+  padding: 0.25rem 0.85rem;
   border-radius: 50px;
   margin: 0 0 0.3rem;
   letter-spacing: 0.01em;
-  box-shadow: 0 2px 8px rgba(234,93,4,0.35);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .out-of-stock-label {
