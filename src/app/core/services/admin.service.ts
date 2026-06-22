@@ -104,7 +104,7 @@ export class AdminService {
   }
 
   searchProductImage(query: string): Observable<ImageSearchResult[]> {
-    const url = `https://world.openfoodfacts.net/api/v2/search?q=${encodeURIComponent(query)}&sort_by=unique_scans_n&page_size=24&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
+    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=30&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
     return this.http.get<any>(url).pipe(
       map((data: any) =>
         ((data.products as any[]) || [])
