@@ -393,6 +393,16 @@
   white-space: nowrap;
 }
 
+.img-search-tip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  padding: 0.4rem 1.2rem 0;
+  mat-icon { font-size: 0.9rem; height: 0.9rem; width: 0.9rem; color: #f59e0b; }
+}
+
 .img-search-loading,
 .img-search-empty {
   text-align: center;

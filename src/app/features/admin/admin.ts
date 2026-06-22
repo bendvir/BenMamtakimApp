@@ -235,8 +235,16 @@ export class Admin implements OnInit {
     this.imgSearchLoading.set(true);
     this.imgSearchResults.set([]);
     this.adminSvc.searchProductImage(q).subscribe({
-      next: results => { this.imgSearchLoading.set(false); this.imgSearchResults.set(results); },
-      error: ()      => { this.imgSearchLoading.set(false); this.snackBar.open('שגיאה בחיפוש', '', { duration: 2500 }); },
+      next:  results => { this.imgSearchLoading.set(false); this.imgSearchResults.set(results); },
+      error: (err)   => {
+        this.imgSearchLoading.set(false);
+        const is503 = err?.status === 503 || err?.status === 0;
+        this.snackBar.open(
+          is503 ? 'שרת Open Food Facts עמוס — נסה שוב או חפש באנגלית' : 'שגיאה בחיפוש',
+          '',
+          { duration: 4000 }
+        );
+      },
     });
   }
 
