@@ -274,8 +274,10 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
     const categoryId = hebrewToCat[catRaw] ?? catRaw; // עברית → ID, אחרת כמות שהיא
     const imageUrl   = String(row['URL תמונה'] || row['image_url'] || '').trim();
     const description= String(row['תיאור']    || row['description'] || '').trim();
-    const inStock    = parseInt(row['במלאי']  ?? row['in_stock']  ?? 1);
-    const isNew      = parseInt(row['מוצר חדש'] ?? row['is_new']  ?? 0);
+    const inStock    = parseInt(row['במלאי']     ?? row['in_stock']    ?? 1);
+    const isNew      = parseInt(row['מוצר חדש']  ?? row['is_new']     ?? 0);
+    const promoQty   = parseFloat(row['כמות מבצע'] ?? row['promo_qty']   ?? 0) || 0;
+    const promoPrice = parseFloat(row['מחיר מבצע'] ?? row['promo_price'] ?? 0) || 0;
 
     if (!title) { results.skipped.push(`שורה ${rowNum}: שם ריק`); continue; }
     if (isNaN(price) || price < 0) { results.errors.push(`שורה ${rowNum} (${title}): מחיר לא תקין`); continue; }
@@ -292,6 +294,7 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
         category_id: categoryId,
         image_url:   imageUrl,
         description, in_stock: inStock ? 1 : 0, is_new: isNew ? 1 : 0,
+        promo_qty: promoQty, promo_price: promoPrice,
       });
       results.added++;
     } catch (err) {
