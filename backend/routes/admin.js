@@ -284,7 +284,7 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
     if (!validCats.has(categoryId)) { results.errors.push(`שורה ${rowNum} (${title}): קטגוריה "${categoryId}" לא קיימת`); continue; }
 
     const Product = require('../models/Product');
-    const existing = await Product.findOne({ title: { $regex: `^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, $options: 'i' } });
+    const existing = await Product.findOne({ title: title });
 
     try {
       if (existing) {
