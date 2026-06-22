@@ -258,6 +258,9 @@
                     <button mat-icon-button class="btn-edit" (click)="editProduct(p)" title="ערוך">
                       <mat-icon>edit</mat-icon>
                     </button>
+                    <button mat-icon-button class="btn-search-img" (click)="openImageSearch(p)" title="חפש תמונה">
+                      <mat-icon>image_search</mat-icon>
+                    </button>
                     <button mat-icon-button class="btn-delete" (click)="deleteProduct(p)" title="מחק">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
@@ -274,4 +277,48 @@
 
     </div>
   </div>
+
+  <!-- ── IMAGE SEARCH MODAL ──────────────────────────────────────────────── -->
+  @if (imgSearchOpen()) {
+    <div class="img-search-backdrop" (click)="closeImageSearch()"></div>
+    <div class="img-search-modal">
+      <div class="img-search-header">
+        <mat-icon>image_search</mat-icon>
+        <span>חיפוש תמונה — Open Food Facts</span>
+        <button class="img-search-close" (click)="closeImageSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="img-search-bar">
+        <input class="field-input" type="text"
+               [value]="imgSearchQuery()"
+               (input)="imgSearchQuery.set($any($event.target).value)"
+               (keydown.enter)="runImageSearch()"
+               placeholder="שם מוצר לחיפוש...">
+        <button mat-raised-button class="btn-do-search" (click)="runImageSearch()" [disabled]="imgSearchLoading()">
+          <mat-icon>search</mat-icon> חפש
+        </button>
+      </div>
+
+      @if (imgSearchLoading()) {
+        <div class="img-search-loading">
+          <mat-icon class="spin-icon">hourglass_empty</mat-icon> מחפש...
+        </div>
+      }
+
+      @if (!imgSearchLoading() && imgSearchResults().length === 0 && imgSearchQuery()) {
+        <div class="img-search-empty">לא נמצאו תמונות — נסה שם אחר</div>
+      }
+
+      <div class="img-search-grid">
+        @for (r of imgSearchResults(); track r.imageUrl) {
+          <div class="img-search-item" (click)="applySearchedImage(r.imageUrl)" title="{{ r.name }} — {{ r.brand }}">
+            <img [src]="r.thumbUrl" [alt]="r.name" loading="lazy">
+            <span class="img-search-label">{{ r.name || r.brand }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
 }

@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { AdminService, AdminProduct, AdminCategory } from '../../core/services/admin.service';
+import { AdminService, AdminProduct, AdminCategory, ImageSearchResult } from '../../core/services/admin.service';
 
 @Component({
   selector: 'app-admin',
@@ -29,6 +29,13 @@ export class Admin implements OnInit {
   readonly saving       = signal(false);
   readonly uploading    = signal(false);
   readonly loadError    = signal<string | null>(null);
+
+  // ── Image search modal ───────────────────────────────────────────────────
+  readonly imgSearchOpen      = signal(false);
+  readonly imgSearchLoading   = signal(false);
+  readonly imgSearchQuery     = signal('');
+  readonly imgSearchResults   = signal<ImageSearchResult[]>([]);
+  readonly imgSearchProductId = signal<number | null>(null);
   readonly searchQuery    = signal('');
   readonly filterCategory = signal('');
 
@@ -206,4 +213,44 @@ export class Admin implements OnInit {
 
   priceTypeLabel(t: number) { return t === 0 ? 'לפי ק"ג' : 'לפי יחידה'; }
   stockLabel(v: number)     { return v === 1 ? 'במלאי' : 'אזל'; }
+
+  openImageSearch(p: AdminProduct) {
+    this.imgSearchProductId.set(p.id);
+    this.imgSearchQuery.set(p.title);
+    this.imgSearchResults.set([]);
+    this.imgSearchOpen.set(true);
+    this.runImageSearch(p.title);
+  }
+
+  closeImageSearch() {
+    this.imgSearchOpen.set(false);
+    this.imgSearchResults.set([]);
+    this.imgSearchProductId.set(null);
+  }
+
+  runImageSearch(query?: string) {
+    const q = (query ?? this.imgSearchQuery()).trim();
+    if (!q) return;
+    this.imgSearchQuery.set(q);
+    this.imgSearchLoading.set(true);
+    this.imgSearchResults.set([]);
+    this.adminSvc.searchProductImage(q).subscribe({
+      next: results => { this.imgSearchLoading.set(false); this.imgSearchResults.set(results); },
+      error: ()      => { this.imgSearchLoading.set(false); this.snackBar.open('שגיאה בחיפוש', '', { duration: 2500 }); },
+    });
+  }
+
+  applySearchedImage(imageUrl: string) {
+    const id = this.imgSearchProductId();
+    if (!id) return;
+    this.adminSvc.patchProductImage(id, imageUrl).subscribe({
+      next: res => {
+        this.snackBar.open(res.message, '', { duration: 2000 });
+        this.loadData();
+        this.closeImageSearch();
+        if (this.editingId() === id) this.productForm.patchValue({ imageUrl });
+      },
+      error: () => this.snackBar.open('שגיאה בעדכון תמונה', '', { duration: 2500 }),
+    });
+  }
 }

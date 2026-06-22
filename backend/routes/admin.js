@@ -168,4 +168,40 @@ router.delete('/products/:id', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// PATCH /api/admin/products/:id/image — עדכון תמונה בלבד
+router.patch('/products/:id/image', async (req, res) => {
+  try {
+    const { imageUrl } = req.body;
+    if (!imageUrl) return res.status(400).json({ error: 'חסר imageUrl' });
+    const Product = require('../models/Product');
+    const result = await Product.updateOne(
+      { id: Number(req.params.id) },
+      { $set: { image_url: imageUrl, updated_at: new Date().toISOString() } }
+    );
+    if (!result.matchedCount) return res.status(404).json({ error: 'מוצר לא נמצא' });
+    res.json({ message: 'תמונה עודכנה' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// GET /api/admin/search-image?q=שם+מוצר — חיפוש תמונה ב-Open Food Facts
+router.get('/search-image', async (req, res) => {
+  const q = req.query.q?.toString().trim();
+  if (!q) return res.status(400).json({ error: 'חסר פרמטר q' });
+  try {
+    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=12&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
+    const resp = await fetch(url, { headers: { 'User-Agent': 'MamtakimApp/1.0' } });
+    const data = await resp.json();
+    const results = (data.products || [])
+      .filter(p => p.image_front_url || p.image_url)
+      .slice(0, 9)
+      .map(p => ({
+        name:     p.product_name || '',
+        brand:    p.brands       || '',
+        imageUrl: p.image_front_url || p.image_url,
+        thumbUrl: p.image_front_small_url || p.image_front_url || p.image_url,
+      }));
+    res.json(results);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 module.exports = router;

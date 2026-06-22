@@ -23,6 +23,13 @@ export interface AdminCategory {
   sort_order: number;
 }
 
+export interface ImageSearchResult {
+  name:     string;
+  brand:    string;
+  imageUrl: string;
+  thumbUrl: string;
+}
+
 export interface ProductPayload {
   title: string;
   price: number;
@@ -94,5 +101,20 @@ export class AdminService {
     const form = new FormData();
     form.append('image', file);
     return this.http.post<{ imageUrl: string }>(`${environment.apiUrl}/admin/upload`, form, { headers: this.headers() });
+  }
+
+  searchProductImage(query: string): Observable<ImageSearchResult[]> {
+    return this.http.get<ImageSearchResult[]>(
+      `${environment.apiUrl}/admin/search-image?q=${encodeURIComponent(query)}`,
+      { headers: this.headers() }
+    );
+  }
+
+  patchProductImage(id: number, imageUrl: string): Observable<{ message: string }> {
+    return this.http.patch<{ message: string }>(
+      `${environment.apiUrl}/admin/products/${id}/image`,
+      { imageUrl },
+      { headers: this.headers() }
+    );
   }
 }
