@@ -245,7 +245,9 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
   if (!req.file) return res.status(400).json({ error: 'לא נבחר קובץ' });
 
   const Category = require('../models/Category');
-  const validCats = new Set((await Category.find().lean()).map(c => c.id));
+  const allCats  = await Category.find().lean();
+  const validCats   = new Set(allCats.map(c => c.id));
+  const hebrewToCat = Object.fromEntries(allCats.map(c => [c.name_he.trim(), c.id]));
 
   let workbook;
   try {
@@ -266,7 +268,8 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
     const title      = String(row['שם מוצר'] || row['title'] || '').trim();
     const price      = parseFloat(row['מחיר'] || row['price']);
     const priceType  = parseInt(row['סוג תמחור'] ?? row['price_type'] ?? 1);
-    const categoryId = String(row['קטגוריה'] || row['category_id'] || '').trim();
+    const catRaw     = String(row['קטגוריה'] || row['category_id'] || '').trim();
+    const categoryId = hebrewToCat[catRaw] ?? catRaw; // עברית → ID, אחרת כמות שהיא
     const imageUrl   = String(row['URL תמונה'] || row['image_url'] || '').trim();
     const description= String(row['תיאור']    || row['description'] || '').trim();
     const inStock    = parseInt(row['במלאי']  ?? row['in_stock']  ?? 1);
