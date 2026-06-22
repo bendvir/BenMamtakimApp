@@ -9,7 +9,7 @@
 
 ---
 
-## סטטוס נוכחי — 22/06/2026 (עדכון 5)
+## סטטוס נוכחי — 22/06/2026 (עדכון 6)
 
 ### ✅ הושלם
 
@@ -63,7 +63,7 @@
   - `POST /api/admin/upload` — העלאת תמונה → Cloudinary → מחזיר URL
   - `GET /api/admin/search-image?q=...` — חיפוש תמונה: OFF → UPC Item DB (proxy, מוגן ב-JWT)
   - `PATCH /api/admin/products/:id/image` — עדכון תמונה בלבד ב-MongoDB (מוגן ב-JWT)
-- **שדות מוצר**: `id, title, price, price_type (0=ק"ג/1=יחידה), category_id, image_url, description, in_stock, is_new, is_new_until, created_at, updated_at`
+- **שדות מוצר**: `id, title, price, price_type (0=ק"ג/1=יחידה), category_id, image_url, description, in_stock, is_new, is_new_until, promo_qty, promo_price, created_at, updated_at`
 - **is_new auto-reset**: אחרי 12 שעות (MongoDB `updateMany` ב-`getProducts()`)
 
 #### Angular — שירותים וסנכרון
@@ -78,6 +78,10 @@
   - `uploadImage(file)` — העלאת תמונה → Cloudinary URL
   - `searchProductImage(query)` — חיפוש תמונה דרך backend proxy
   - `patchProductImage(id, url)` — עדכון תמונה בלבד
+  - `importExcel(file)` — ייבוא/עדכון מוצרים מ-Excel (upsert לפי שם)
+- **BasketService** (`core/services/basket.service.ts`):
+  - `totalSavings` — computed signal: סה"כ חיסכון ממבצעי כמות
+  - חישוב מחיר promo-aware: `calcUnitPrice` מחשב מבצעים אוטומטית
 - **proxy**: `/api` + `/uploads` → `http://localhost:3000` דרך `proxy.conf.json`
 
 #### Admin Panel (`/admin`)
@@ -89,7 +93,13 @@
   - Grid 2 עמודות: שם, מחיר (₪ addon), קטגוריה, סוג תמחור, תמונה, תיאור
   - **העלאת תמונה**: כפתור "העלה תמונה" → multer → Cloudinary → URL מתמלא + תצוגה מקדימה
   - Toggles: "במלאי" + "מוצר חדש"
-- **טבלת מוצרים**: גלילה פנימית, Thead sticky, חיפוש, סינון קטגוריה, badge חדש/מלאי
+- **טבלת מוצרים**: גלילה פנימית, Thead sticky, חיפוש, סינון קטגוריה, badge חדש/מלאי/מבצע
+- **ייבוא Excel** (`POST /api/admin/import-excel`):
+  - עמודות: `שם מוצר, מחיר, סוג תמחור, קטגוריה, URL תמונה, תיאור, במלאי, מוצר חדש, כמות מבצע, מחיר מבצע`
+  - **upsert**: שם קיים → עדכון כל השדות כולל מבצע; שם חדש → יצירה
+  - dedup אמין: השוואה מנורמלת (lowercase + collapse spaces) — עמיד לתווים בלתי נראים
+  - תמונה ב-Excel ריקה → שומר את התמונה הקיימת ב-DB
+  - תגובה: `{ added, updated, errors }`
 - **חיפוש תמונה לכל מוצר** (כפתור 🔍 בטבלה):
   - Modal עם שדה חיפוש + רשת תמונות 3 עמודות
   - לחיצה על תמונה → שמירה ישירה ל-MongoDB (ללא פתיחת טופס עריכה)
@@ -102,8 +112,12 @@
 - **Navbar**: Announcement bar + לוגו (`בהיר.png`) עגול 72px + ניווט + חיפוש autocomplete + סל
 - **WhatsApp FAB**: כפתור צף שמאל תחתית → `972502195499`
 - **Cart Drawer**: slide-in מימין — weight pills לק"ג / stepper ליחידות
+  - badge מבצע כתום `✦ מבצע X ב-₪Y` כשמגיעים לכמות
+  - רמז צהוב `עוד N למבצע` כשחסרים עוד יחידות
+  - באנר ירוק `חסכת ₪X` בסיכום הסל
 - **Magnifier + Lightbox**: זכוכית מגדלת hover + modal בלחיצה
 - **Out-of-stock**: overlay + badge "אזל המלאי" + כפתורים מנוטרלים
+- **Promo badge**: צהוב מרקר `#ffe600` + כיתוב אדום `#cc0000` על כרטיסי מוצרים (סגנון שופרסל)
 - **Footer**: 4 עמודות — לוגו/WhatsApp/שעות | קטגוריות | ניווט | יצירת קשר
 - **נגישות (IS 5568)**: AccessibilityWidget צף (bottom-right) + דף הצהרה `/accessibility`
 
@@ -156,6 +170,7 @@ CLOUDINARY_API_SECRET=***
 | POST | `/api/admin/upload` | העלאת תמונה → Cloudinary URL |
 | GET | `/api/admin/search-image?q=...` | חיפוש תמונה (OFF → UPC fallback) |
 | PATCH | `/api/admin/products/:id/image` | עדכון תמונה בלבד |
+| POST | `/api/admin/import-excel` | ייבוא/עדכון מוצרים מ-Excel (upsert) |
 
 ### טכנולוגיות
 - **Frontend**: Angular 22, Angular Material 22, SCSS, Signals, RxJS, Lazy Loading
@@ -247,6 +262,33 @@ pm2 save
 ### 6. proxy.conf.json — עובד רק ב-dev
 - ב-`ng serve` — proxy מעביר `/api` → `localhost:3000`
 - ב-`ng build` — חייבים `environment.prod.ts` עם URL מלא
+
+---
+
+## 🆕 עדכון 6 — 22/06/2026
+
+### ✅ נוסף בסשן זה
+
+#### מערכת מבצעי כמות (Quantity Promotions)
+- **שדות חדשים** על מוצר: `promo_qty` (כמות מינימלית) + `promo_price` (מחיר מבצע לאותה כמות)
+  - דוגמא: `promo_qty=3, promo_price=7.90` → "3 במבה ב-₪7.90"
+- **Backend**: שדות נוספו ל-`Product.js` (Mongoose), `database.js`, routes products + admin
+- **Admin Panel**:
+  - Toggle ירוק "הפעל מבצע כמות" בטופס + שדות כמות ומחיר מבצע (מוצגים בהתאם)
+  - עמודת "מבצע" בטבלה עם badge `X ב-₪Y`
+- **דף מוצרים**: badge צהוב מרקר + אדום מתחת למחיר (סגנון שופרסל)
+- **סל הקניות**:
+  - חישוב אוטומטי: `floor(qty/promoQty) × promoPrice + remainder × price`
+  - Badge `✦ מבצע X ב-₪Y` כשמגיעים לכמות
+  - רמז צהוב "עוד N למבצע" כשחסר
+  - באנר ירוק "חסכת ₪X" בתחתית הסל
+- **Excel**: עמודות `כמות מבצע` + `מחיר מבצע` — אופציונליות
+
+#### ייבוא Excel — שיפורים
+- **upsert**: שם קיים → עדכון; שם חדש → יצירה (לא עוד כפולים)
+- **dedup אמין**: השוואה in-memory מנורמלת (lowercase + collapse whitespace) — עמיד לתווים נסתרים
+- **תמונה**: אם ריקה ב-Excel → שומר תמונה קיימת ב-DB
+- **תגובה**: `{ added, updated, errors }` — מוצג ב-snackbar
 
 ---
 
