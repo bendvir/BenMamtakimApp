@@ -236,11 +236,14 @@ export class Admin implements OnInit {
     if (!file) return;
     this.importing.set(true);
     this.adminSvc.importExcel(file).subscribe({
-      next: res => {
+      next: (res: any) => {
         this.importing.set(false);
-        const msg = `✅ נוספו: ${res.added}${res.skipped.length ? ` | ⚠️ דולגו: ${res.skipped.length}` : ''}${res.errors.length ? ` | ❌ שגיאות: ${res.errors.length}` : ''}`;
-        this.snackBar.open(msg, 'פרטים', { duration: 6000 });
-        if (res.added > 0) this.loadData();
+        const parts = [];
+        if (res.added)   parts.push(`✅ נוספו: ${res.added}`);
+        if (res.updated) parts.push(`🔄 עודכנו: ${res.updated}`);
+        if (res.errors?.length) parts.push(`❌ שגיאות: ${res.errors.length}`);
+        this.snackBar.open(parts.join(' | ') || 'לא בוצע שינוי', 'סגור', { duration: 6000 });
+        if (res.added > 0 || res.updated > 0) this.loadData();
         if (res.errors.length) console.warn('Excel import errors:', res.errors);
       },
       error: () => { this.importing.set(false); this.snackBar.open('שגיאה בייבוא הקובץ', '', { duration: 3000 }); },

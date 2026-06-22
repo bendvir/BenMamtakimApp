@@ -261,7 +261,7 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
   const rows  = XLSX.utils.sheet_to_json(sheet, { defval: '' });
 
-  const results = { added: 0, skipped: [], errors: [] };
+  const results = { added: 0, updated: 0, skipped: [], errors: [] };
 
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
@@ -284,19 +284,33 @@ router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) 
     if (!validCats.has(categoryId)) { results.errors.push(`שורה ${rowNum} (${title}): קטגוריה "${categoryId}" לא קיימת`); continue; }
 
     const Product = require('../models/Product');
-    const exists = await Product.findOne({ title: { $regex: `^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, $options: 'i' } });
-    if (exists) { results.skipped.push(`${title} (כבר קיים)`); continue; }
+    const existing = await Product.findOne({ title: { $regex: `^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, $options: 'i' } });
 
     try {
-      await db.createProduct({
-        title, price,
-        price_type:  [0,1].includes(priceType) ? priceType : 1,
-        category_id: categoryId,
-        image_url:   imageUrl,
-        description, in_stock: inStock ? 1 : 0, is_new: isNew ? 1 : 0,
-        promo_qty: promoQty, promo_price: promoPrice,
-      });
-      results.added++;
+      if (existing) {
+        await db.updateProduct(existing.id, {
+          price,
+          price_type:  [0,1].includes(priceType) ? priceType : 1,
+          category_id: categoryId,
+          image_url:   imageUrl || existing.image_url,
+          description: description || existing.description,
+          in_stock:    inStock ? 1 : 0,
+          is_new:      isNew ? 1 : 0,
+          promo_qty:   promoQty,
+          promo_price: promoPrice,
+        });
+        results.updated++;
+      } else {
+        await db.createProduct({
+          title, price,
+          price_type:  [0,1].includes(priceType) ? priceType : 1,
+          category_id: categoryId,
+          image_url:   imageUrl,
+          description, in_stock: inStock ? 1 : 0, is_new: isNew ? 1 : 0,
+          promo_qty: promoQty, promo_price: promoPrice,
+        });
+        results.added++;
+      }
     } catch (err) {
       results.errors.push(`שורה ${rowNum} (${title}): ${err.message}`);
     }
