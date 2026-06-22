@@ -193,34 +193,6 @@ router.get('/search-image', async (req, res) => {
     'Accept': 'application/json, */*',
   };
 
-  function mapUpcItems(items) {
-    return (items || [])
-      .filter(item => item.images?.length > 0)
-      .slice(0, 9)
-      .map(item => ({
-        name:     item.title || '',
-        brand:    item.brand || '',
-        imageUrl: item.images[0],
-        thumbUrl: item.images[0],
-        source:   'upcitemdb',
-      }));
-  }
-
-  // ── ברקוד (8–14 ספרות) → lookup מדויק ב-UPC Item DB ─────────────────────
-  if (/^\d{8,14}$/.test(q)) {
-    try {
-      const r = await fetch(`https://api.upcitemdb.com/prod/trial/lookup?upc=${q}`, { headers: HEADERS, signal: AbortSignal.timeout(8000) });
-      if (r.ok) {
-        const data = await r.json();
-        const results = mapUpcItems(data.items);
-        if (results.length > 0) return res.json(results);
-      }
-    } catch (_) {}
-    return res.json([]);
-  }
-
-  // ── חיפוש טקסט ──────────────────────────────────────────────────────────
-
   // 1. Open Food Facts
   try {
     const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=30&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
@@ -235,19 +207,26 @@ router.get('/search-image', async (req, res) => {
           brand:    p.brands       || '',
           imageUrl: p.image_front_url || p.image_url,
           thumbUrl: p.image_front_small_url || p.image_front_url || p.image_url,
-          source:   'openfoodfacts',
         }));
       if (results.length > 0) return res.json(results);
     }
   } catch (_) {}
 
-  // 2. UPC Item DB (fallback)
+  // 2. UPC Item DB (fallback — אפקטיבי למוצרים בינלאומיים)
   try {
     const upcUrl = `https://api.upcitemdb.com/prod/trial/search?s=${encodeURIComponent(q)}&type=product`;
     const upcResp = await fetch(upcUrl, { headers: HEADERS, signal: AbortSignal.timeout(8000) });
     if (upcResp.ok) {
       const data = await upcResp.json();
-      const results = mapUpcItems(data.items);
+      const results = (data.items || [])
+        .filter(item => item.images?.length > 0)
+        .slice(0, 9)
+        .map(item => ({
+          name:     item.title || '',
+          brand:    item.brand || '',
+          imageUrl: item.images[0],
+          thumbUrl: item.images[0],
+        }));
       if (results.length > 0) return res.json(results);
     }
   } catch (_) {}

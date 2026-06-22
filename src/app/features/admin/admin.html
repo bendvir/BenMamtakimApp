@@ -295,14 +295,19 @@
                [value]="imgSearchQuery()"
                (input)="imgSearchQuery.set($any($event.target).value)"
                (keydown.enter)="runImageSearch()"
-               placeholder="שם באנגלית / ברקוד (7290...)">
+               placeholder="שם מוצר (עברית/אנגלית)...">
         <button mat-raised-button class="btn-do-search" (click)="runImageSearch()" [disabled]="imgSearchLoading()">
           <mat-icon>search</mat-icon> חפש
         </button>
+        <a class="btn-google-img"
+           [href]="'https://www.google.com/search?tbm=isch&q=' + imgSearchQuery()"
+           target="_blank" rel="noopener" title="חפש ב-Google תמונות ← העתק כתובת תמונה ← הדבק ב-URL למטה">
+          <mat-icon>open_in_new</mat-icon> Google
+        </a>
       </div>
       <div class="img-search-tip">
         <mat-icon>tips_and_updates</mat-icon>
-        מוצרי עלית/אסם: חפש לפי <strong>ברקוד</strong> (המספר מאחורי האריזה) או שם <strong>באנגלית</strong> — "Elite chocolate", "Osem bamba"
+        מוצרי עלית/אסם: לחץ <strong>Google</strong> ← מצא תמונה ← לחץ ימני ← "העתק כתובת תמונה" ← הדבק בשדה URL בטופס
       </div>
 
       @if (imgSearchLoading()) {
