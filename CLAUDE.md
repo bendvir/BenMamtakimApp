@@ -9,7 +9,7 @@
 
 ---
 
-## סטטוס נוכחי — 22/06/2026 (עדכון 4)
+## סטטוס נוכחי — 22/06/2026 (עדכון 5)
 
 ### ✅ הושלם
 
@@ -61,6 +61,8 @@
   - `POST /api/admin/verify-otp` — שלב 2: אימות קוד 6 ספרות → מחזיר JWT
   - `GET/POST/PUT/DELETE /api/admin/products` — CRUD מוגן ב-JWT (async)
   - `POST /api/admin/upload` — העלאת תמונה → Cloudinary → מחזיר URL
+  - `GET /api/admin/search-image?q=...` — חיפוש תמונה: OFF → UPC Item DB (proxy, מוגן ב-JWT)
+  - `PATCH /api/admin/products/:id/image` — עדכון תמונה בלבד ב-MongoDB (מוגן ב-JWT)
 - **שדות מוצר**: `id, title, price, price_type (0=ק"ג/1=יחידה), category_id, image_url, description, in_stock, is_new, is_new_until, created_at, updated_at`
 - **is_new auto-reset**: אחרי 12 שעות (MongoDB `updateMany` ב-`getProducts()`)
 
@@ -74,6 +76,8 @@
   - 2FA: `requestOtp(password)` → `verifyOtp(sessionId, code)` → שמירת JWT
   - CRUD מלא: `logout, getCategories, getProducts, createProduct, updateProduct, deleteProduct`
   - `uploadImage(file)` — העלאת תמונה → Cloudinary URL
+  - `searchProductImage(query)` — חיפוש תמונה דרך backend proxy
+  - `patchProductImage(id, url)` — עדכון תמונה בלבד
 - **proxy**: `/api` + `/uploads` → `http://localhost:3000` דרך `proxy.conf.json`
 
 #### Admin Panel (`/admin`)
@@ -86,6 +90,13 @@
   - **העלאת תמונה**: כפתור "העלה תמונה" → multer → Cloudinary → URL מתמלא + תצוגה מקדימה
   - Toggles: "במלאי" + "מוצר חדש"
 - **טבלת מוצרים**: גלילה פנימית, Thead sticky, חיפוש, סינון קטגוריה, badge חדש/מלאי
+- **חיפוש תמונה לכל מוצר** (כפתור 🔍 בטבלה):
+  - Modal עם שדה חיפוש + רשת תמונות 3 עמודות
+  - לחיצה על תמונה → שמירה ישירה ל-MongoDB (ללא פתיחת טופס עריכה)
+  - כפתור **Google תמונות** — פותח חיפוש בטאב חדש עם שם המוצר
+  - שדה **הדבק URL** בתחתית המודל — אחרי שהמשתמש מעתיק URL מגוגל
+  - Backend proxy: מנסה **Open Food Facts** → fallback ל-**UPC Item DB**
+  - הערה: מוצרים ישראלים (עלית/אסם) — יש לחפש **באנגלית** (CORS חוסם קריאות ישירות מהדפדפן)
 
 #### UI / UX
 - **Navbar**: Announcement bar + לוגו (`בהיר.png`) עגול 72px + ניווט + חיפוש autocomplete + סל
@@ -143,6 +154,8 @@ CLOUDINARY_API_SECRET=***
 | PUT | `/api/admin/products/:id` | עדכון מוצר |
 | DELETE | `/api/admin/products/:id` | מחיקת מוצר |
 | POST | `/api/admin/upload` | העלאת תמונה → Cloudinary URL |
+| GET | `/api/admin/search-image?q=...` | חיפוש תמונה (OFF → UPC fallback) |
+| PATCH | `/api/admin/products/:id/image` | עדכון תמונה בלבד |
 
 ### טכנולוגיות
 - **Frontend**: Angular 22, Angular Material 22, SCSS, Signals, RxJS, Lazy Loading
@@ -159,6 +172,9 @@ node backend/migrate-to-mongodb.js
 
 # מיגרציית תמונות ל-Cloudinary (כבר רץ פעם אחת)
 node backend/migrate-images-to-cloudinary.js
+
+# חיפוש תמונות אוטומטי למוצרים ללא תמונה (Open Food Facts → Cloudinary)
+node backend/fetch-missing-images.js
 ```
 
 ### Skills מותקנים ב-`.claude/skills/`
@@ -231,6 +247,33 @@ pm2 save
 ### 6. proxy.conf.json — עובד רק ב-dev
 - ב-`ng serve` — proxy מעביר `/api` → `localhost:3000`
 - ב-`ng build` — חייבים `environment.prod.ts` עם URL מלא
+
+---
+
+## 🆕 עדכון 5 — 22/06/2026
+
+### ✅ נוסף בסשן זה
+
+#### חיפוש תמונות לפאנל אדמין
+- **כפתור 🔍 בכל שורה** בטבלת המוצרים — פותח modal חיפוש תמונה
+- **Modal חיפוש**:
+  - שדה חיפוש חופשי + כפתור "חפש"
+  - רשת 3 עמודות של תמונות מהAPI
+  - לחיצה על תמונה → שמירה ישירה ל-MongoDB (ללא כניסה לטופס עריכה)
+  - כפתור **Google** (כחול) → פותח Google תמונות בטאב חדש עם שם המוצר
+  - שדה **הדבק URL** בתחתית → אחרי העתקת URL מגוגל, הדבקה ישירה + "החל"
+- **Backend proxy** (`GET /api/admin/search-image`):
+  - שלב 1: **Open Food Facts** CGI — טוב למוצרים בינלאומיים ועבריים כלליים
+  - שלב 2: **UPC Item DB** fallback — טוב למוצרים עם ברקוד UPC/EAN בינלאומי
+  - שני ה-APIs לא נקראים מהדפדפן ישירות (CORS) — רק דרך ה-backend
+  - מוצרים ישראלים (עלית/אסם): חפש **באנגלית** ("Elite chocolate", "Osem bamba")
+- **`PATCH /api/admin/products/:id/image`** — endpoint חדש לעדכון תמונה בלבד
+- **`backend/fetch-missing-images.js`** — סקריפט באצ' שמוצא מוצרים ללא תמונה, מחפש ב-OFF, מעלה ל-Cloudinary ומעדכן MongoDB
+
+#### הגבלות ידועות של חיפוש התמונות
+- Open Food Facts מחזיר 503 לחלק מהשאילתות בעברית (עומס שרת)
+- UPC Item DB לא תומך בברקודים ישראליים (729...)
+- מוצרי עלית/אסם/תנובה — יש לחפש שם אנגלי או להשתמש בכפתור Google
 
 ---
 
