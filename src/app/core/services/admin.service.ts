@@ -103,6 +103,14 @@ export class AdminService {
     return this.http.post<{ imageUrl: string }>(`${environment.apiUrl}/admin/upload`, form, { headers: this.headers() });
   }
 
+  importExcel(file: File): Observable<{ added: number; skipped: string[]; errors: string[] }> {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http.post<{ added: number; skipped: string[]; errors: string[] }>(
+      `${environment.apiUrl}/admin/import-excel`, form, { headers: this.headers() }
+    );
+  }
+
   searchProductImage(query: string): Observable<ImageSearchResult[]> {
     return this.http.get<ImageSearchResult[]>(
       `${environment.apiUrl}/admin/search-image?q=${encodeURIComponent(query)}`,

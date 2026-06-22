@@ -3,6 +3,7 @@ const jwt        = require('jsonwebtoken');
 const crypto     = require('crypto');
 const path       = require('path');
 const multer     = require('multer');
+const XLSX       = require('xlsx');
 const cloudinary = require('cloudinary').v2;
 const db         = require('../database');
 const auth       = require('../middleware/auth');
@@ -22,6 +23,11 @@ const upload = multer({
     if (/^image\//.test(file.mimetype)) cb(null, true);
     else cb(new Error('קבצי תמונה בלבד'));
   },
+});
+
+const uploadExcel = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
 });
 
 // In-memory OTP store: sessionId → { code, expiresAt }
@@ -232,6 +238,59 @@ router.get('/search-image', async (req, res) => {
   } catch (_) {}
 
   res.json([]);
+});
+
+// POST /api/admin/import-excel — ייבוא מוצרים מקובץ Excel
+router.post('/import-excel', auth, uploadExcel.single('file'), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'לא נבחר קובץ' });
+
+  const Category = require('../models/Category');
+  const validCats = new Set((await Category.find().lean()).map(c => c.id));
+
+  let workbook;
+  try {
+    workbook = XLSX.read(req.file.buffer, { type: 'buffer' });
+  } catch {
+    return res.status(400).json({ error: 'קובץ Excel לא תקין' });
+  }
+
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const rows  = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+  const results = { added: 0, skipped: [], errors: [] };
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    const rowNum = i + 2;
+
+    const title      = String(row['שם מוצר'] || row['title'] || '').trim();
+    const price      = parseFloat(row['מחיר'] || row['price']);
+    const priceType  = parseInt(row['סוג תמחור'] ?? row['price_type'] ?? 1);
+    const categoryId = String(row['קטגוריה'] || row['category_id'] || '').trim();
+    const imageUrl   = String(row['URL תמונה'] || row['image_url'] || '').trim();
+    const description= String(row['תיאור']    || row['description'] || '').trim();
+    const inStock    = parseInt(row['במלאי']  ?? row['in_stock']  ?? 1);
+    const isNew      = parseInt(row['מוצר חדש'] ?? row['is_new']  ?? 0);
+
+    if (!title) { results.skipped.push(`שורה ${rowNum}: שם ריק`); continue; }
+    if (isNaN(price) || price < 0) { results.errors.push(`שורה ${rowNum} (${title}): מחיר לא תקין`); continue; }
+    if (!validCats.has(categoryId)) { results.errors.push(`שורה ${rowNum} (${title}): קטגוריה "${categoryId}" לא קיימת`); continue; }
+
+    try {
+      await db.createProduct({
+        title, price,
+        price_type:  [0,1].includes(priceType) ? priceType : 1,
+        category_id: categoryId,
+        image_url:   imageUrl,
+        description, in_stock: inStock ? 1 : 0, is_new: isNew ? 1 : 0,
+      });
+      results.added++;
+    } catch (err) {
+      results.errors.push(`שורה ${rowNum} (${title}): ${err.message}`);
+    }
+  }
+
+  res.json(results);
 });
 
 module.exports = router;

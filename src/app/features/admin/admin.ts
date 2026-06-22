@@ -31,6 +31,7 @@ export class Admin implements OnInit {
   readonly loadError    = signal<string | null>(null);
 
   // ── Image search modal ───────────────────────────────────────────────────
+  readonly importing    = signal(false);
   readonly imgSearchOpen      = signal(false);
   readonly imgSearchLoading   = signal(false);
   readonly imgSearchQuery     = signal('');
@@ -208,6 +209,23 @@ export class Admin implements OnInit {
         this.uploading.set(false);
         this.snackBar.open('שגיאה בהעלאת התמונה', '', { duration: 3000 });
       },
+    });
+    (event.target as HTMLInputElement).value = '';
+  }
+
+  onExcelFilePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.importing.set(true);
+    this.adminSvc.importExcel(file).subscribe({
+      next: res => {
+        this.importing.set(false);
+        const msg = `✅ נוספו: ${res.added}${res.skipped.length ? ` | ⚠️ דולגו: ${res.skipped.length}` : ''}${res.errors.length ? ` | ❌ שגיאות: ${res.errors.length}` : ''}`;
+        this.snackBar.open(msg, 'פרטים', { duration: 6000 });
+        if (res.added > 0) this.loadData();
+        if (res.errors.length) console.warn('Excel import errors:', res.errors);
+      },
+      error: () => { this.importing.set(false); this.snackBar.open('שגיאה בייבוא הקובץ', '', { duration: 3000 }); },
     });
     (event.target as HTMLInputElement).value = '';
   }

@@ -269,6 +269,27 @@
   }
 }
 
+.btn-import-excel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1.5px solid #2563eb;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.18s, color 0.18s;
+  font-family: inherit;
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+  &:hover { background: #2563eb; color: #fff; }
+  &.uploading { opacity: 0.7; cursor: wait; }
+}
+
 .img-preview {
   margin-top: 8px;
   height: 90px;
