@@ -189,7 +189,11 @@ router.get('/search-image', async (req, res) => {
   if (!q) return res.status(400).json({ error: 'חסר פרמטר q' });
   try {
     const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=12&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
-    const resp = await fetch(url, { headers: { 'User-Agent': 'MamtakimApp/1.0' } });
+    const resp = await fetch(url, {
+      headers: { 'User-Agent': 'MamtakimApp/1.0' },
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!resp.ok) throw new Error(`Open Food Facts returned ${resp.status}`);
     const data = await resp.json();
     const results = (data.products || [])
       .filter(p => p.image_front_url || p.image_url)
@@ -201,7 +205,7 @@ router.get('/search-image', async (req, res) => {
         thumbUrl: p.image_front_small_url || p.image_front_url || p.image_url,
       }));
     res.json(results);
-  } catch (err) { res.status(500).json({ error: err.message }); }
+  } catch (err) { console.error('[search-image]', err); res.status(500).json({ error: err.message }); }
 });
 
 module.exports = router;

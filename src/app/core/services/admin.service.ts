@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface AdminProduct {
@@ -104,9 +104,19 @@ export class AdminService {
   }
 
   searchProductImage(query: string): Observable<ImageSearchResult[]> {
-    return this.http.get<ImageSearchResult[]>(
-      `${environment.apiUrl}/admin/search-image?q=${encodeURIComponent(query)}`,
-      { headers: this.headers() }
+    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=20&fields=product_name,brands,image_front_url,image_front_small_url,image_url`;
+    return this.http.get<any>(url).pipe(
+      map((data: any) =>
+        (data.products as any[] || [])
+          .filter((p: any) => p.image_front_url || p.image_url)
+          .slice(0, 9)
+          .map((p: any) => ({
+            name:     p.product_name || '',
+            brand:    p.brands       || '',
+            imageUrl: p.image_front_url || p.image_url,
+            thumbUrl: p.image_front_small_url || p.image_front_url || p.image_url,
+          }))
+      )
     );
   }
 
