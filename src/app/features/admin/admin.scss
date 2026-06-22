@@ -732,3 +732,48 @@
   background: #fef3c7; color: #d97706;
   white-space: nowrap;
 }
+
+// ── PROMO SECTION ─────────────────────────────────────────────────────────
+.promo-section {
+  padding: 0.9rem 1.1rem;
+  background: #f0fdf4;
+  border: 1.5px dashed #86efac;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.promo-toggle-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.promo-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.25rem;
+  padding-top: 0.25rem;
+
+  @media (max-width: 560px) { grid-template-columns: 1fr; }
+}
+
+.promo-hint {
+  font-size: 0.73rem;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.promo-table-badge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.td-promo { white-space: nowrap; }

@@ -30,6 +30,9 @@ export class Admin implements OnInit {
   readonly uploading    = signal(false);
   readonly loadError    = signal<string | null>(null);
 
+  // ── Promo ────────────────────────────────────────────────────────────────
+  readonly promoActive  = signal(false);
+
   // ── Image search modal ───────────────────────────────────────────────────
   readonly importing    = signal(false);
   readonly imgSearchOpen      = signal(false);
@@ -63,18 +66,24 @@ export class Admin implements OnInit {
 
   // ── Product form ─────────────────────────────────────────────────────────
   productForm = this.fb.group({
-    title:       ['', Validators.required],
-    price:       [0,  [Validators.required, Validators.min(0.01)]],
-    priceType:   [0 as 0 | 1],
-    categoryId:  ['', Validators.required],
-    imageUrl:    [''],
-    description: [''],
-    inStock:     [true],
-    isNew:       [true],
+    title:        ['', Validators.required],
+    price:        [0,  [Validators.required, Validators.min(0.01)]],
+    priceType:    [0 as 0 | 1],
+    categoryId:   ['', Validators.required],
+    imageUrl:     [''],
+    description:  [''],
+    inStock:      [true],
+    isNew:        [true],
+    promoEnabled: [false],
+    promoQty:     [3, Validators.min(2)],
+    promoPrice:   [0, Validators.min(0)],
   });
 
   ngOnInit() {
     if (this.adminSvc.isLoggedIn()) this.loadData();
+    this.productForm.get('promoEnabled')!.valueChanges.subscribe(
+      val => this.promoActive.set(!!val)
+    );
   }
 
   // Step 1 — send password, receive OTP
@@ -142,15 +151,20 @@ export class Admin implements OnInit {
 
   editProduct(p: AdminProduct) {
     this.editingId.set(p.id);
+    const hasPromo = (p.promo_qty ?? 0) > 0 && (p.promo_price ?? 0) > 0;
+    this.promoActive.set(hasPromo);
     this.productForm.patchValue({
-      title:       p.title,
-      price:       p.price,
-      priceType:   p.price_type,
-      categoryId:  p.category_id,
-      imageUrl:    p.image_url,
-      description: p.description,
-      inStock:     p.in_stock === 1,
-      isNew:       (p as any).is_new === 1,
+      title:        p.title,
+      price:        p.price,
+      priceType:    p.price_type,
+      categoryId:   p.category_id,
+      imageUrl:     p.image_url,
+      description:  p.description,
+      inStock:      p.in_stock === 1,
+      isNew:        (p as any).is_new === 1,
+      promoEnabled: hasPromo,
+      promoQty:     p.promo_qty   || 3,
+      promoPrice:   p.promo_price || 0,
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -161,6 +175,7 @@ export class Admin implements OnInit {
     if (this.productForm.invalid) { this.productForm.markAllAsTouched(); return; }
     this.saving.set(true);
     const v = this.productForm.value;
+    const promoEnabled = !!v.promoEnabled;
     const payload = {
       title:       v.title!.trim(),
       price:       Number(v.price),
@@ -170,6 +185,8 @@ export class Admin implements OnInit {
       description: v.description || '',
       inStock:     v.inStock !== false,
       isNew:       v.isNew === true,
+      promoQty:    promoEnabled ? (Number(v.promoQty)   || 0) : 0,
+      promoPrice:  promoEnabled ? (Number(v.promoPrice) || 0) : 0,
     };
 
     const op = this.editingId()
@@ -192,7 +209,8 @@ export class Admin implements OnInit {
 
   private resetForm() {
     this.editingId.set(null);
-    this.productForm.reset({ priceType: 0, inStock: true, price: 0, isNew: true });
+    this.promoActive.set(false);
+    this.productForm.reset({ priceType: 0, inStock: true, price: 0, isNew: true, promoEnabled: false, promoQty: 3, promoPrice: 0 });
   }
 
   onImageFilePicked(event: Event) {

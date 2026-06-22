@@ -13,6 +13,8 @@ export interface AdminProduct {
   image_url: string;
   description: string;
   in_stock: number;
+  promo_qty:   number;
+  promo_price: number;
   created_at: string;
   updated_at: string;
 }
@@ -38,6 +40,8 @@ export interface ProductPayload {
   imageUrl: string;
   description: string;
   inStock: boolean;
+  promoQty:   number;
+  promoPrice: number;
 }
 
 @Injectable({ providedIn: 'root' })

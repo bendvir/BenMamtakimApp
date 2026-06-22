@@ -33,11 +33,11 @@ const db = {
     return all.filter(p => p.category_id === categoryId);
   },
 
-  async createProduct({ title, price, price_type, category_id, image_url, description, in_stock, is_new = 0 }) {
+  async createProduct({ title, price, price_type, category_id, image_url, description, in_stock, is_new = 0, promo_qty = 0, promo_price = 0 }) {
     const id  = await nextId();
     const now = new Date().toISOString();
     const is_new_until = is_new ? new Date(Date.now() + TWELVE_HOURS) : null;
-    await Product.create({ id, title, price, price_type, category_id, image_url, description, in_stock, is_new, is_new_until, created_at: now, updated_at: now });
+    await Product.create({ id, title, price, price_type, category_id, image_url, description, in_stock, is_new, is_new_until, promo_qty, promo_price, created_at: now, updated_at: now });
     return id;
   },
 

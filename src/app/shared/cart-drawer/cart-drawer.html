@@ -66,6 +66,11 @@
                 ₪{{ item.price }}
                 <span>{{ item.priceType === 0 ? '/ק"ג' : '/יח\''}}</span>
               </p>
+              @if ((item.promoQty ?? 0) > 0 && (item.promoPrice ?? 0) > 0 && item.amount >= item.promoQty!) {
+                <span class="cart-promo-active">✦ מבצע {{ item.promoQty }} ב-₪{{ item.promoPrice }}</span>
+              } @else if ((item.promoQty ?? 0) > 0 && (item.promoPrice ?? 0) > 0 && item.priceType === 1) {
+                <span class="cart-promo-hint">עוד {{ item.promoQty! - item.amount }} למבצע {{ item.promoQty }} ב-₪{{ item.promoPrice }}</span>
+              }
 
               <!-- Quantity control -->
               @if (item.priceType === 0) {
@@ -128,6 +133,12 @@
     <!-- ── Footer (summary + CTA) ── -->
     @if (basket.items().length > 0) {
       <footer class="cart-drawer__footer">
+        @if (basket.totalSavings() > 0) {
+          <div class="cart-savings">
+            <span>חסכת במבצעים</span>
+            <span class="cart-savings__amount">₪{{ formatPrice(basket.totalSavings()) }}</span>
+          </div>
+        }
         <div class="cart-summary">
           <span class="cart-summary__label">סה"כ לתשלום</span>
           <span class="cart-summary__price">₪{{ formatPrice(basket.totalPrice()) }}</span>

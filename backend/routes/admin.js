@@ -137,7 +137,7 @@ router.get('/products', async (_req, res) => {
 // POST /api/admin/products — create
 router.post('/products', async (req, res) => {
   try {
-    const { title, price, priceType, categoryId, imageUrl, description, inStock, isNew } = req.body;
+    const { title, price, priceType, categoryId, imageUrl, description, inStock, isNew, promoQty, promoPrice } = req.body;
     if (!title?.trim() || price == null || !categoryId)
       return res.status(400).json({ error: 'שדות חובה: title, price, categoryId' });
     const id = await db.createProduct({
@@ -145,6 +145,7 @@ router.post('/products', async (req, res) => {
       price_type: priceType === 1 ? 1 : 0, category_id: categoryId,
       image_url: imageUrl || '', description: description || '',
       in_stock: inStock === false ? 0 : 1, is_new: isNew ? 1 : 0,
+      promo_qty: Number(promoQty) || 0, promo_price: Number(promoPrice) || 0,
     });
     res.status(201).json({ id, message: 'מוצר נוסף בהצלחה' });
   } catch (err) { res.status(500).json({ error: err.message }); }
@@ -153,12 +154,13 @@ router.post('/products', async (req, res) => {
 // PUT /api/admin/products/:id — update
 router.put('/products/:id', async (req, res) => {
   try {
-    const { title, price, priceType, categoryId, imageUrl, description, inStock, isNew } = req.body;
+    const { title, price, priceType, categoryId, imageUrl, description, inStock, isNew, promoQty, promoPrice } = req.body;
     const ok = await db.updateProduct(req.params.id, {
       title: title?.trim(), price: Number(price),
       price_type: priceType === 1 ? 1 : 0, category_id: categoryId,
       image_url: imageUrl || '', description: description || '',
       in_stock: inStock === false ? 0 : 1, is_new: isNew ? 1 : 0,
+      promo_qty: Number(promoQty) || 0, promo_price: Number(promoPrice) || 0,
     });
     if (!ok) return res.status(404).json({ error: 'מוצר לא נמצא' });
     res.json({ message: 'מוצר עודכן בהצלחה' });

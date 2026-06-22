@@ -11,6 +11,8 @@ const productSchema = new mongoose.Schema({
   in_stock:     { type: Number, default: 1 },
   is_new:       { type: Number, default: 0 },
   is_new_until: { type: Date,   default: null },
+  promo_qty:    { type: Number, default: 0 },
+  promo_price:  { type: Number, default: 0 },
   created_at:   { type: String },
   updated_at:   { type: String },
 });

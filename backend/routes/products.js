@@ -44,6 +44,8 @@ function mapProduct(p) {
     description: p.description || '',
     inStock:     p.in_stock === 1,
     isNew:       p.is_new === 1,
+    promoQty:    p.promo_qty   || 0,
+    promoPrice:  p.promo_price || 0,
     updatedAt:   p.updated_at,
   };
 }

@@ -123,8 +123,16 @@ export class Products implements OnInit {
 
   calcPrice(product: Product): number {
     const amount = this.selectedAmounts[product.id] ?? (product.priceType === 0 ? 250 : 1);
-    return product.priceType === 0
-      ? Math.round((product.price * amount) / 1000 * 100) / 100
-      : product.price * amount;
+    if (product.priceType === 0) {
+      return Math.round((product.price * amount) / 1000 * 100) / 100;
+    }
+    const qty   = product.promoQty   ?? 0;
+    const price = product.promoPrice ?? 0;
+    if (qty > 0 && price > 0 && amount >= qty) {
+      const sets      = Math.floor(amount / qty);
+      const remainder = amount % qty;
+      return sets * price + remainder * product.price;
+    }
+    return product.price * amount;
   }
 }
