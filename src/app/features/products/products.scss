@@ -272,20 +272,6 @@
     }
   }
 
-  .stepper-kg-val {
-    min-width: 68px;
-    height: 38px;
-    line-height: 38px;
-    text-align: center;
-    border-inline: 1.5px solid var(--border);
-    font-family: 'Heebo', Arial, sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text);
-    white-space: nowrap;
-    padding: 0 4px;
-  }
-
   .stepper-input {
     width: 52px;
     height: 38px;
@@ -324,6 +310,28 @@
 @media (max-width: 400px) {
   // 1 column on very small phones so cards are wide enough for pills
   :host { display: block; }
+}
+
+// ── WEIGHT DROPDOWN ───────────────────────────────────────────────────────
+.weight-select {
+  width: 100%;
+  height: 40px;
+  padding: 0 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font-family: 'Heebo', Arial, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  appearance: auto;
+  margin-bottom: 1rem;
+  transition: border-color 0.15s;
+
+  &:hover:not(:disabled) { border-color: var(--primary); }
+  &:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(86,115,51,.15); }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 
 // ── ACTIONS ROW — total price + add-to-cart ──────────────────────────────

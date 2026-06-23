@@ -191,8 +191,24 @@
   span { font-size: 0.73rem; }
 }
 
-// Kg stepper — uses same .cart-stepper/.cart-stepper__btn/.cart-stepper__val
-// The __val is wider for kg labels like "2.5 ק״ג"
+// Weight dropdown (kg products)
+.cart-weight-select {
+  width: 100%;
+  height: 34px;
+  padding: 0 0.6rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  appearance: auto;
+  margin-top: 4px;
+
+  &:focus { outline: none; border-color: var(--primary); }
+}
 
 // Unit stepper
 .cart-stepper {

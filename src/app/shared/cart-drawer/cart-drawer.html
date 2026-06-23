@@ -74,24 +74,15 @@
 
               <!-- Quantity control -->
               @if (item.priceType === 0) {
-                <!-- Kg stepper -->
-                <div class="cart-stepper" role="group" [attr.aria-label]="'כמות ק&quot;ג עבור ' + item.title">
-                  <button
-                    type="button"
-                    class="cart-stepper__btn"
-                    (click)="changeKg(item, -500)"
-                    [disabled]="item.amount <= 500"
-                    aria-label="הפחת כמות"
-                  >−</button>
-                  <span class="cart-stepper__val" aria-live="polite">{{ kgDisplay(item.amount) }}</span>
-                  <button
-                    type="button"
-                    class="cart-stepper__btn"
-                    (click)="changeKg(item, 500)"
-                    [disabled]="item.amount >= 10000"
-                    aria-label="הוסף כמות"
-                  >+</button>
-                </div>
+                <!-- Weight dropdown -->
+                <select class="cart-weight-select"
+                        [value]="item.amount"
+                        (change)="onWeightSelect(item, $event)"
+                        [attr.aria-label]="'כמות עבור ' + item.title">
+                  @for (w of weightOptions; track w) {
+                    <option [value]="w">{{ weightLabel(w) }}</option>
+                  }
+                </select>
               } @else {
                 <!-- Unit stepper -->
                 <div class="cart-stepper" role="group" [attr.aria-label]="'כמות יחידות עבור ' + item.title">

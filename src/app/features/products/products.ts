@@ -41,9 +41,7 @@ export class Products implements OnInit {
   );
 
   selectedAmounts: Record<number, number> = {};
-  readonly KG_STEP = 500;   // 0.5 ק"ג בגרמים
-  readonly KG_MIN  = 500;   // מינימום 0.5 ק"ג
-  readonly KG_MAX  = 10000; // מקסימום 10 ק"ג
+  readonly weightOptions = [250, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
 
   // Lightbox
   lightboxImg  = signal<string | null>(null);
@@ -93,14 +91,12 @@ export class Products implements OnInit {
     });
   }
 
-  changeKgAmount(product: Product, delta: number) {
-    const current = this.selectedAmounts[product.id] ?? 1000;
-    this.selectedAmounts[product.id] = Math.max(this.KG_MIN, Math.min(this.KG_MAX, current + delta));
+  weightLabel(grams: number): string {
+    return grams < 1000 ? `${grams} גרם` : `${grams / 1000} ק"ג`;
   }
 
-  kgDisplay(grams: number): string {
-    const kg = grams / 1000;
-    return (kg % 1 === 0 ? kg.toFixed(0) : kg.toFixed(1)) + ' ק"ג';
+  onWeightSelect(product: Product, event: Event) {
+    this.selectedAmounts[product.id] = Number((event.target as HTMLSelectElement).value);
   }
 
   changeUnitAmount(product: Product, delta: number) {

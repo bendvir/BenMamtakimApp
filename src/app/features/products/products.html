@@ -36,19 +36,14 @@
 
           <div class="amount-selector">
             @if (product.priceType === 0) {
-              <div class="unit-stepper" [class.disabled]="product.inStock === false">
-                <button type="button" class="stepper-btn"
-                        [disabled]="product.inStock === false || (selectedAmounts[product.id] ?? 1000) <= KG_MIN"
-                        (click)="changeKgAmount(product, -KG_STEP)">
-                  <mat-icon>remove</mat-icon>
-                </button>
-                <span class="stepper-kg-val">{{ kgDisplay(selectedAmounts[product.id] ?? 1000) }}</span>
-                <button type="button" class="stepper-btn"
-                        [disabled]="product.inStock === false || (selectedAmounts[product.id] ?? 1000) >= KG_MAX"
-                        (click)="changeKgAmount(product, KG_STEP)">
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
+              <select class="weight-select"
+                      [value]="selectedAmounts[product.id] ?? 1000"
+                      [disabled]="product.inStock === false"
+                      (change)="onWeightSelect(product, $event)">
+                @for (w of weightOptions; track w) {
+                  <option [value]="w">{{ weightLabel(w) }}</option>
+                }
+              </select>
             } @else {
               <div class="unit-stepper" [class.disabled]="product.inStock === false">
                 <button type="button" class="stepper-btn"
