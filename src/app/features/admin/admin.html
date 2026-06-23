@@ -13,7 +13,7 @@
             <label class="field-label">סיסמה</label>
             <div class="input-icon-wrap">
               <input class="field-input" type="password" formControlName="password"
-                     placeholder="הכנס סיסמה" (keydown.enter)="requestOtp()">
+                     placeholder="הכנס סיסמה">
               <mat-icon class="input-suffix-icon">lock</mat-icon>
             </div>
           </div>
@@ -41,8 +41,7 @@
             <label class="field-label">קוד אימות (6 ספרות)</label>
             <input class="field-input otp-input" type="text" formControlName="code"
                    placeholder="000000" maxlength="6" inputmode="numeric"
-                   autocomplete="one-time-code" dir="ltr"
-                   (keydown.enter)="verifyOtp()">
+                   autocomplete="one-time-code" dir="ltr">
             @if (otpForm.get('code')?.invalid && otpForm.get('code')?.touched) {
               <span class="field-error">יש להזין קוד בן 6 ספרות</span>
             }
