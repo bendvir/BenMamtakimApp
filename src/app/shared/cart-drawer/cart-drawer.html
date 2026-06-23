@@ -74,20 +74,23 @@
 
               <!-- Quantity control -->
               @if (item.priceType === 0) {
-                <!-- Weight pills -->
-                <div class="cart-weight-pills" role="group" [attr.aria-label]="'כמות עבור ' + item.title">
-                  @for (w of weightOptions; track w) {
-                    <button
-                      type="button"
-                      class="weight-pill"
-                      [class.active]="item.amount === w"
-                      (click)="selectWeight(item, w)"
-                      [attr.aria-pressed]="item.amount === w"
-                      [attr.aria-label]="w < 1000 ? w + ' גרם' : (w/1000) + ' קילו'"
-                    >
-                      {{ w < 1000 ? w + 'ג' : (w/1000) + 'ק"ג' }}
-                    </button>
-                  }
+                <!-- Kg stepper -->
+                <div class="cart-stepper" role="group" [attr.aria-label]="'כמות ק&quot;ג עבור ' + item.title">
+                  <button
+                    type="button"
+                    class="cart-stepper__btn"
+                    (click)="changeKg(item, -500)"
+                    [disabled]="item.amount <= 500"
+                    aria-label="הפחת כמות"
+                  >−</button>
+                  <span class="cart-stepper__val" aria-live="polite">{{ kgDisplay(item.amount) }}</span>
+                  <button
+                    type="button"
+                    class="cart-stepper__btn"
+                    (click)="changeKg(item, 500)"
+                    [disabled]="item.amount >= 10000"
+                    aria-label="הוסף כמות"
+                  >+</button>
                 </div>
               } @else {
                 <!-- Unit stepper -->

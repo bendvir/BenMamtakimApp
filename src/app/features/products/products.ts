@@ -41,8 +41,9 @@ export class Products implements OnInit {
   );
 
   selectedAmounts: Record<number, number> = {};
-  weightOptions = [250, 500, 1000, 2000];
-  unitOptions   = [1, 2, 3, 4];
+  readonly KG_STEP = 500;   // 0.5 ק"ג בגרמים
+  readonly KG_MIN  = 500;   // מינימום 0.5 ק"ג
+  readonly KG_MAX  = 10000; // מקסימום 10 ק"ג
 
   // Lightbox
   lightboxImg  = signal<string | null>(null);
@@ -88,12 +89,18 @@ export class Products implements OnInit {
   private initAmounts() {
     this.selectedAmounts = {};
     this.products().forEach(p => {
-      this.selectedAmounts[p.id] = p.priceType === 0 ? 250 : 1;
+      this.selectedAmounts[p.id] = p.priceType === 0 ? 1000 : 1;
     });
   }
 
-  selectAmount(product: Product, amount: number) {
-    this.selectedAmounts[product.id] = amount;
+  changeKgAmount(product: Product, delta: number) {
+    const current = this.selectedAmounts[product.id] ?? 1000;
+    this.selectedAmounts[product.id] = Math.max(this.KG_MIN, Math.min(this.KG_MAX, current + delta));
+  }
+
+  kgDisplay(grams: number): string {
+    const kg = grams / 1000;
+    return (kg % 1 === 0 ? kg.toFixed(0) : kg.toFixed(1)) + ' ק"ג';
   }
 
   changeUnitAmount(product: Product, delta: number) {
@@ -122,7 +129,7 @@ export class Products implements OnInit {
   }
 
   calcPrice(product: Product): number {
-    const amount = this.selectedAmounts[product.id] ?? (product.priceType === 0 ? 250 : 1);
+    const amount = this.selectedAmounts[product.id] ?? (product.priceType === 0 ? 1000 : 1);
     if (product.priceType === 0) {
       return Math.round((product.price * amount) / 1000 * 100) / 100;
     }

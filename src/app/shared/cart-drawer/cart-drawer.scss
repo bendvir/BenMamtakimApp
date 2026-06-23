@@ -191,35 +191,8 @@
   span { font-size: 0.73rem; }
 }
 
-// Weight pills
-.cart-weight-pills {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-}
-
-.weight-pill {
-  padding: 3px 8px;
-  border: 1.5px solid var(--border);
-  border-radius: 50px;
-  background: var(--surface);
-  font-family: 'Heebo', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-soft);
-  cursor: pointer;
-  transition: all 0.15s;
-
-  &:hover { border-color: var(--primary); color: var(--primary); }
-
-  &.active {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: #fff;
-  }
-
-  &:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
-}
+// Kg stepper — uses same .cart-stepper/.cart-stepper__btn/.cart-stepper__val
+// The __val is wider for kg labels like "2.5 ק״ג"
 
 // Unit stepper
 .cart-stepper {
@@ -253,14 +226,15 @@
 }
 
 .cart-stepper__val {
-  min-width: 32px;
+  min-width: 52px;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--text);
   border-inline: 1.5px solid var(--border);
   padding: 0 4px;
   line-height: 28px;
+  white-space: nowrap;
 }
 
 // End column: price + remove

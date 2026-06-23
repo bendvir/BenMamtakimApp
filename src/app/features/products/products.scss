@@ -272,6 +272,20 @@
     }
   }
 
+  .stepper-kg-val {
+    min-width: 68px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    border-inline: 1.5px solid var(--border);
+    font-family: 'Heebo', Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    padding: 0 4px;
+  }
+
   .stepper-input {
     width: 52px;
     height: 38px;
@@ -280,7 +294,7 @@
     border-inline: 1.5px solid var(--border);
     background: transparent;
     font-family: 'Heebo', Arial, sans-serif;
-    font-size: 1rem !important; // override iOS zoom-fix (already 16px so no zoom)
+    font-size: 1rem !important;
     font-weight: 700;
     color: var(--text);
     padding: 0;
