@@ -30,9 +30,10 @@
           } @else {
             <p class="product-price-label">₪{{ product.price }} <span>ליחידה</span></p>
           }
-          @if ((product.promoQty ?? 0) > 0 && (product.promoPrice ?? 0) > 0) {
-            <p class="promo-badge">{{ product.promoQty }} ב-₪{{ product.promoPrice }}</p>
-          }
+          <p class="promo-badge"
+             [class.promo-badge--hidden]="!((product.promoQty ?? 0) > 0 && (product.promoPrice ?? 0) > 0)">
+            {{ product.promoQty }} ב-₪{{ product.promoPrice }}
+          </p>
 
           <div class="amount-selector">
             @if (product.priceType === 0) {
