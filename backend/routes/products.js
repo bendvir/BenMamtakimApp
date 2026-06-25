@@ -1,29 +1,36 @@
 const express = require('express');
-const db = require('../database');
-const router = express.Router();
+const db      = require('../database');
+const router  = express.Router();
 
-// GET /api/products — all categories with their in-stock products
-router.get('/', (req, res) => {
-  const categories = db.getCategories();
-  const products   = db.getProducts({ includeOutOfStock: true });
-  res.json(categories.map(cat => ({
-    ...cat,
-    products: products
-      .filter(p => p.category_id === cat.id)
-      .map(mapProduct),
-  })));
+// GET /api/products
+router.get('/', async (_req, res) => {
+  try {
+    const [categories, products] = await Promise.all([
+      db.getCategories(),
+      db.getProducts({ includeOutOfStock: true }),
+    ]);
+    res.json(categories.map(cat => ({
+      ...cat,
+      products: products.filter(p => p.category_id === cat.id).map(mapProduct),
+    })));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // GET /api/products/:categoryId
-router.get('/:categoryId', (req, res) => {
-  const cats = db.getCategories();
-  const cat  = cats.find(c => c.id === req.params.categoryId);
-  if (!cat) return res.status(404).json({ error: 'קטגוריה לא נמצאה' });
-
-  res.json({
-    ...cat,
-    products: db.getProductsByCategory(req.params.categoryId, { includeOutOfStock: true }).map(mapProduct),
-  });
+router.get('/:categoryId', async (req, res) => {
+  try {
+    const [cats, products] = await Promise.all([
+      db.getCategories(),
+      db.getProductsByCategory(req.params.categoryId, { includeOutOfStock: true }),
+    ]);
+    const cat = cats.find(c => c.id === req.params.categoryId);
+    if (!cat) return res.status(404).json({ error: 'קטגוריה לא נמצאה' });
+    res.json({ ...cat, products: products.map(mapProduct) });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 function mapProduct(p) {
@@ -33,10 +40,12 @@ function mapProduct(p) {
     price:       p.price,
     priceType:   p.price_type,
     category:    p.category_id,
-    link:        p.image_url  || '',
+    link:        p.image_url   || '',
     description: p.description || '',
     inStock:     p.in_stock === 1,
     isNew:       p.is_new === 1,
+    promoQty:    p.promo_qty   || 0,
+    promoPrice:  p.promo_price || 0,
     updatedAt:   p.updated_at,
   };
 }

@@ -41,8 +41,7 @@ export class Products implements OnInit {
   );
 
   selectedAmounts: Record<number, number> = {};
-  weightOptions = [250, 500, 1000, 2000];
-  unitOptions   = [1, 2, 3, 4];
+  readonly weightOptions = [250, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
 
   // Lightbox
   lightboxImg  = signal<string | null>(null);
@@ -88,12 +87,16 @@ export class Products implements OnInit {
   private initAmounts() {
     this.selectedAmounts = {};
     this.products().forEach(p => {
-      this.selectedAmounts[p.id] = p.priceType === 0 ? 250 : 1;
+      this.selectedAmounts[p.id] = p.priceType === 0 ? 1000 : 1;
     });
   }
 
-  selectAmount(product: Product, amount: number) {
-    this.selectedAmounts[product.id] = amount;
+  weightLabel(grams: number): string {
+    return grams < 1000 ? `${grams} גרם` : `${grams / 1000} ק"ג`;
+  }
+
+  onWeightSelect(product: Product, event: Event) {
+    this.selectedAmounts[product.id] = Number((event.target as HTMLSelectElement).value);
   }
 
   changeUnitAmount(product: Product, delta: number) {
@@ -122,9 +125,17 @@ export class Products implements OnInit {
   }
 
   calcPrice(product: Product): number {
-    const amount = this.selectedAmounts[product.id] ?? (product.priceType === 0 ? 250 : 1);
-    return product.priceType === 0
-      ? Math.round((product.price * amount) / 1000 * 100) / 100
-      : product.price * amount;
+    const amount = this.selectedAmounts[product.id] ?? (product.priceType === 0 ? 1000 : 1);
+    if (product.priceType === 0) {
+      return Math.round((product.price * amount) / 1000 * 100) / 100;
+    }
+    const qty   = product.promoQty   ?? 0;
+    const price = product.promoPrice ?? 0;
+    if (qty > 0 && price > 0 && amount >= qty) {
+      const sets      = Math.floor(amount / qty);
+      const remainder = amount % qty;
+      return sets * price + remainder * product.price;
+    }
+    return product.price * amount;
   }
 }

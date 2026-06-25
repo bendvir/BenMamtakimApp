@@ -14,19 +14,21 @@ export class CartDrawer {
   readonly basket = inject(BasketService);
   readonly drawer = inject(CartDrawerService);
 
-  readonly weightOptions = [250, 500, 1000, 2000];
+  readonly weightOptions = [250, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
 
   close() { this.drawer.close(); }
 
+  weightLabel(grams: number): string {
+    return grams < 1000 ? `${grams} גרם` : `${grams / 1000} ק"ג`;
+  }
+
   amountLabel(item: CartItem): string {
-    if (item.priceType === 0) {
-      return item.amount < 1000 ? `${item.amount}ג'` : `${item.amount / 1000}ק"ג`;
-    }
+    if (item.priceType === 0) return this.weightLabel(item.amount);
     return `${item.amount} יח'`;
   }
 
-  selectWeight(item: CartItem, grams: number) {
-    this.basket.updateAmount(item.id, grams);
+  onWeightSelect(item: CartItem, event: Event) {
+    this.basket.updateAmount(item.id, Number((event.target as HTMLSelectElement).value));
   }
 
   changeUnits(item: CartItem, delta: number) {

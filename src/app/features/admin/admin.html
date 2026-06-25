@@ -13,7 +13,7 @@
             <label class="field-label">סיסמה</label>
             <div class="input-icon-wrap">
               <input class="field-input" type="password" formControlName="password"
-                     placeholder="הכנס סיסמה" (keydown.enter)="requestOtp()">
+                     placeholder="הכנס סיסמה">
               <mat-icon class="input-suffix-icon">lock</mat-icon>
             </div>
           </div>
@@ -41,8 +41,7 @@
             <label class="field-label">קוד אימות (6 ספרות)</label>
             <input class="field-input otp-input" type="text" formControlName="code"
                    placeholder="000000" maxlength="6" inputmode="numeric"
-                   autocomplete="one-time-code" dir="ltr"
-                   (keydown.enter)="verifyOtp()">
+                   autocomplete="one-time-code" dir="ltr">
             @if (otpForm.get('code')?.invalid && otpForm.get('code')?.touched) {
               <span class="field-error">יש להזין קוד בן 6 ספרות</span>
             }
@@ -164,6 +163,30 @@
 
           </div>
 
+          <!-- Promo section -->
+          <div class="promo-section">
+            <mat-slide-toggle formControlName="promoEnabled" class="toggle-olive"
+                              (change)="promoActive.set($event.checked)">
+              <span class="promo-toggle-label">הפעל מבצע כמות</span>
+            </mat-slide-toggle>
+            @if (promoActive()) {
+              <div class="promo-fields">
+                <div class="field-wrap">
+                  <label class="field-label">כמות מינימלית למבצע</label>
+                  <input class="field-input" type="number" formControlName="promoQty" min="2" max="99">
+                </div>
+                <div class="field-wrap">
+                  <label class="field-label">מחיר מבצע (סה"כ לכמות)</label>
+                  <div class="input-addon-wrap">
+                    <input class="field-input has-addon" type="number" formControlName="promoPrice" min="0" step="0.1">
+                    <span class="input-addon">₪</span>
+                  </div>
+                  <span class="promo-hint">לדוגמא: 3 במבה ב-₪7.90</span>
+                </div>
+              </div>
+            }
+          </div>
+
           <div class="form-footer">
             <div class="form-toggles">
               <mat-slide-toggle formControlName="inStock" class="toggle-olive">במלאי</mat-slide-toggle>
@@ -193,6 +216,16 @@
           <h2><mat-icon>inventory_2</mat-icon> מוצרים ({{ filteredProducts().length }}/{{ products().length }})</h2>
           <div class="table-header-actions">
             @if (loadError()) { <span class="load-error">{{ loadError() }}</span> }
+
+            <label class="btn-import-excel" [class.uploading]="importing()" title="ייבוא מוצרים מ-Excel">
+              @if (importing()) {
+                <mat-icon class="spin-icon">hourglass_empty</mat-icon> מייבא...
+              } @else {
+                <mat-icon>upload_file</mat-icon> ייבוא Excel
+              }
+              <input type="file" accept=".xlsx,.xls,.csv" style="display:none"
+                     (change)="onExcelFilePicked($event)" [disabled]="importing()">
+            </label>
 
             <select class="filter-select"
                     [value]="filterCategory()"
@@ -225,6 +258,7 @@
                 <th>שם</th>
                 <th>קטגוריה</th>
                 <th>מחיר</th>
+                <th>מבצע</th>
                 <th>תמחור</th>
                 <th>מלאי</th>
                 <th>חדש</th>
@@ -242,6 +276,13 @@
                   </td>
                   <td><span class="cat-badge">{{ p.category_name }}</span></td>
                   <td class="td-price">₪{{ p.price }}</td>
+                  <td class="td-promo">
+                    @if ((p.promo_qty ?? 0) > 0 && (p.promo_price ?? 0) > 0) {
+                      <span class="promo-table-badge">{{ p.promo_qty }} ב-₪{{ p.promo_price }}</span>
+                    } @else {
+                      <span class="td-no">—</span>
+                    }
+                  </td>
                   <td class="td-type">{{ priceTypeLabel(p.price_type) }}</td>
                   <td>
                     <span class="stock-badge" [class.in]="p.in_stock === 1">{{ stockLabel(p.in_stock) }}</span>
@@ -258,6 +299,9 @@
                     <button mat-icon-button class="btn-edit" (click)="editProduct(p)" title="ערוך">
                       <mat-icon>edit</mat-icon>
                     </button>
+                    <button mat-icon-button class="btn-search-img" (click)="openImageSearch(p)" title="חפש תמונה">
+                      <mat-icon>image_search</mat-icon>
+                    </button>
                     <button mat-icon-button class="btn-delete" (click)="deleteProduct(p)" title="מחק">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
@@ -265,7 +309,7 @@
                 </tr>
               }
               @empty {
-                <tr><td colspan="9" class="td-empty">לא נמצאו מוצרים תואמים</td></tr>
+                <tr><td colspan="10" class="td-empty">לא נמצאו מוצרים תואמים</td></tr>
               }
             </tbody>
           </table>
@@ -274,4 +318,71 @@
 
     </div>
   </div>
+
+  <!-- ── IMAGE SEARCH MODAL ──────────────────────────────────────────────── -->
+  @if (imgSearchOpen()) {
+    <div class="img-search-backdrop" (click)="closeImageSearch()"></div>
+    <div class="img-search-modal">
+      <div class="img-search-header">
+        <mat-icon>image_search</mat-icon>
+        <span>חיפוש תמונה — Open Food Facts</span>
+        <button class="img-search-close" (click)="closeImageSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="img-search-bar">
+        <input class="field-input" type="text"
+               [value]="imgSearchQuery()"
+               (input)="imgSearchQuery.set($any($event.target).value)"
+               (keydown.enter)="runImageSearch()"
+               placeholder="שם מוצר (עברית/אנגלית)...">
+        <button mat-raised-button class="btn-do-search" (click)="runImageSearch()" [disabled]="imgSearchLoading()">
+          <mat-icon>search</mat-icon> חפש
+        </button>
+        <a class="btn-google-img"
+           [href]="'https://www.google.com/search?tbm=isch&q=' + imgSearchQuery()"
+           target="_blank" rel="noopener" title="חפש ב-Google תמונות ← העתק כתובת תמונה ← הדבק ב-URL למטה">
+          <mat-icon>open_in_new</mat-icon> Google
+        </a>
+      </div>
+      <div class="img-search-tip">
+        <mat-icon>tips_and_updates</mat-icon>
+        מוצרי עלית/אסם: לחץ <strong>Google</strong> ← מצא תמונה ← לחץ ימני ← "העתק כתובת תמונה" ← הדבק בשדה URL בטופס
+      </div>
+
+      @if (imgSearchLoading()) {
+        <div class="img-search-loading">
+          <mat-icon class="spin-icon">hourglass_empty</mat-icon> מחפש...
+        </div>
+      }
+
+      @if (!imgSearchLoading() && imgSearchResults().length === 0 && imgSearchQuery()) {
+        <div class="img-search-empty">לא נמצאו תמונות — נסה שם אחר</div>
+      }
+
+      <div class="img-search-grid">
+        @for (r of imgSearchResults(); track r.imageUrl) {
+          <div class="img-search-item" (click)="applySearchedImage(r.imageUrl)" title="{{ r.name }} — {{ r.brand }}">
+            <img [src]="r.thumbUrl" [alt]="r.name" loading="lazy">
+            <span class="img-search-label">{{ r.name || r.brand }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- הדבקת URL ישירה -->
+      <div class="img-paste-bar">
+        <mat-icon class="paste-icon">link</mat-icon>
+        <input class="field-input" type="text" dir="ltr"
+               [value]="imgPasteUrl()"
+               (input)="imgPasteUrl.set($any($event.target).value)"
+               placeholder="הדבק כאן כתובת תמונה מגוגל או מכל אתר...">
+        <button mat-raised-button class="btn-apply-url"
+                [disabled]="!imgPasteUrl().trim()"
+                (click)="applySearchedImage(imgPasteUrl())">
+          <mat-icon>check</mat-icon> החל
+        </button>
+      </div>
+    </div>
+  }
 }

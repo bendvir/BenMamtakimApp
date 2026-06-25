@@ -13,6 +13,8 @@ export interface AdminProduct {
   image_url: string;
   description: string;
   in_stock: number;
+  promo_qty:   number;
+  promo_price: number;
   created_at: string;
   updated_at: string;
 }
@@ -23,6 +25,13 @@ export interface AdminCategory {
   sort_order: number;
 }
 
+export interface ImageSearchResult {
+  name:     string;
+  brand:    string;
+  imageUrl: string;
+  thumbUrl: string;
+}
+
 export interface ProductPayload {
   title: string;
   price: number;
@@ -31,6 +40,8 @@ export interface ProductPayload {
   imageUrl: string;
   description: string;
   inStock: boolean;
+  promoQty:   number;
+  promoPrice: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -94,5 +105,28 @@ export class AdminService {
     const form = new FormData();
     form.append('image', file);
     return this.http.post<{ imageUrl: string }>(`${environment.apiUrl}/admin/upload`, form, { headers: this.headers() });
+  }
+
+  importExcel(file: File): Observable<{ added: number; skipped: string[]; errors: string[] }> {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http.post<{ added: number; skipped: string[]; errors: string[] }>(
+      `${environment.apiUrl}/admin/import-excel`, form, { headers: this.headers() }
+    );
+  }
+
+  searchProductImage(query: string): Observable<ImageSearchResult[]> {
+    return this.http.get<ImageSearchResult[]>(
+      `${environment.apiUrl}/admin/search-image?q=${encodeURIComponent(query)}`,
+      { headers: this.headers() }
+    );
+  }
+
+  patchProductImage(id: number, imageUrl: string): Observable<{ message: string }> {
+    return this.http.patch<{ message: string }>(
+      `${environment.apiUrl}/admin/products/${id}/image`,
+      { imageUrl },
+      { headers: this.headers() }
+    );
   }
 }

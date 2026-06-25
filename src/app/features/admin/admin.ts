@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { AdminService, AdminProduct, AdminCategory } from '../../core/services/admin.service';
+import { AdminService, AdminProduct, AdminCategory, ImageSearchResult } from '../../core/services/admin.service';
 
 @Component({
   selector: 'app-admin',
@@ -29,6 +29,18 @@ export class Admin implements OnInit {
   readonly saving       = signal(false);
   readonly uploading    = signal(false);
   readonly loadError    = signal<string | null>(null);
+
+  // ── Promo ────────────────────────────────────────────────────────────────
+  readonly promoActive  = signal(false);
+
+  // ── Image search modal ───────────────────────────────────────────────────
+  readonly importing    = signal(false);
+  readonly imgSearchOpen      = signal(false);
+  readonly imgSearchLoading   = signal(false);
+  readonly imgSearchQuery     = signal('');
+  readonly imgSearchResults   = signal<ImageSearchResult[]>([]);
+  readonly imgSearchProductId = signal<number | null>(null);
+  readonly imgPasteUrl        = signal('');
   readonly searchQuery    = signal('');
   readonly filterCategory = signal('');
 
@@ -54,18 +66,24 @@ export class Admin implements OnInit {
 
   // ── Product form ─────────────────────────────────────────────────────────
   productForm = this.fb.group({
-    title:       ['', Validators.required],
-    price:       [0,  [Validators.required, Validators.min(0.01)]],
-    priceType:   [0 as 0 | 1],
-    categoryId:  ['', Validators.required],
-    imageUrl:    [''],
-    description: [''],
-    inStock:     [true],
-    isNew:       [true],
+    title:        ['', Validators.required],
+    price:        [0,  [Validators.required, Validators.min(0.01)]],
+    priceType:    [0 as 0 | 1],
+    categoryId:   ['', Validators.required],
+    imageUrl:     [''],
+    description:  [''],
+    inStock:      [true],
+    isNew:        [true],
+    promoEnabled: [false],
+    promoQty:     [3, Validators.min(2)],
+    promoPrice:   [0, Validators.min(0)],
   });
 
   ngOnInit() {
     if (this.adminSvc.isLoggedIn()) this.loadData();
+    this.productForm.get('promoEnabled')!.valueChanges.subscribe(
+      val => this.promoActive.set(!!val)
+    );
   }
 
   // Step 1 — send password, receive OTP
@@ -133,15 +151,20 @@ export class Admin implements OnInit {
 
   editProduct(p: AdminProduct) {
     this.editingId.set(p.id);
+    const hasPromo = (p.promo_qty ?? 0) > 0 && (p.promo_price ?? 0) > 0;
+    this.promoActive.set(hasPromo);
     this.productForm.patchValue({
-      title:       p.title,
-      price:       p.price,
-      priceType:   p.price_type,
-      categoryId:  p.category_id,
-      imageUrl:    p.image_url,
-      description: p.description,
-      inStock:     p.in_stock === 1,
-      isNew:       (p as any).is_new === 1,
+      title:        p.title,
+      price:        p.price,
+      priceType:    p.price_type,
+      categoryId:   p.category_id,
+      imageUrl:     p.image_url,
+      description:  p.description,
+      inStock:      p.in_stock === 1,
+      isNew:        (p as any).is_new === 1,
+      promoEnabled: hasPromo,
+      promoQty:     p.promo_qty   || 3,
+      promoPrice:   p.promo_price || 0,
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -152,6 +175,7 @@ export class Admin implements OnInit {
     if (this.productForm.invalid) { this.productForm.markAllAsTouched(); return; }
     this.saving.set(true);
     const v = this.productForm.value;
+    const promoEnabled = !!v.promoEnabled;
     const payload = {
       title:       v.title!.trim(),
       price:       Number(v.price),
@@ -161,6 +185,8 @@ export class Admin implements OnInit {
       description: v.description || '',
       inStock:     v.inStock !== false,
       isNew:       v.isNew === true,
+      promoQty:    promoEnabled ? (Number(v.promoQty)   || 0) : 0,
+      promoPrice:  promoEnabled ? (Number(v.promoPrice) || 0) : 0,
     };
 
     const op = this.editingId()
@@ -183,7 +209,8 @@ export class Admin implements OnInit {
 
   private resetForm() {
     this.editingId.set(null);
-    this.productForm.reset({ priceType: 0, inStock: true, price: 0, isNew: true });
+    this.promoActive.set(false);
+    this.productForm.reset({ priceType: 0, inStock: true, price: 0, isNew: true, promoEnabled: false, promoQty: 3, promoPrice: 0 });
   }
 
   onImageFilePicked(event: Event) {
@@ -204,6 +231,75 @@ export class Admin implements OnInit {
     (event.target as HTMLInputElement).value = '';
   }
 
+  onExcelFilePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.importing.set(true);
+    this.adminSvc.importExcel(file).subscribe({
+      next: (res: any) => {
+        this.importing.set(false);
+        const parts = [];
+        if (res.added)   parts.push(`✅ נוספו: ${res.added}`);
+        if (res.updated) parts.push(`🔄 עודכנו: ${res.updated}`);
+        if (res.errors?.length) parts.push(`❌ שגיאות: ${res.errors.length}`);
+        this.snackBar.open(parts.join(' | ') || 'לא בוצע שינוי', 'סגור', { duration: 6000 });
+        if (res.added > 0 || res.updated > 0) this.loadData();
+        if (res.errors.length) console.warn('Excel import errors:', res.errors);
+      },
+      error: () => { this.importing.set(false); this.snackBar.open('שגיאה בייבוא הקובץ', '', { duration: 3000 }); },
+    });
+    (event.target as HTMLInputElement).value = '';
+  }
+
   priceTypeLabel(t: number) { return t === 0 ? 'לפי ק"ג' : 'לפי יחידה'; }
   stockLabel(v: number)     { return v === 1 ? 'במלאי' : 'אזל'; }
+
+  openImageSearch(p: AdminProduct) {
+    this.imgSearchProductId.set(p.id);
+    this.imgSearchQuery.set(p.title);
+    this.imgSearchResults.set([]);
+    this.imgSearchOpen.set(true);
+    this.runImageSearch(p.title);
+  }
+
+  closeImageSearch() {
+    this.imgSearchOpen.set(false);
+    this.imgSearchResults.set([]);
+    this.imgSearchProductId.set(null);
+    this.imgPasteUrl.set('');
+  }
+
+  runImageSearch(query?: string) {
+    const q = (query ?? this.imgSearchQuery()).trim();
+    if (!q) return;
+    this.imgSearchQuery.set(q);
+    this.imgSearchLoading.set(true);
+    this.imgSearchResults.set([]);
+    this.adminSvc.searchProductImage(q).subscribe({
+      next:  results => { this.imgSearchLoading.set(false); this.imgSearchResults.set(results); },
+      error: (err)   => {
+        this.imgSearchLoading.set(false);
+        const is503 = err?.status === 503 || err?.status === 0;
+        this.snackBar.open(
+          is503 ? 'שרת Open Food Facts עמוס — נסה שוב או חפש באנגלית' : 'שגיאה בחיפוש',
+          '',
+          { duration: 4000 }
+        );
+      },
+    });
+  }
+
+  applySearchedImage(imageUrl: string) {
+    const id = this.imgSearchProductId();
+    if (!id) return;
+    this.adminSvc.patchProductImage(id, imageUrl).subscribe({
+      next: res => {
+        this.snackBar.open(res.message, '', { duration: 2000 });
+        this.loadData();
+        this.closeImageSearch();
+        if (this.editingId() === id) this.productForm.patchValue({ imageUrl });
+      },
+      error: () => this.snackBar.open('שגיאה בעדכון תמונה', '', { duration: 2500 }),
+    });
+  }
 }

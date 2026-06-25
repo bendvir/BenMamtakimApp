@@ -30,18 +30,21 @@
           } @else {
             <p class="product-price-label">₪{{ product.price }} <span>ליחידה</span></p>
           }
+          <p class="promo-badge"
+             [class.promo-badge--hidden]="!((product.promoQty ?? 0) > 0 && (product.promoPrice ?? 0) > 0)">
+            {{ product.promoQty }} ב-₪{{ product.promoPrice }}
+          </p>
 
           <div class="amount-selector">
             @if (product.priceType === 0) {
-              @for (w of weightOptions; track w) {
-                <button type="button" class="amount-pill"
-                        [class.active]="selectedAmounts[product.id] === w"
-                        [disabled]="product.inStock === false"
-                        (click)="selectAmount(product, w)">
-                  @if (w < 1000) { {{ w }} גרם }
-                  @else { {{ w / 1000 }} ק"ג }
-                </button>
-              }
+              <select class="weight-select"
+                      [value]="selectedAmounts[product.id] ?? 1000"
+                      [disabled]="product.inStock === false"
+                      (change)="onWeightSelect(product, $event)">
+                @for (w of weightOptions; track w) {
+                  <option [value]="w">{{ weightLabel(w) }}</option>
+                }
+              </select>
             } @else {
               <div class="unit-stepper" [class.disabled]="product.inStock === false">
                 <button type="button" class="stepper-btn"
